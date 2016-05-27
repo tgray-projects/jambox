@@ -1,0 +1,13 @@
+[[chapter.different]]
+== And now for something completely different...
+// vim: set ts=2 sw=2 tw=80 ai si:
+
+++++
+<?dbhtml filename="index.html"?>
+++++
+
+image::../assets/{assettype}/images/aardvark{assetext}["Ethel the aardvark", align="center", scaledwidth="100%"]
+
+Ethel the Aardvark was trotting down the lane one lovely summer day,
+trottety-trottety-trot, when she saw a nice Quantity-Surveyor named Rarnaby
+Budge.

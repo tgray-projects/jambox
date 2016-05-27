@@ -1,0 +1,45 @@
+@font-face {
+  font-family: 'Arcade';
+  src: url('arcadeclassic.ttf') format('truetype');
+}
+
+h1.hs {
+  font-family: 'Arcade';
+  color: blue;
+  text-align: center;
+}
+
+h1.body {
+  font-family: 'Arcade';
+  color: yellow;
+  text-align: left;
+}
+
+h1.credit {
+  font-family: 'Arcade';
+  color: white;
+  text-align: left;
+}
+
+a.hs {
+  color: yellow;
+  text-decoration: none;
+}
+
+body.hs {
+  background-color: black;
+  color: gray;
+}
+
+td.col1 {
+  width: 155px;
+}
+
+td.col2 {
+  width: 155px;
+}
+
+td.col3 {
+  width: 155px;
+}
+

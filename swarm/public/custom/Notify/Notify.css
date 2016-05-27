@@ -1,0 +1,29 @@
+/* other generic form pages */
+.form-panel {
+    width:  400px;
+    padding-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.form-panel h1 {
+    font-weight: normal;
+}
+.form-panel .form-dialog {
+    margin: 50px 25px 25px;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+.form-panel .form-dialog .modal-header {
+    display: none;
+}
+.form-panel .form-dialog input[type=text],
+.form-panel .form-dialog select,
+.form-panel .form-dialog textarea,
+.form-panel .form-dialog input[type=password] {
+    width: 305px;
+}
+
+.form-dialog form .help-block {
+    width: 305px;
+}

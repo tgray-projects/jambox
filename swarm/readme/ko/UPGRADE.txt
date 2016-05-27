@@ -1,0 +1,185 @@
+﻿Swarm 업그레이드하기
+===============
+
+이 문서에서는 이전 버전의 Swarm을 최신 릴리스로 업데이트하는 방법에 대해 설명합니다. 
+가장 최근 릴리스를 시작으로 지난 세 차례에 걸친 릴리스의 업그레이드 단계에 대해 
+설명합니다. 보다 이전 릴리스에서의 업그레이드 단계를 보려면 아래쪽으로 건너뛰십시오.
+
+본 지침은 현재 Swarm을 사용하고 있지 않은 사용자에게는 적용되지 않습니다. 
+INSTALL.txt에 제시된 단계에 따라 Swarm을 설치하십시오.
+
+참고: 아래 지침은 OVA에 적용될 수 있습니다. OVA의
+	SWARM_ROOT는 Swarm이 설치된 /opt/swarm 폴더입니다.
+
+	하지만 새 OVA를 다운로드받은 후 INSTALL.txt에 제시된 	OVA 설치 단계에 
+따를 것을 권장합니다. 이 경우 업그레이드된 	Swarm 외에 OVA의 업데이트된 웹 호스팅 
+환경이 제공되며, 	여기에는 배포, 웹 서버, PHP 및 보안 업데이트가 	포함될 수 
+있습니다.
+
+	기존 OVA의 Swarm 구성을 사용자 지정한 경우 	/opt/swarm/data/config.php 
+파일을 새 OVA의 동일한 경로에 복사하십시오.
+
+	/opt/swarm/data/queue/tokens/의 모든 토큰 파일을 OVA의 	동일한 경로에 
+복사하십시오.
+
+	현재 실행 중인 버전이 Swarm 2014.2 OVA 이상인 경우 	Swarm은 시스템 패키지를 
+통해 설치된 것이며, INSTALL.txt의 패키지 업데이트 	지침에 따라 업그레이드할 수 
+있습니다.
+
+본 문서에 제시된 프로세스를 통해 중단 시간을 최소화할 수는 있지만, Swarm 사용자는 
+단기간의 중단 상태를 겪게 됩니다. Perforce 서비스의 중단 시간은 없어야 합니다. 
+업그레이드가 완료되면 모든 Swarm 사용자는 로그아웃됩니다.
+
+프로덕션 환경에서 Swarm을 사용하는 경우, 비 프로덕션 환경에서 이 업그레이드 
+프로세스를 테스트해보는 것이 좋습니다.
+
+중요:
+	P4PHP는 새 Swarm 	릴리스에 포함된 버전으로 업그레이드되어야 합니다. PHP가 
+Swarm 제공 P4PHP를 사용하도록 이미 구성한 경우 	이 업그레이드는 자동으로 
+이루어집니다. 다른 방법에 의해 	수동으로 P4PHP를 설치했다면 아래의 업그레이드 단계를 
+수행하기 전에 	먼저 P4PHP를 업그레이드하십시오.
+
+
+2014.4를 2015.1로 업그레이드하기 위한 지침
+-----------------------------------------
+
+이 절에서는 Swarm 2014.4 릴리스를 2015.1 릴리스로 업그레이드하는 프로세스에 대해 
+설명합니다.
+
+다음 단계는 제공된 아카이브 파일을 사용한 Swarm 업그레이드 방법에 대해 설명합니다. 
+"SWARM_ROOT"는 현재 Swarm 설치를 말합니다.
+
+1. 새 "swarm.tgz" 확장:
+
+	$ tar -zxf swarm.tgz
+
+	"swarm.tgz"의 컨텐츠가 최상위 폴더인 	"swarm-*version*"으로 확장되며, 
+여기서 'version'은 다운로드된 버전을 	나타냅니다. 이 디렉토리는 아래에서 
+"SWARM_NEW"로 식별됩니다.
+
+2. "SWARM_NEW"를 "SWARM_ROOT"와 동일한 위치로 이동:
+
+	$ mv SWARM_NEW SWARM_ROOT/../
+
+3. "data/config.php" 파일을 이전 Swarm에서 새 Swarm으로 복사:
+
+	$ cp -p SWARM_ROOT/data/config.php SWARM_NEW/data/
+
+4. 큐 토큰 디렉토리 생성:
+
+	$ mkdir SWARM_NEW/data/queue
+
+5. 기존 트리거 토큰 복사:
+
+	$ sudo cp -R SWARM_ROOT/data/queue/tokens SWARM_NEW/data/queue/
+
+6. 새 Swarm 데이터 디렉토리에 올바른 소유권 할당:
+
+	$ sudo chown -pR www-data SWARM_NEW/data
+
+7. 이전 Swarm을 새 Swarm으로 대체합니다.
+	이 단계에서 중단 시간이 발생합니다.
+
+	$ sudo apache2ctl stop; mv SWARM_ROOT to SWARM.old; mv SWARM_NEW 
+SWARM_ROOT; sudo apache2ctl start
+
+모두 완료되었습니다.
+
+
+2014.3을 2014.4로 업그레이드하기 위한 지침
+-----------------------------------------
+
+이 절에서는 Swarm 2014.3 릴리스를 2014.4 릴리스로 업그레이드하는 프로세스에 대해 
+설명합니다.
+
+다음 단계는 제공된 아카이브 파일을 사용한 Swarm 업그레이드 방법에 대해 설명합니다. 
+"SWARM_ROOT"는 현재 Swarm 설치를 말합니다.
+
+1. 새 "swarm.tgz" 확장:
+
+	$ tar -zxf swarm.tgz
+
+	"swarm.tgz"의 컨텐츠가 최상위 폴더인 	"swarm-*version*"으로 확장되며, 
+여기서 'version'은 다운로드된 버전을 	나타냅니다. 이 디렉토리는 아래에서 
+"SWARM_NEW"로 식별됩니다.
+
+2. "SWARM_NEW"를 "SWARM_ROOT"와 동일한 위치로 이동:
+
+	$ mv SWARM_NEW SWARM_ROOT/../
+
+3. "data/config.php" 파일을 이전 Swarm에서 새 Swarm으로 복사:
+
+	$ cp -p SWARM_ROOT/data/config.php SWARM_NEW/data/
+
+4. 큐 토큰 디렉토리 생성:
+
+	$ mkdir SWARM_NEW/data/queue
+
+5. 기존 트리거 토큰 복사:
+
+	$ sudo cp -R SWARM_ROOT/data/queue/tokens SWARM_NEW/data/queue/
+
+6. 새 Swarm 데이터 디렉토리에 올바른 소유권 할당:
+
+	$ sudo chown -pR www-data SWARM_NEW/data
+
+7. 이전 Swarm을 새 Swarm으로 대체합니다.
+	이 단계에서 중단 시간이 발생합니다.
+
+	$ sudo apache2ctl stop; mv SWARM_ROOT to SWARM.old; mv SWARM_NEW 
+SWARM_ROOT; sudo apache2ctl start
+
+모두 완료되었습니다.
+
+
+2014.2를 2014.3으로 업그레이드하기 위한 지침
+-----------------------------------------
+
+이 절에서는 Swarm 2014.2 릴리스를 2014.3 릴리스로 업그레이드하는 프로세스에 대해 
+설명합니다.
+
+다음 단계는 제공된 아카이브 파일을 사용한 Swarm 업그레이드 방법에 대해 설명합니다. 
+"SWARM_ROOT"는 현재 Swarm 설치를 말합니다.
+
+1. 새 "swarm.tgz" 확장:
+
+	$ tar -zxf swarm.tgz
+
+	"swarm.tgz"의 컨텐츠가 최상위 폴더인 	"swarm-*version*"으로 확장되며, 
+여기서 'version'은 다운로드된 버전을 	나타냅니다. 이 디렉토리는 아래에서 
+"SWARM_NEW"로 식별됩니다.
+
+2. "SWARM_NEW"를 "SWARM_ROOT"와 동일한 위치로 이동:
+
+	$ mv SWARM_NEW SWARM_ROOT/../
+
+3. "data/config.php" 파일을 기존 Swarm에서 새
+	Swarm으로 복사:
+
+	$ cp -p SWARM_ROOT/data/config.php SWARM_NEW/data/
+
+4. Swarm 라이센스 파일이 있는 경우 "data/swarm-license" 파일을
+	이전 Swarm에서 새 Swarm으로 복사:
+
+	$ cp -p SWARM_ROOT/data/swarm-license SWARM_NEW/data/
+
+5. 큐 토큰 디렉토리 생성:
+
+	$ mkdir SWARM_NEW/data/queue
+
+6. 기존 트리거 토큰 복사:
+
+	$ sudo cp -R SWARM_ROOT/data/queue/tokens SWARM_NEW/data/queue/
+
+7. 새 Swarm 데이터 디렉토리에 올바른 소유권 할당:
+
+	$ sudo chown -pR www-data SWARM_NEW/data
+
+8. 이전 Swarm을 새 Swarm으로 대체합니다.
+	이 단계에서 중단 시간이 발생합니다.
+
+	$ sudo apache2ctl stop; mv SWARM_ROOT to SWARM.old; mv SWARM_NEW 
+SWARM_ROOT; sudo apache2ctl start
+
+모두 완료되었습니다.
+

@@ -1,0 +1,207 @@
+#!/bin/sh -e
+# postinst script for perforce-swarm
+#
+# see: dh_installdeb(1)
+
+# Summary of how this script can be called:
+# <postinst>                'configure'         <most-recently-configured-version>
+# <old-postinst>            'abort-upgrade'     <new version>
+# <conflictor's-postinst>   'abort-remove'      'in-favour'  <package> <new-version>
+# <postinst>                'abort-remove'
+# <deconfigured's-postinst> 'abort-deconfigure' \
+#                             'in-favour' <failed-install-package> <version> \
+#                             'removing'  <conflicting-package>    <version>
+# for details, see http://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+
+ME="${0##*/}"
+#echo "###########################"
+#echo "[$ME] [$*]"
+
+THISPKG="helix-swarm"
+PERFORCE_ROOT="/opt/perforce"
+PERFORCE_CFGDIR="$PERFORCE_ROOT/etc"
+SWARM_ROOT="$PERFORCE_ROOT/swarm"
+SWARM_DATADIR="$SWARM_ROOT/data"
+SWARM_SBINDIR="$SWARM_ROOT/sbin"
+SWARM_CONFIG="$SWARM_DATADIR/config.php"
+
+APACHE_SITESDIR="/etc/apache2/sites-available"
+SWARM_VHOST="$APACHE_SITESDIR/perforce-swarm-site.conf"
+APACHE_USER="www-data"
+APACHE_GROUP="$APACHE_USER"
+
+CRON_DIR="/etc/cron.d"
+CRON_SCRIPT="$CRON_DIR/perforce-swarm"
+CRON_CONFIG="$PERFORCE_CFGDIR/swarm-cron-hosts.conf"
+
+PHPINI_DIR="/etc/php5/conf.d"
+PHPMOD_DIR="/etc/php5/mods-available"
+
+if [ -d "$PHPMOD_DIR" ]; then
+    P4PHP_INI="${PHPMOD_DIR}/perforce.ini"
+else
+    P4PHP_INI="${PHPINI_DIR}/perforce.ini"
+fi
+
+do_configure()
+{
+    if [ -z "$1" ]; then
+        mode=install
+    else
+        mode=upgrade
+        from_version="$1"
+        from_version_major="${from_version%%-*}"
+    fi
+
+    # Ensure P4PHP is configured
+    p4php_good=0
+    while true; do
+        phpver="$(php -v 2> /dev/null | sed -e '/^PHP/s/PHP \([0-9]\)\.\([0-9][0-9]*\).*/\1\2/;q')"
+        if [ -z "$phpver" ]; then
+            error_msg="Could not parse version from 'php -v'"
+            break
+        fi
+
+        # Check if a variant of P4PHP is available
+        osplat="$(uname -m | sed -e 's/i.86/x86/')"
+        p4php_variant="$SWARM_ROOT/p4-bin/bin.linux26${osplat}/perforce-php${phpver}.so"
+        if [ ! -s "${p4php_variant}" ]; then
+            error_msg="Invalid P4PHP variant [$p4php_variant] for [$(php -v 2> /dev/null | head -n1 | awk '{print $1,$2}')] on [$osplat]"
+            break
+        fi
+
+        if [ ! -d "$PHPINI_DIR" -a ! -d "$PHPMOD_DIR" ]; then
+            error_msg="Cannot find PHP configuration directory [$PHPINI_DIR] or [$PHPMOD_DIR]"
+            break
+        fi
+
+        local new_p4php_ini="$P4PHP_INI.dpkg-new"
+        cat << __P4PHP_INI__ > "$new_p4php_ini"
+; P4PHP Extension (for Perforce Swarm)
+extension=${p4php_variant}
+__P4PHP_INI__
+
+        # Put new file into place only if one doesn't exist
+        if [ -r "$P4PHP_INI" ]; then
+            # Check if it's the same
+            if diff -q "$new_p4php_ini" "$P4PHP_INI" > /dev/null; then
+                # No difference, so remove what we created
+                rm -f "$new_p4php_ini"
+            else
+                # Different, so leave it as *.dpkg-new
+                echo "$THISPKG: warning: $P4PHP_INI created as $new_p4php_ini"
+            fi
+        else
+            # Move into place
+            mv "$new_p4php_ini" "$P4PHP_INI"
+        fi
+
+        # If using mods-available, we must activate the module
+        if [ -d "$PHPMOD_DIR" ]; then
+            php5enmod perforce
+        fi
+
+        php --ri perforce > /dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            p4php_good=1
+        else
+            p4php_good=0
+
+            if [ -z "$error_msg" ]; then
+                error_msg="Failed to activate the P4PHP extension"
+            fi
+        fi
+
+        break
+    done
+
+    if [ $p4php_good -ne 1 ]; then
+        cat << __P4PHP_WARNING__
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!
+!!  $THISPKG: Warning: Trouble configuring P4PHP
+!!  Problem:
+!!  $error_msg
+!!
+!!  Swarm cannot function without P4PHP; please investigate and rectify.
+!!
+!!  To manually configure P4PHP, add a line to your php.ini with:
+!!  extension=$SWARM_ROOT/p4-bin/bin.<plat>/perforce-php<ver>.so
+!!
+!!  You can confirm it works by running:
+!!
+!!      php --ri perforce
+!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+__P4PHP_WARNING__
+    fi
+
+    # We suppress this message if the config is already present
+    if [ "$mode" = "install" ] && [ ! -e $SWARM_CONFIG ]; then
+        cat << __POST_INSTALL_MSG__
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::
+::  Swarm is now installed, but not yet configured.
+::  You must run the following to configure Swarm (as root):
+::
+::      sudo $SWARM_SBINDIR/configure-swarm.sh
+::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+__POST_INSTALL_MSG__
+
+    elif [ "$mode" = "upgrade" ]; then
+
+        # Ensure our site is enabled
+        echo "$THISPKG: enabling the Perforce Swarm Apache site..."
+        a2ensite perforce-swarm-site.conf
+
+        # Restart Apache to kill old workers
+        echo "$THISPKG: restarting Apache to update Swarm workers..."
+        service apache2 restart
+
+        cat << __POST_UPGRADE_MSG__
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::
+::  Swarm has been upgraded, using the existing config.
+::
+::  If you wish to change any settings, you can run the following to
+::  reconfigure Swarm (as root):
+::
+::      sudo $SWARM_SBINDIR/sbin/configure-swarm.sh
+::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+__POST_UPGRADE_MSG__
+    fi
+
+    return 0
+}
+
+case "$1" in
+    configure)
+        do_configure "$2"
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "$ME called with unknown argument [$1]" >&2
+        exit 1
+    ;;
+esac
+
+# dh_installdeb will replace this with shell code automatically
+# generated by other debhelper scripts.
+
+#DEBHELPER#
+
+exit 0

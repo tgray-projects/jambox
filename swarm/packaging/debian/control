@@ -1,0 +1,64 @@
+Source: helix-swarm
+Section: non-free/devel
+Priority: extra
+Maintainer: Perforce Software, Inc. <support+packaging@perforce.com>
+Build-Depends: debhelper (>= 7.0.0)
+Standards-Version: 3.9.2
+Homepage: http://www.perforce.com/swarm
+
+Package: helix-swarm
+Architecture: amd64
+Depends: perforce-cli-base, apache2, libapache2-mod-php5 (>= 5.3.3), php-apc, php5-cli (>= 5.3.3), php5-json, wget, cron-daemon | cron
+Suggests: helix-swarm-optional, helix-swarm-triggers
+Replaces: perforce-swarm
+Conflicts: perforce-swarm-r14.2
+Description: Helix Swarm: Beautiful code review for your beautiful code
+ Swarm enables code review for teams using Perforce to help you ship quality
+ software faster. Review code before or after committing it, bring continuous
+ integration into the review, and commit work that passes review.
+
+Package: helix-swarm-optional
+Architecture: all
+Depends: helix-swarm, libreoffice-calc (>= 3.5.7), libreoffice-draw (>= 3.5.7), libreoffice-impress (>= 3.5.7), libreoffice-writer (>= 3.5.7), php5-imagick (>= 3.1)
+Replaces: perforce-swarm-optional
+Conflicts: perforce-swarm-r14.2-optional
+Description: Optional preview tools for Helix Swarm
+ This meta-package depends on optional tools for previewing files in Swarm.
+
+Package: helix-swarm-triggers
+Architecture: all
+Depends: bash, wget
+Replaces: perforce-swarm-triggers
+Conflicts: perforce-swarm-r14.2-triggers
+Description: Trigger script for Helix Swarm
+ This package includes triggers to support Swarm that must be installed on the
+ same host as the Perforce Server (Swarm itself may be on a different host).
+
+Package: perforce-swarm
+Section: oldlibs
+Priority: extra
+Depends: helix-swarm, perforce-cli-base, apache2, libapache2-mod-php5 (>= 5.3.3), php-apc, php5-cli (>= 5.3.3), php5-json, wget, cron-daemon | cron
+Architecture: all
+Description: Transitional dummy package for perforce-swarm.
+ This is a transitional package.  'helix-swarm' is the new package name
+ for Swarm.  This package can safely be removed once helix-swarm is installed.
+
+Package: perforce-swarm-optional
+Section: oldlibs
+Priority: extra
+Depends: helix-swarm-optional, helix-swarm, libreoffice-calc (>= 3.5.7), libreoffice-draw (>= 3.5.7), libreoffice-impress (>= 3.5.7), libreoffice-writer (>= 3.5.7), php5-imagick (>= 3.1)
+Architecture: all
+Description: Transitional dummy package for perforce-swarm-optional.
+ This is a transitional package.  'helix-swarm-optional' is the new
+ package name for Swarm's optional tools for previewing files.  This
+ package can safely be removed once helix-swarm-optional is installed.
+
+Package: perforce-swarm-triggers
+Section: oldlibs
+Priority: extra
+Depends: helix-swarm-triggers, bash, wget
+Architecture: all
+Description: Transitional dummy package for perforce-swarm-triggers.
+ This is a transitional package.  'helix-swarm-triggers' is the new
+ package name for Swarm's triggers package.  This package can
+ safely be removed once helix-swarm-triggers is installed.

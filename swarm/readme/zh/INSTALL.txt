@@ -1,0 +1,781 @@
+﻿				安装说明
+					Perforce Swarm
+
+					2015.1 版本
+
+简介
+
+	本文档介绍 2014.4 版 Perforce Swarm（以下简称 Swarm）的安装和初始配置
+	步骤。虽然不同的操作系统发行版采取不同方式都能达到相同结果，但我们有必
+	要告知您，有时可能需要参考具体的发行版文档。
+
+	* 注意，一般情况下只有系统管理员才能安装和配置 Swarm，而且很可能需要根目录访问权限。
+
+概述
+
+	为方便安装和配置 Swarm 这一 Web 应用程序，本文档将详细介绍以下主要方面：
+
+	* 运行时依赖项
+	* Swarm 安装
+	* 所在环境的 Swarm 配置
+	* 建立触发令牌
+	* Swarm 的 Perforce 配置
+	* 设置周期性任务以生成工作线程
+
+
+------------------------------------------------------------------------
+运行时依赖项
+------------------------------------------------------------------------
+
+Swarm 需要以下运行时依赖项：
+
+	* 支持的操作系统平台
+
+	* 采用了 mod_rewrite and mod_php5 模块的 Apache Web 服务器
+
+	* 带有以下扩展名的 PHP：
+		* iconv
+		* json
+		* session
+		* P4PHP
+		* APC（用于优化性能）
+		* imagick（可选，用于查看非 Web 安全图像）
+		* Zip（可选，用于下载文件/文件夹的压缩包）
+
+	* LibreOffice（可选，用于查看 Office 文档）
+
+	* zip 命令行工具（可选，用于在未安装 Zip 扩展插件时下载文件/文件夹的压缩包）
+
+	* 支持的 Perforce 服务及相应连接能力
+
+	注意："Perforce 服务"可以指代 Perforce 服务器、代理、副本、边缘服务器、提交服务器或群集/节点。
+	它并不指代"服务"用户。服务用户用于在 Perforce 服务中协调复制。
+
+支持的操作系统平台
+
+	因为 Swarm 包含 P4PHP 的二进制版本（Perforce 用于 PHP 
+的扩展），因此我们在以下操作系统上支持 Swarm：
+
+	* Linux 2.6+ Intel (x86, x86_64)，配置 glibc 2.3.3+
+
+	* Mac OS X 10.6+ (x86_64)
+
+	如果您可以自己构建 P4PHP 并满足其他运行时依赖项，则可以在其他平台上运行 Swarm。
+	有关如何获取并从源构建 P4PHP 的说明，请查看此处：
+
+	http://www.perforce.com/perforce/doc.current/user/p4phpnotes.txt
+
+Apache Web 服务器
+
+	Swarm 需要 Apache HTTP 服务器 2.2 或更高版本：
+
+	http://httpd.apache.org/
+
+	Swarm 还需要以下 Apache 模块：
+
+	* mod_php5，与 PHP 交互通常随 PHP 一起安装
+
+	* mod_rewrite URL 重写引擎
+	http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html
+
+PHP
+
+	PHP 5.3.3+、5.4.x 或 5.5.x 上支持 Swarm：
+
+	http://www.php.net
+
+	Swarm 需要以下 PHP 扩展：
+
+	* iconv（字符编码转换程序）
+	http://php.net/iconv
+	大部分 PHP 发行版均默认启用了此选项
+
+	* JSON (JavaScript Object Notation)
+	http://php.net/json
+	大部分 PHP 发行版均默认启用了此选项，尽管最近的发行版将其变为可选项
+
+	* 会话（会话处理）
+	http://php.net/session
+	大部分 PHP 发行版均默认启用了此选项
+
+	* P4PHP（Perforce PHP 扩展）
+	包含在 Swarm 包中，安装说明见下文。 
+
+	Swarm 主要采用以下 PHP 扩展：
+
+	* APC（可选 PHP 缓存）
+	http://php.net/apc
+	APC 安装说明见下文。
+
+	* Imagick（集成了 ImageMagick 和 PHP)
+	http://php.net/imagick
+	Imagick 安装说明见下文。
+
+Perforce 服务器要求
+
+	* Swarm 适用于如下补丁程序级别或更高级别的 Perforce 服务器版本：
+
+		* 2010.2/503309 
+		* 2011.1/506384
+		* 2012.1/512349
+		* 2012.2/525804
+		* 2013.1/610569
+		* 2013.2/708877
+		* 2013.3/740675
+		* 2014.1/807760
+
+	* Swarm 的最佳支持平台为 Perforce 2013.1 或更高版本。
+	http://www.perforce.com
+
+	Swarm 触发器是之后安装在 Perforce 服务上的，要求如下：
+
+	* 如果是安装在 Linux 主机上的 Perforce 服务，则需要以下任一项：
+
+	* curl
+	http://curl.haxx.se/download.html
+	* wget
+	http://ftp.gnu.org/gnu/wget/
+
+	* 如果是安装在 Windows 主机上的 Perforce 服务：
+
+	* curl
+	http://curl.haxx.se/download.html
+
+安全增强 Linux (SELinux)
+
+	* Swarm 当前*不受 SELinux* 支持。我们希望在未来版本中支持 SELinux 
+	并提供所需配置的指导。
+
+	* 此版本的 Swarm 默认配置*无法*在"强制模式"下结合 SELinux 使用。
+	如果您运行的系统装有 SELinux，在利用以下命令将其设为"宽容模式"后，Swarm 可能会运行。
+
+		$ sudo setenforce 0
+
+	将系统设为"宽容模式"可能会导致 Dan Walsh 崩溃：
+	https://plus.google.com/112917221531140868607/posts/ZiqZVXAjrev
+
+------------------------------------------------------------------------
+Swarm 包安装
+------------------------------------------------------------------------
+
+Swarm 有两种分发包格式：Debian (.deb) 和 RPM (.rpm)。
+
+使用分发包明显简化了软件安装、更新和卸载流程，因为管理这些包的工具会检测各包的依赖项。
+
+注意：Swarm 包已经通过了 Ubuntu 12.04 LTS / Ubuntu 14.04 LTS（针对 Debian 包）和 
+CentOS 6.1+（针对 RPM 包）的全面测试。虽然这些包应该可以在其他兼容发行版上运行，但尚未经过测试。
+
+1.配置 Perforce 包资料库。
+
+	作为根用户，请运行以下选项之一：
+
+	a.对于 Debian：
+
+	利用以下内容创建 '/etc/apt/sources.list.d/perforce.list' 文件：
+
+	deb http://package.perforce.com/apt/ubuntu/ precise release
+
+	此文件适用于 Debian 和 Ubuntu 系统。
+
+	b.对于 RPM：
+
+	利用以下内容创建 '/etc/yum.repos.d/perforce-swarm.repo' 文件：
+
+		[Perforce]
+		name=Perforce
+		baseurl=http://package.perforce.com/yum/rhel/6/x86_64/
+		enabled=1
+		gpgcheck=1
+
+	此文件适用于 RedHat 和 CentOS。
+
+2.导入 Perforce 包签名密钥。
+
+	运行以下选项之一：
+
+	a.对于 Debian：
+
+		$ wget -qO - http://package.perforce.com/perforce.pubkey | sudo apt-key add -
+		$ sudo apt-get update
+
+	b.对于 RPM（作为根用户运行此命令）：
+
+		# rpm --import http://package.perforce.com/perforce.pubkey
+
+	有关如何验证签名密钥的真实性的信息，请参阅：
+   
+	http://answers.perforce.com/articles/KB_Article/Public-Key-for-Installation-Packages
+
+3.安装主要 Swarm 包。
+
+	有两个包文件可供选择：
+
+	运行以下选项之一：
+
+	i.对于 Debian：
+
+		$ sudo apt-get install perforce-swarm
+
+	ii.对于 RPM（作为根用户运行此命令）：
+
+		# yum install perforce-swarm
+
+4.安装 Swarm 触发器包。
+
+	在托管 Perforce 服务的服务器上安装此包，这可能是托管 Swarm 的同一服务器
+	或网络上的其他服务器。
+
+	重要说明：如果托管 Perforce 服务的服务器无法使用包，例如正在运行 Windows，
+	则需要将相应的 Swarm 触发器脚本从 '/opt/perforce/swarm/p4-bin/scripts' 
+	复制到托管 Perforce 服务的服务器。
+	'swarm-trigger.sh' 适用于 Linux 系统，
+	'swarm-trigger.vbs' 适用于 Windows 系统。复制之后，配置触发器脚本。
+	有关详细信息，请参阅下文 "Swarm 的 Perforce 配置"部分。
+
+	运行以下选项之一：
+
+	i.对于 Debian：
+
+		$ sudo apt-get install perforce-swarm-triggers
+
+	ii.对于 RPM（作为根用户运行此命令）：
+
+		# yum install perforce-swarm-triggers
+
+5.安装 Swarm 可选包。
+
+	如果无要求，则安装此包会安装使用 Imagick 和 LibreOffice Swarm 模块所需的
+	依赖项。这些模块提供各种图像和 office 文档的预览。
+
+	运行以下选项之一：
+
+	i.对于 Debian：
+
+		$ sudo apt-get install perforce-swarm-optional
+
+	ii.对于 RPM（作为根用户运行此命令）：
+
+		# yum install perforce-swarm-optional
+
+	重要说明：此包依赖 EPEL 项目中的 <literal>php-pecl-imagick</literal> 包。
+	如要从 EPEL 安装包，您需要添加 EPEL 资料库并接受其签名密钥。相关说明请参阅
+	https://fedoraproject.org/wiki/EPEL
+
+6.完成安装后相关步骤。
+
+	*perforce-swarm* 包完成安装后，可能需要额外配置：
+
+	1.使用 Swarm 配置脚本设置 Swarm。
+
+	注意：Swarm 配置脚本有多种使用方式。
+	以下步骤概述采用交互式安装的最直接配置，但要查看选项，您可以运行（作为根用户）：
+
+			$ /opt/perforce/swarm/sbin/configure-swarm.sh -h
+
+	作为根用户，运行交互式安装：
+
+		$ /opt/perforce/swarm/sbin/configure-swarm.sh -i
+
+	2.提供配置脚本的信息。
+
+	a.指定 P4PORT 的值。
+
+		指定 Perforce 服务的主机名和端口。
+		指定以后，P4PORT 值即用作默认值。
+		配置脚本确认其是否可以连接：
+
+	b.指定 Perforce 服务中具有管理员级别权限的普通用户的用户 ID 和密码。
+
+		默认用户 ID 为 'swarm'。
+
+		在提示时，输入该用户 ID 对应的登录票证或密码。
+
+ 	注意：如要获取登录票证，运行如下命令（在其他 Shell 中）：
+
+		$ p4 -p myp4host:1666 -u userid login -p
+
+		如果您提供的登录票证有效期不到一年，则会收到警告。
+
+ 	c.指定 Swarm UI 的主机名。
+
+		默认值为当前主机名。配置脚本不会确认主机名是否有用。
+
+	d.指定邮件中继主机。
+
+	注意：配置脚本不会验证您提供的邮件中继主机是否真得可以收到 SMTP 
+连接。
+
+	提供此信息后，配置脚本可执行以下步骤：
+
+	- 配置 P4PHP
+	- 创建定时作业，确保始终运行工作线程任务
+	- 创建 Swarm 'data/config.php' 配置文件
+	- 为 Swarm 创建 Apache 虚拟主机
+	- 重新启动 Apache
+
+	3.配置 Swarm 触发器。
+
+	有关详细信息，请参阅下文 "Swarm 的 Perforce 配置"部分。
+
+大功告成！
+
+------------------------------------------------------------------------
+Swarm OVA 安装
+------------------------------------------------------------------------
+
+Swarm 可作为 OVA 使用，一种几乎无需配置的开放虚拟设备。
+
+您可使用 OVA 实现：
+
+	* 简化安装和配置步骤
+	* 无需额外硬件即开始使用 Swarm
+	* 在没有 Linux 服务器的情况下安装 Swarm
+
+如要使用 OVA，遵照下面的说明操作，并跳至"建立触发令牌"部分。
+
+	1.下载 Swarm OVA。
+
+	2.将 OVA 导入到自己的虚拟环境中。
+
+	3.启动虚拟机，此时会出现诊断和引导信息。
+
+	4.界面上会按顺序显示多个配置提示：
+
+		a. 根用户的密码
+		b. 系统 *swarm* 用户的密码
+		c. 虚拟机的主机名
+		d. 邮件中继主机
+		e.Perforce 服务端口
+		f. Perforce 服务中具备*管理员*权限的普通用户的用户 ID
+		g. *管理员级别* Perforce 用户的票证或密码
+
+	提示内容成功答复后，虚拟机即可完成其配置活动。准备就绪后，此时会
+	显示一个欢迎屏幕。
+
+	欢迎屏幕中提供了访问 Swarm、其文档以及虚拟机管理控制台的 URL。
+
+现在，可通过 OVA 访问 Swarm。
+
+注意：
+
+	Ova 完整配置并启动运行后，如要调整配置，您可以系统 *swarm* 用户身份
+	使用 SSH 连接至虚拟机，并编辑 Swarm config.php 文件
+
+		/opt/swarm/data/config.php
+
+	Swarm 的安装文件夹为 /opt/swarm。
+
+请转至下面的"建立触发令牌"部分。
+
+
+------------------------------------------------------------------------
+Swarm 安装
+------------------------------------------------------------------------
+
+在上级目录，通过以下操作安装 Swarm：
+
+	* 将 Swarm 展开至合适的目录
+
+	* 确保 Swarm 的 'data' 文件夹可由 Apache 写入
+
+	* 安装并启用 PHP 扩展 iconv、json、session、P4PHP 和 APC
+
+	* 创建 Apache 虚拟主机，指向 Swarm 的 'public' 文件夹
+
+分步安装说明
+
+	1.展开 Swarm 包（"压缩包"）。
+
+		* 许多图形文件管理器应用程序（Linux 的 Nautilus、Mac 上的 Finder 
+		等）都可以自动展开 Swarm 压缩包，只需双击即可解压。
+
+		* 从命令行中，通过 tar 命令展开：
+
+		$ tar -zxf swarm.tgz
+
+		* Swarm 包的内容展开到名为 "swarm-<version>" 的顶级文件夹，其中 
+		<version> 对应的是所下载版本。
+
+	2.将 Swarm 包的内容移到正确的位置。
+
+	* 识别 Swarm 文件的位置，对应于 Apache 下配置的虚拟主机关联的位置
+	（请参阅下面的"Apache 配置与设置"部分）。
+
+		$ mv /path/to/swarm-<version> /path/to/vhosts/swarm
+
+	3.正确分配 Swarm 文件的所有权和权限。
+
+	* Web 服务器应对 Swarm 发行版中的 'data' 顶级文件夹有写入权限。为此，
+	只需将 data 文件夹的所有权更改为网络用户。
+
+		$ sudo chown -R www /path/to/vhosts/swarm/data
+
+	* 上述的 'www' 用户是其中一个 Web 服务器用户名称示例。根据您的发行版，
+	此名称可能是 '_www'、'web'、'nobody' 或其他。
+
+	* 从安全角度出发，我们建议向其中 Web 服务器依据 Swarm 发行版运行的
+	用户/组授予最小文件权限。
+
+
+	Apache 配置与设置
+
+	* 各个操作系统发行版之间的 Apache HTTP 服务器 (Apache) 配置都不相同，
+	具体请参阅 Apache 安装特定的文档。
+
+	* 例如，在 Mac OS X 上，可能需要在"系统偏好设置"中的"共享"控制面板内
+	启用"Web 共享"。
+
+	4.为您的安装设置 Apache 虚拟主机 ("vhost")。
+
+	* 有关完整详细信息，请参阅 Apache 的完整文档：
+
+		http://httpd.apache.org/docs/2.2/vhosts/
+		http://httpd.apache.org/docs/2.4/vhosts/
+
+	* Apache 2.2 的虚拟主机配置示例：
+
+		<VirtualHost *:80>
+			ServerName myswarm
+			ServerAlias myswarm.machine.domain.com
+			ErrorLog "/path/to/apache/logs/myswarm.error_log"
+			CustomLog "/path/to/apache/logs/myswarm.access_log" common
+			DocumentRoot "/path/to/vhosts/swarm/public"
+			<Directory "/path/to/vhosts/swarm/public">
+				AllowOverride All
+				Order allow,deny
+				Allow from all
+			</Directory>
+		</VirtualHost>
+
+	* Apache 2.4 的虚拟主机配置示例：
+
+		<VirtualHost *:80>
+			ServerName myswarm
+			ServerAlias myswarm.machine.domain.com
+			ErrorLog "/path/to/apache/logs/myswarm.error_log"
+			CustomLog "/path/to/apache/logs/myswarm.access_log" common
+			DocumentRoot "/path/to/vhosts/swarm/public"
+			<Directory "/path/to/vhosts/swarm/public">
+				AllowOverride All
+				Require all granted
+			</Directory>
+		</VirtualHost>
+
+	* 确保以上 DocumentRoot 和 Directory 值与上述步骤 2 中 Swarm 发行
+	版的 "public" 文件夹对应。
+
+	5.验证是否启用了正确的 Apache 模块。
+
+	* 要查询 PHP 和 Rewrite 模块是否处于活动状态，可使用 apachectl 
+	实用程序列出所有活动的模块（您的系统上可能名为 apache2ctl）。
+
+		$ apachectl -t -D DUMP_MODULES
+
+	* 只需在结果中查找 'php5_module' 和 'rewrite_module'。如果存在，请跳到步骤 6。
+
+	* 如果您的订购产品包含 Apache 实用程序 a2enmod，则使用此程序即可启用 PHP 
+	和 Rewrite 模块：
+
+		$ sudo a2enmod php5 rewrite
+
+	* 如果没有 a2enmod 实用程序，则手动编辑 Apache 配置文件。找到模块的 
+	Apache 配置文件，然后取消备注或添加以下文本行：
+
+		LoadModule  php5_module     libexec/apache2/libphp5.so
+		LoadModule  rewrite_module  libexec/apache2/mod_rewrite.so
+
+	* 注意，您的 Apache 安装文件中模块（.so 文件）的位置路径可能不同。
+
+	6.重新启动您的 Web 服务器。
+
+	* 要确保您所做的 Apache 配置更改已激活，请重新启动 Web 服务器。
+
+		$ sudo apachectl restart
+
+	* 查询 Apache 的活动虚拟主机和模块，确认更改已生效：
+
+		$ apachectl -t -D DUMP_VHOSTS
+		$ apachectl -t -D DUMP_MODULES
+
+
+	PHP 配置：
+
+	* 各个操作系统发行版之间的 PHP 都不相同，具体请参阅 PHP 安装特定的文档。
+
+	7.首先确定 PHP Apache 模块正在使用哪个 php.ini 文件。
+	注意，该文件不一定非得是从命令行（从报告来源的命令行中运行 'php --ini'）
+	调用 PHP 时正在使用的同一个 php.ini 文件。
+
+	如果无法确定 PHP Apache 模块正在使用的 php.ini，可利用以下内容创建一个 
+	Apache 中可用的 PHP 文件：
+
+		<?php phpinfo();?>
+
+	将浏览器指向此文件，在结果表中查找此表格行：
+
+			Loaded Configuration File
+
+	8.确保系统的 date.timezone 设置正确。
+
+	部分发行版并不向 PHP 提供默认时区，因此最好是为 PHP 设置明确的时区。
+	请参阅支持时区列表：
+
+		http://www.php.net/manual/en/timezones.php
+
+	php.ini 中的 date.timezone 设置示例：
+
+		date.timezone = America/Vancouver
+
+	9.确认存在 iconv、json 和 session 扩展。
+
+	* 通常默认为启用，尽管您要通过操作系统发行版安装相应包。在上述 phpinfo 输出
+	中搜索相应名称确认它们是否存在。
+
+	10.启用 P4PHP，即 PHP 的 Perforce 扩展：
+
+	* 如果 Swarm 要与 Perforce 服务通信，则需要 P4PHP 扩展。
+
+	* 我们提供各种 P4PHP 二进制文件变体，适用于 Linux 平台（32、64 位）、
+	Mac OS X (Darwin) 以及 PHP 5.3、5.4 和 5.5。
+
+	* 对于 Linux，默认变体采用 glibc 2.11 编译。另外，我们还提供采用 glibc 2.3.3 
+	编译的 PHP 5.3 变体以支持使用旧发行版的客户，如 Red Hat Enterprise Linux 5.9。
+	
+
+	* 如要启用 P4PHP，编辑 Web 服务器的 php.ini 文件，添加以下行：
+
+		extension=/path/to/swarm/p4-bin/bin.<platform>/perforce-
+<variant>.so
+
+	示例 1：运行 PHP 5.4 的 64 位 Linux 系统：
+
+		extension=/path/to/swarm/p4-bin/bin.linux26x86_64/perforce-
+php54.so
+
+	示例 2：运行 PHP 5.3 及 2.11 以下版本 glibc 的 32 位 Linux 系统：
+
+		extension=/path/to/swarm/p4-bin/bin.linux26x86/perforce-php53-
+glibc2.3.3.so
+
+	* 或者，将扩展文件复制到 PHP 扩展的默认位置，然后添加此行：
+
+		extension=perforce-<variant>.so
+
+	11.重新启动 Apache 以使更改生效。
+
+	12.要确认 P4PHP 是否激活，导航到步骤 7 中创建的 phpinfo 文件。您会看到 
+	"perforce" 部分（搜索"Perforce 模块"）。它应报告模块已启用，并显示版本信息。
+	
+
+
+	PHP 的可选 PHP 缓存 (APC) 扩展
+
+	* APC 是一款免费、开放、功能强大、可用于对 PHP 中间代码进行缓存和优化的框架。
+	启用 APC 可进一步提高 Swarm 性能。有关 APC 的详细信息，请访问以下网址：
+
+		http://php.net/apc
+		http://pecl.php.net/package/APC
+
+	13.建议从操作系统发行版通过 apt-get、yum 等命令安装 APC。
+
+	* 如果发行版不提供 PHP 的 APC 包，则可通过 PECL 安装
+	（尽管可能要解决系统依赖项问题）：
+
+		$ sudo pecl install apc
+
+	14.确认 APC 在 PHP Apache 模块的 php.ini 文件中已启用
+	（根据上文 P4PHP 内容进行确定）。您可能需要将以下行添加至 php.ini：
+
+		extension=apc.so
+
+	15.重新启动 Apache 以使更改生效。
+
+	16.要确认 APC 是否激活，导航到上面 P4PHP 部分步骤 1 中创建的 phpinfo 
+	文件。然后您就应该可以看到 "apc" 部分（您可能需要搜索"APC 支持"）。
+	它应该报告其版本信息和指令表。
+
+	对于要设置哪些 APC 指令，当前没有任何特定建议。
+
+	** 请参阅以上所创建 phpinfo 文件的相关注释 **
+
+	* 安装并启用 P4PHP 和 APC 后，建议您删除所创建的 phpinfo 文件，
+	避免泄露安装相关信息。
+
+
+	PHP 的 ImageMagick (imagick) 扩展
+
+	* Imagick 是集成 ImageMagick 图形库 API 的 PHP 扩展，用于创建和操纵图像。
+	启用 imagick 后，Swarm 预览图形格式的性能增强，可以显示网页浏览器通常无
+	法显示的格式。有关 imagick 的详细信息，请访问以下网址：
+
+		http://php.net/imagick
+		http://pecl.php.net/package/imagick
+
+	17.建议从操作系统发行版安装 Imagick
+	（通过 apt-get、yum 等）。
+
+	* 如果发行版不提供 PHP 的 Imagick 包，则可通过 PECL 安装
+	（尽管可能要解决系统依赖项问题）：
+
+		$ sudo pecl install imagick
+
+	18.确认 imagick 在 PHP Apache 模块的 php.ini 文件中已启用（根据上文 
+	P4PHP 内容进行确定）。您可能需要将以下行添加至 php.ini：
+
+		extension=imagick.so
+
+	19.重新启动 Apache 以使更改生效。
+
+	20.要确认 imagick 是否激活，导航到上面 P4PHP 部分步骤 1 中创建的 
+	:file:`phpinfo` 文件。然后您就应该可以看到 "imagick" 部分。
+	它应该报告其版本信息、指令表以及支持的图像文件格式等。
+
+	** 请参阅以上所创建 phpinfo 文件的相关注释 **
+
+	* 安装并启用 P4PHP 和 imagick 后，建议您删除所创建的 phpinfo 文件，
+	避免泄露安装相关信息。
+
+
+	LibreOffice
+
+	* Libreoffice 是一种功能强大、免费高效的开源的个人办公套件。Swarm 可在 
+	Headless 模式下利用其生成 Office 文档预览。有关 LibreOffice 的详细信息，
+	请访问以下网址：
+
+		https://www.libreoffice.org/
+
+	21.建议从操作系统发行版通过 apt-get、yum 等命令安装 LibreOffice。
+
+	* 具体来说，Swarm 所需的最小软件包及其过渡关系如下：
+
+		* libreoffice-calc
+		* libreoffice-draw
+		* libreoffice-impress
+		* libreoffice-writer
+		* libreoffice-headless（仅 CentOS/RHEL）
+
+
+------------------------------------------------------------------------
+Swarm 配置
+------------------------------------------------------------------------
+
+Swarm 虽已就绪可用，但您仍需对其进行配置以适合所在的
+环境。需要配置的高级项包括：
+
+	* 创建配置文件，以便 Swarm 与 Perforce 服务器通信
+
+	* 设置周期性任务以生成工作线程进程
+
+Swarm 配置文件
+
+	* 在 'data' 目录下创建一个名为 config.php 的文件，其中包含以下内容：
+
+		<?php
+		return array(
+			'p4' => array(
+				'port'     => 'myp4server.domain.com:1666',
+				'user'     => 'admin_userid',
+				'password' => 'ticket-value',
+			)
+		);
+
+	* 对于 'port' 值，输入用于连接 Perforce 服务器的 P4PORT 值。
+
+	* 对于 'user' 值，输入对 Perforce 服务有 'admin' 访问权限的 Perforce 用户名。
+
+	* 对于 'password' 值，尽管纯文本密码也管用，我们仍然建议您改用票证值。
+	登录时，使用下面的命令可从 admin_userid 获取票证值：
+
+		$ p4 -u <admin_userid> login -p
+
+	注意：对于*安全*可配置到 3 级的 Perforce 服务，必须使用票证身份验证。
+
+	重要说明：使用票证身份验证时，请确保该票证的有效期非常长。过期票证会导致许多 
+	Swarm 操作失败。	
+
+	您可以使用以下命令确定 <admin_userid> 票证的到期时间：
+
+		$ p4 -u <admin_userid> -P <ticket_value> login -s
+
+	有关票证的详细信息，请访问以下网址：
+
+	http://www.perforce.com/perforce/doc.current/manuals/p4sag/03_superuser.html
+
+
+------------------------------------------------------------------------
+建立触发令牌
+------------------------------------------------------------------------
+
+触发令牌可以防止有害事件影响 Swarm 操作；发送到 Swarm 的触发请求如果没有有效令牌将被忽略。
+ 
+
+	* 以超级用户身份登录 Swarm。
+
+	* 单击主工具栏右侧的用户 ID。
+
+	* 选择"关于 Swarm"。此时，将打开"关于 Swarm"对话框。
+
+	在"关于 Swarm"对话框显示时，如果不存在任何令牌，Swarm 则会生成一个 API 令牌。
+
+	* 记下位于对话框底部的触发令牌值，以便在下一节中使用。
+	单击令牌将其选中，可轻松进行复制。
+
+
+------------------------------------------------------------------------
+Swarm 的 Perforce 配置
+------------------------------------------------------------------------
+
+配置 Swarm 的实例配置完成后，
+最后配置 Perforce 通知 Swarm 相关事件。 
+此配置要使用触发器。有关 Perforce 触发器的更多信息，
+请参阅《Perforce 系统管理员指南》：
+
+	http://www.perforce.com/perforce/doc.current/manuals/p4sag/06_scripting
+.html
+
+使用 Perforce 触发器将事件推送到 Swarm
+
+	* 使用以下 Swarm 触发器脚本将 Perforce 事件推送到 Swarm。存储位置为：
+
+		p4-bin/scripts/swarm-trigger.sh
+
+	* 将上述脚本复制到 Perforce 服务器计算机，以便从 Perforce 触发器调用。
+
+	* 修改脚本以正确设置 SWARM_HOST 变量。
+
+	* 修改脚本以正确设置 SWARM_TOKEN 变量。此项为前面部分中确定的 API 令牌。
+
+	* 确保脚本有执行权限。
+
+		$ chmod +x swarm-trigger.sh
+
+	* 此触发器脚本中设有简易标记，指示应添加至触发器表中的条目：
+
+		$ ./swarm-trigger.sh -o
+
+	* 作为拥有 'super' 权限的 Perforce 用户，运行 'p4 triggers' 命令并添加
+	上一命令输出的命令行，即可编辑 Perforce 触发器表。
+
+
+------------------------------------------------------------------------
+设置周期性任务以生成工作线程
+------------------------------------------------------------------------
+
+为确保传入的 Perforce 事件会由 Swarm 自动处理，
+必须设置一项定时作业，并由其完成此操作。
+
+	* 编辑定时作业；定时作业可安装在任意主机上，当然您可能愿意将其放在 Swarm 主机上。
+
+		$ crontab -e
+
+	* 添加条目，每分钟生成一个工作线程：
+
+	* * * * * curl -o /dev/null -m1 http://myswarm/queue/worker
+
+	* 确认为 Swarm 指定合适的主机名。
+
+
+现在，一切就绪，可以开始使用 Swarm 了。尽情使用吧！
+
+END
+

@@ -1,0 +1,36 @@
+<project name="guide" default="help">
+  <description>
+This is the build script for the sample guide.
+
+Only the most basic transformation properties are specified here.
+
+See the imported, generic Perforce build script to see how documentation
+builds are implemented.
+  </description>
+
+  <!-- determine where we're building; used when creating output directory -->
+  <dirname property="book.build.dir" file="${ant.file.mainbuild}"/>
+
+  <!-- handle properties -->
+  <property environment="doc"/>
+  <property file="build.properties"/>
+
+  <!-- ensure that doc.build.path has been provided -->
+  <!-- feel free to set it in this file if you're going to
+       hold on to it for a while -->
+  <fail unless="doc.build.path">
+-
+Path to common doc_build infrastructure not set.
+When you execute ant, set the parameter doc.build.path:
+
+  ant &lt;target&gt; -Ddoc.build.path=/path/to/doc_build
+
+alternately, set the environment variable "doc.build.path", or edit
+the peer file build.properties.
+  </fail>
+
+  <!-- use the generic build script to perform the transformation -->
+  <import file="${doc.build.path}/perforce/build.xml" as="main"/>
+
+</project>
+<!-- vim: set ts=2 sw=2 tw=80 ai si: -->

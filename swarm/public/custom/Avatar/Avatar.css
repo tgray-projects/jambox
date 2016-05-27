@@ -1,0 +1,38 @@
+div.image-placeholder {
+    border: 1px dashed #d3d3d3;
+    padding-top: 5px;
+    min-height: 1em;
+}
+
+div.image-placeholder {
+    padding: 5px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+div.avatar.image-placeholder img {
+    max-height: 128px;
+}
+
+div.image-placeholder .project-image-caption {
+    position: absolute;
+    background-color: #fcfcfc;
+    padding: 10px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.control-group span.dimensions {
+    margin-left: 10px;
+}
+
+.route-project .project-sidebar img.project-avatar {
+    width: 90%;
+    margin-left: 16px;
+}
+
+.project-splash {
+    margin: 0px 0px 2px 0px;
+}

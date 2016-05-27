@@ -1,0 +1,59 @@
+<?php
+$this->headTitle()->set('Changes');
+if ($path) {
+    $this->headTitle()->append($path);
+}
+?>
+
+<h1 class="changes-title">
+    <?php echo $this->te('Changes')?>
+</h1>
+
+<?php echo $this->breadcrumbs($path, 'changes') ?>
+
+<table class="table table-compact change-history <?php echo $remote ? 'remote' : '' ?>"
+    data-project-id="<?php echo $project ? $this->escapeHtmlAttr($project->getId()) : '' ?>">
+    <thead>
+        <tr>
+            <th class="change"><?php echo $this->te('Change')?></th>
+            <th class="user"><?php echo $this->te('User')?></th>
+            <th class="description"><?php echo $this->te('Description')?></th>
+            <th class="time"><?php echo $this->te('Committed')?></th>
+        </tr>
+    </thead>
+    <?php
+    foreach($changes as $change):
+        $time = date('c', $change->getTime());
+        $url  = $this->url('change', array('change' => $change->getId()));
+    ?>
+        <tr id="<?php echo $this->escapeHtmlAttr($change->getId()); ?>">
+            <td class="change">
+                <a href="<?php echo $url ?>">
+                    <?php echo $this->escapeHtml($change->getId()) ?>
+                </a>
+            </td>
+            <td class="user">
+                <?php echo $this->userLink($change->getUser()) ?>
+            </td>
+            <td class="description">
+                <?php echo $this->preformat($change->getDescription()) ?>
+            </td>
+            <td class="time">
+                <span class="timeago" title="<?php echo $this->escapeHtmlAttr($time) ?>"></span>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
+<script type="text/javascript">
+    $(function(){
+        $('.timeago').timeago();
+        $('.change-history .description').expander({slicePoint: 90});
+
+        $(window).scroll(function() {
+            if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
+                swarm.changes.load(<?php echo json_encode($path) ?>);
+            }
+        });
+    });
+</script>

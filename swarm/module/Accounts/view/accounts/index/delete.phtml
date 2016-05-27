@@ -1,0 +1,69 @@
+<?php
+$this->headTitle()->set('Delete User');
+$userLink = $username ? $this->qualifiedUrl('user', array('user' => $username)) : null;
+?>
+<?php if (!$partial): ?>
+<div class="signup-panel">
+    <h1 class="center">Delete Account</h1>
+<?php endif ?>
+    <div class="<?php echo $partial ? 'modal hide fade' : '' ?> delete-user-dialog">
+        <form method="post" class="modal-form">
+            <div class="modal-header">
+                <?php if ($partial): ?>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <?php endif ?>
+                <h3>Delete Account</h3>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="username" value="<?php echo $username; ?>" />
+                <div class="control-group">
+                    <label>You are about to delete this Workshop account.</label>
+                </div>
+                <div class="control-group">
+                    <label for="confirm">Are you sure?</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-mlarge btn-primary signup">Yes</button>
+            </div>
+        </form>
+    </div>
+    <?php if (!$partial): ?>
+</div>
+<?php endif ?>
+
+<script type="text/javascript">
+    $(function() {
+        // focus first, empty, input on show
+        $('.delete-user-dialog').on('shown', function() {
+            var confirm = $('input[name=confirm]', this);
+            if (!confirm.val()) {
+                confirm.focus();
+            }
+        });
+        <?php if ($partial): ?>
+        swarm.modal.show('.delete-user-dialog');
+        <?php endif ?>
+
+        $('.delete-user-dialog form').submit(function(e) {
+            e.preventDefault();
+            swarm.form.post('/account/delete/<?php echo $username; ?>', '.delete-user-dialog form', function(response){
+                if (response.isValid) {
+                    var notice = '<div class="alert alert-success center">'
+                        + '<a class="close" data-dismiss="alert" href="#">&times;</a>'
+                        +     response.message + '<br>Redirecting to home page...'
+                        + '</div>';
+                    $('<div />', {'class': 'global-notification border-box'}).append(notice).prependTo('body');
+                    $('.global-notification .alert').alert();
+                    $('.delete-user-dialog').modal('hide');
+                    setTimeout(location.replace(swarm.url('/')), 40000);
+                } else {
+                    var message = $('<div class="alert" />').text(response.message);
+                    swarm.form.clearErrors('.delete-user-dialog form', true);
+                    $('.delete-user-dialog .modal-body').prepend(message);
+                    return;
+                }
+            }, '.delete-user-dialog .modal-body');
+        });
+    });
+</script>

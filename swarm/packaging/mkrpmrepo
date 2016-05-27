@@ -1,0 +1,3 @@
+#!/bin/bash
+
+createrepo -p /home/vagrant/p4-dev/p4-bin/bin.linux26x86_64

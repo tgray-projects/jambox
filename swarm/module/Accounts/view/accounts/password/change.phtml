@@ -1,0 +1,83 @@
+<?php
+$this->headTitle()->set('Change Password');
+$userLink = $username ? $this->qualifiedUrl('user', array('user' => $username)) : null;
+?>
+<?php if (!$partial): ?>
+  <div class="signup-panel">
+    <h1 class="center">Change Password</h1>
+<?php endif ?>
+<div class="<?php echo $partial ? 'modal hide fade' : '' ?> change-password-dialog">
+  <form method="post" class="modal-form">
+    <div class="modal-header">
+      <?php if ($partial): ?>
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <?php endif ?>
+      <h3>Change Password</h3>
+    </div>
+    <div class="modal-body">
+        <input type="hidden" name="username" value="<?php echo $username; ?>" />
+        <?php if ($token): ?>
+        <input type="hidden" name="token" value="<?php echo $token; ?>" />
+        <?php else: ?>
+            <div class="control-group">
+            <label for="current">Current Password</label>
+            <input type="password" id="current" name="current" class="span4" autocomplete="off">
+        </div>
+        <?php endif ?>
+        <div class="control-group">
+            <label for="new">New Password</label>
+            <input type="password" id="new" name="new" class="span4" autocomplete="off">
+        </div>
+        <div class="control-group">
+            <label for="verify">Verify Password</label>
+            <input type="password" id="verify" name="verify" class="span4" autocomplete="off">
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-mlarge btn-primary signup">Reset Password</button>
+    </div>
+  </form>
+</div>
+<?php if (!$partial): ?>
+</div>
+<?php endif ?>
+
+<script type="text/javascript">
+    $(function() {
+        // focus first, empty, input on show
+        $('.change-password-dialog').on('shown', function() {
+            var current = $('input[name=current]', this);
+            if (!current.val()) {
+                current.focus();
+            } else {
+                $('input[name=new]', this).focus();
+            }
+        });
+        <?php if ($partial): ?>
+            swarm.modal.show('.change-password-dialog');
+        <?php endif ?>
+
+        $('.change-password-dialog form').submit(function(e) {
+            e.preventDefault();
+            swarm.form.post('/account/password/change/<?php echo $username; ?>', '.change-password-dialog form', function(response){
+                if (response.isValid) {
+                    var notice = '<div class="global-notification border-box">'
+                        + '<div class="alert alert-success center">'
+                        + '<a class="close" data-dismiss="alert" href="#">&times;</a>'
+                        +     response.message
+                        + '</div>'
+                        + '</div>';
+                    $(notice).prependTo('body');
+                    $('.global-notification .alert').alert();
+                    $('.change-password-dialog').modal('hide');
+                } else {
+                    var message = $('<div class="alert" />').text(response.message);
+
+                    swarm.form.clearErrors('.change-password-dialog form', true);
+                    $('.change-password-dialog .modal-body').prepend(message);
+                    return;
+                }
+            }, '.change-password-dialog .modal-body');
+        });
+    });
+</script>

@@ -1,0 +1,157 @@
+<?php
+/**
+ * Perforce Swarm, Community Development
+ *
+ * @copyright   2015 Perforce Software. All rights reserved.
+ * @license     Please see LICENSE.txt in top-level folder of this distribution.
+ * @version     <release>/<patch>
+ */
+
+$this->headTitle()->set($project->getName());
+$this->bodyClass()->append('login-reload');
+$services = $this->getHelperPluginManager()->getServiceLocator();
+$p4 = $services->get('p4');
+$user = $services->get('user')->getId();
+echo $this->projectToolbar($project);
+
+$canEdit = $project->hasOwners()
+    ? $this->permissions()->isOne(array('admin', 'owner'  => $project))
+    : $this->permissions()->isOne(array('admin', 'member' => $project));
+?>
+
+<div class="row-fluid">
+    <div class="span3 profile-sidebar project-sidebar">
+        <div class="profile-info">
+            <div class="title pad2 padw3">
+                <h4>About</h4>
+            </div>
+            <div class="body">
+                <?php if ($project->getDescription()): ?>
+                    <div class="description force-wrap pad3">
+                        <?php echo $this->preformat($project->getDescription()) ?>
+                    </div>
+                <?php endif; ?>
+                <div class="privileged buttons pad1 padw2">
+                    <div class="row-fluid">
+                        <div class="<?php echo $canEdit ? 'span6' : 'span12' ?>">
+                            <button type="button" class="btn btn-primary btn-block <?php echo $userIsMember ? 'joined' : '' ?>"
+                                    onclick="swarm.user.join('project', '<?php echo $this->escapeJs($project->getId()) ?>', this);">
+                                <?php echo $userIsMember ? 'Leave' : 'Join' ?>
+                            </button>
+                        </div>
+                        <?php if ($canEdit): ?>
+                            <div class="<?php echo $userIsMember ? 'span6' : 'span6' ?>">
+                                <a class="btn btn-primary btn-block" href="/project/edit/<?php echo $this->escapeHtmlAttr($project->getId()) ?>">
+                                    Edit
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="metrics pad2">
+                    <ul class="force-wrap clearfix">
+                        <li class="members pull-left border-box pad2 padw0"><span class="count"><?php echo count($members) ?></span><br>Members</li>
+                        <li class="followers pull-left border-box pad2 padw0"><span class="count"><?php echo count($followers) ?></span><br>Followers</li>
+                        <li class="branches pull-left border-box pad2 padw0"><span class="count"><?php echo count($branches) ?></span><br>Branches</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <?php if ($members) : ?>
+            <div class="members profile-block">
+                <div class="title pad1 padw0">Members</div>
+                <?php echo $this->avatars($members, 5) ?>
+            </div>
+        <?php endif; ?>
+        <div class="followers profile-block <?php echo !$followers ? 'hidden' : '' ?>">
+            <div class="title pad1 padw0">Followers</div>
+            <?php echo $this->avatars($followers, 5) ?>
+        </div>
+        <?php if ($branches): ?>
+            <div class="branches profile-block">
+                <div class="title pad1 padw0">Branches</div>
+                <ul>
+                    <?php
+                    foreach ($branches as $branch) {
+                        $main      = in_array(strtolower($branch['name']), $mainlines);
+                        $branchUrl = $this->url(
+                            'project-browse',
+                            array('project' => $project->getId(), 'mode' => 'files', 'path' => $branch['id'])
+                        );
+                        echo '<li data-branch-id="' . $this->escapeHtml($branch['id']) . '" '
+                            . 'data-branch-name="' . $this->escapeHtml($branch['name']) . '"><a href="' . $branchUrl . '">'
+                            . ($main ? '<strong>' : '')
+                            . $this->escapeHtml($branch['name'])
+                            . ($main ? '</strong>' : '')
+                            . '</a><div class="btn-group pull-right"><button class="btn btn-small" '
+                            . 'title="" '
+                            . 'data-original-title="View branch \'' . $this->escapeHtml($branch['name']) .'\' details."'
+                            . 'data-toggle="collapse"'
+                            . 'data-target="#' . $this->escapeHtml($branch['id']) . '_details"'
+                            . '>'
+                            . '<i class="icon-cog"></i></button></div></li>';
+                        echo '<li id="' . $this->escapeHtml($branch['id']) . '_details" class="collapse">'
+                            . '<dl><dt>Path:</dt><dd>' . $this->escapeHtml($branch['paths'][0]) . '</dd></dl>';
+                        if (!empty($branch['moderators'])) {
+                            echo '<dl><dt>Moderators:</dt><dd>'
+                                . $this->avatars($branch['moderators'], 4) . '</dd></dl>';
+                        }
+                        echo '</li>';
+                    }
+                    ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+    </div>
+    <div class="span9">
+        <h4> Connection Settings:  <?php echo $p4->getPort(); ?></h4>
+        <div class="well">
+            <select id="clonebranch" onChange="javascript:cloneCommand();">
+                <optgroup selected label="Choose a branch to clone:">
+                    <?php foreach ($branches as $branch) {
+                        echo '<option value="' . $branch['paths'][0] . '"">' . $branch['name'] . '</option>';
+                    }
+                    ?>
+                </optgroup>
+            </select>
+            <code>
+                p4 <?php if (!is_null($user)) echo '-u ' . $user ?> clone -p <?php echo $p4->getPort() . ' -f' ?>
+                <span id="selectedbranch"></span>
+            </code>
+        </div>
+    </div>
+
+
+    <div class="span9 project-splash"></div>
+    <div class="span9 project-readme">
+        <div class="title pad2">
+            <h4>Readme</h4>
+        </div>
+        <div class="pad2">
+            If your project's main branch had a readme.md file present, it would show here. <br><br>
+
+            <h4>To add a readme file: <br><br></h4> 
+            <div class="well">
+                Clone the project: <code>p4 <?php if (!is_null($user)) echo '-u ' . $user ?> <?php echo '-d ' . $project->getName() ?> 
+                    clone -p <?php echo $p4->getPort() . ' -f ' ?> //path/to/main/branch/...</span></code><br><br>
+                Change to the project directory: <code>cd <?php echo $project->getName() ?></code><br><br>
+                Create a readme file: <code>echo "My first readme" > README.md</code><br><br>
+                Reconcile the workspace: <code>p4 reconcile</code><br><br>
+                Submit the changes: <code>p4 submit -d "adding readme file"</code><br><br>
+                Push changes to server: <code>p4 push</code><br>
+            </div>
+        </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        // truncate the description
+        $('.profile-header .description').expander({slicePoint: 250});
+        var branchpath = $('#clonebranch').val();
+        document.getElementById("selectedbranch").innerHTML = branchpath;
+    });
+    function cloneCommand() {
+        var branchpath = $('#clonebranch').val();
+        document.getElementById("selectedbranch").innerHTML = branchpath;
+    };
+</script>

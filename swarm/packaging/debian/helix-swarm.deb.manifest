@@ -1,0 +1,16 @@
+---
+# specify distro for deb files, unnecessary for rpms
+distro: precise
+
+# list of files to process
+product-files: 
+    - apt/ubuntu/incoming/helix-swarm_<LONGREL>-<CHANGE><*>_amd64.deb
+    - apt/ubuntu/incoming/helix-swarm-optional_<LONGREL>-<CHANGE><*>_all.deb
+    - apt/ubuntu/incoming/helix-swarm-triggers_<LONGREL>-<CHANGE><*>_all.deb
+    - apt/ubuntu/incoming/perforce-swarm_<LONGREL>-<CHANGE><*>_all.deb
+    - apt/ubuntu/incoming/perforce-swarm-optional_<LONGREL>-<CHANGE><*>_all.deb
+    - apt/ubuntu/incoming/perforce-swarm-triggers_<LONGREL>-<CHANGE><*>_all.deb
+
+external-files:
+    - apt/ubuntu/incoming/perforce-cli-base_2014.1-<CHANGE>_amd64.deb
+...

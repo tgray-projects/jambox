@@ -1,0 +1,11 @@
+[[chapter.gday]]
+== G'day Bruce!
+// vim: set ts=2 sw=2 tw=80 ai si:
+
+Ethel needs some information about quantity surveying:
+
+* How not to be seen
+* Nudge, nudge, wink, wink!
+* Venezuelan Beaver Cheese
+* My hovercraft is full of eels
+* Spam!

@@ -1,0 +1,109 @@
+﻿Copyright (c) 2013-2015, Perforce Software, Inc.無断複写・複製・転載を禁ず。
+
+再配布、およびソースやバイナリ形式での使用は、
+変更の有無に関わらず、次の条件が満たされている場合に許可されます。
+     
+1.ソースコードの再配布に際しては、上記の著作権表示、本条件リスト、および
+   以下の免責条項を残す必要があります。
+     
+2.バイナリ形式で再配布する場合は、上記の著作権表示、
+   本条件リスト、および以下の免責条項を
+   配布物とともに提供されるドキュメントや他の資料に転記する必要があります。
+     
+   本ソフトウェアは、著作権者やコントリビューターによって「現状のまま」提供されるものとします。
+   また、本ソフトウェアは無保証であるものとします。無保証とは、次のような保証が一切無いことを意味します。
+   (a) 明示的な保証 (b) 言外の保証（商品として十分な品質を備えているという保証、および特定の目的に対して適合するという保証を含む）
+   著作権者やコントリビューターは、いかなる場合であれ、どんな損害賠償に対しても、責任を負わないものとします。
+   ここで言う損害賠償には、次のようなものが含まれます。
+   (a) 直接損害賠償、(c) 間接損害賠償、(d) 付随的損害賠償、(e) 特別損害賠償、(f) 懲罰的損害賠償
+   (g) 結果損害賠償（代替品や代替サービスの調達、使用機会、データ、利益の損失に対する賠償、業務の中断に対する賠償、およびその他の賠償を含む）
+   「いかなる場合であれ、責任を負わない」とは、次のような事を意味します。(a) 損害の原因が何であれ、責任を負わない。
+   (b) 法的責任の根拠が何であれ、責任を負わない。根拠としては、契約、厳格責任、不法行為（過失その他を含む）などが考えられる。
+   根拠としては、契約、厳格責任、不法行為(過失その他を含む)などが考えられる。
+   (c) このソフトウェアをどのように使用したかを問わず、責任を負わない。
+   (d) 損害の発生する可能性を事前に知らされていたとしても、責任を負わない。
+
+
+本ソフトウェアおよび本ドキュメントに含まれる見解と結論はそれらの著者のものであり、
+Perforce Software の方針を公式に表すものとして解釈することは、
+明示的か暗示的かに関わらず避けてください。
+
+本製品に適用される記法規制には、
+米国輸出管理法や米国輸出管理規則、国際的な武器規制要件、
+および最終用途、エンドユーザー、
+および目的地に係るすべての規制が含まれます。
+
+ライセンス所有者は、米国禁輸国に対して、または米国の
+輸出管理法令に抵触する国や地域に対して、直接的または間接的かに関わらず、
+いかなる Perforce 技術の使用であっても許可することが禁じられています。
+
+
+このディストリビューションには、以下の Perforce ソフトウェアが含まれます。
+これらのソフトウェアのみに適用されるライセンス条項については、
+次の項をご覧ください。
+
+    * P4PHP：PHP 向け Perforce 拡張機能
+      場所： p4-bin/bin.<platform>
+      利用規約： http://www.perforce.com/downloads/terms-use
+
+
+このディストリビューションには、以下のサードパーティ製のソフトウェアが含まれています。
+これらのソフトウェアのみに適用されるライセンス条項については、
+以下の資料をご覧ください。
+
+    *Arimo フォント
+      場所：     public/vendor/arimo
+      ライセンス：      public/vendor/arimo/OFL.txt
+
+    * Bootstrap
+      場所：     public/vendor/bootstrap
+      ライセンス：      public/vendor/bootstrap/LICENSE
+
+    *Cousine フォント
+      場所：     public/vendor/cousine
+      ライセンス：      public/vendor/cousine/OFL.txt
+
+    * Git ロゴ
+      場所：     public/vendor/git
+      ライセンス：      public/vendor/git/CC-LICENSE.txt
+
+    * Google Diff-Match-Patch
+      場所：     public/vendor/diff_match_patch
+      ライセンス：      public/vendor/diff_match_patch/COPYING
+
+    * Google Code Prettify
+      場所：     public/vendor/prettify
+      ライセンス：      public/vendor/prettify/COPYING
+
+    * Jed:
+      場所：     public/vendor/jed
+      ライセンスファイル：public/vendor/jed/copying.txt
+
+    * jQuery:
+      場所：     public/vendor/jquery
+      ライセンスファイル： public/vendor/jquery/MIT-LICENSE.txt
+
+    * jQuery Expander:
+      場所：     public/vendor/jquery.expander
+      ライセンスファイル： public/vendor/jquery.expander/license.txt
+
+    * jQuery Sortable:
+      場所：     public/vendor/jquery-sortable
+      ライセンスファイル： public/vendor/jquery-sortable/LICENSE.txt
+
+    * jQuery Timeago:
+      場所：     public/vendor/jquery.timeago
+      ライセンスファイル： public/vendor/jquery.timeago/MIT-LICENSE.txt
+
+    * JsRender:
+      場所：     public/vendor/jsrender
+      ライセンスファイル； public/vendor/jsrender/MIT-LICENSE.txt
+
+    * ThreeJS:
+      場所：     public/vendor/threejs
+      ライセンスファイル：public/vendor/threejs/LICENSE
+
+    * Zend Framework 2
+      場所：     library/Zend
+      ライセンスファイル：library/Zend/LICENSE.txt
+

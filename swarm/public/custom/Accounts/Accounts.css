@@ -1,0 +1,65 @@
+/*
+    Document   : Accounts CSS
+    Created on : 15-Nov-2013, 3:37:24 PM
+    Author     : tgray
+    Description:
+        Style the accounts module.
+*/
+div.login-dialog form div.modal-body div.control-group label.checkbox {
+    display: inline-block;
+}
+
+div.login-dialog form div.modal-body a.reset {
+    float: right;
+}
+
+.signup-panel, .reset-panel {
+    width: 400px;
+    padding-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.signup-panel .signup-dialog, .reset-panel .reset-password-dialog {
+    margin: 50px 25px 25px;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+.signup-panel .signup-dialog .modal-header, .reset-panel .reset-password-dialog .modal-header {
+    display: none;
+}
+
+.signup-panel .signup-dialog input[type=text],
+.reset-panel .reset-password-dialog input[type=text],
+.signup-panel .signup-dialog input[type=password],
+.reset-panel .reset-password-dialog input[type=password] {
+    width: 305px;
+}
+
+body.route-verify .alert-error {
+    text-align: center;
+    display: inline;
+}
+
+body.route-verify {
+     padding: 0;
+     background: url('/swarm/img/login-bg.jpg') no-repeat center fixed;
+     background-size: cover;
+ }
+
+body.route-verify .navbar-site {
+    display: none;
+}
+
+body.route-verify .container-fluid {
+    width: 400px;
+    height: 375px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}

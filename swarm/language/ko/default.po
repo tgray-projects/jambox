@@ -1,0 +1,2185 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Swarm\n"
+"POT-Creation-Date: 2015-03-23 17:08+0200\n"
+"PO-Revision-Date: 2015-05-29 09:40+0300\n"
+"Last-Translator: \n"
+"Language-Team: Alpha CRC\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Language: ko_KR\n"
+
+#. common strings
+msgid "Search"
+msgstr "검색"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "modified"
+msgstr "수정됨"
+
+msgid "this change"
+msgstr "이 변경"
+
+msgid "Overview"
+msgstr "개요"
+
+msgid "Opened"
+msgstr "열림"
+
+msgid "Closed"
+msgstr "닫힘"
+
+msgid "Branch Name"
+msgstr "브랜치 이름"
+
+msgid "Branches"
+msgstr "브랜치"
+
+msgid "Paths"
+msgstr "경로"
+
+#: ../Application/view/layout/layout.phtml:15
+msgid "Swarm"
+msgstr "Swarm"
+
+#: ../Application/view/layout/toolbar.phtml
+msgid "User Menu"
+msgstr "사용자 메뉴"
+
+msgid "Profile"
+msgstr "프로필"
+
+msgid "About Swarm"
+msgstr "Swarm 소개"
+
+msgid "Log out"
+msgstr "로그아웃"
+
+msgid "Log in"
+msgstr "로그인"
+
+msgid "Home"
+msgstr "홈"
+
+msgid "Reviews"
+msgstr "검토"
+
+msgid "Files"
+msgstr "파일"
+
+msgid "History"
+msgstr "기록"
+
+msgid "Jobs"
+msgstr "작업"
+
+msgid "Help"
+msgstr "도움말"
+
+#: Application\view\application\index\about.phtml modal window
+msgid "About"
+msgstr "정보"
+
+msgid "Perforce Swarm"
+msgstr "Perforce Swarm"
+
+msgid "Copyright"
+msgstr "저작권"
+
+msgid "Perforce Software"
+msgstr "Perforce Software"
+
+msgid "System Information"
+msgstr "시스템 정보"
+
+#: Application/view/application/index/info.phtml
+msgid "Perforce"
+msgstr "Perforce"
+
+msgid "Log"
+msgstr "로그"
+
+msgid "PHP Info"
+msgstr "PHP 정보"
+
+msgid "Refresh Log"
+msgstr "새로 고침 로그"
+
+msgid "Download Log"
+msgstr "다운로드 로그"
+
+msgid "Time"
+msgstr "시간"
+
+msgid "Severity"
+msgstr "심각성 수준"
+
+msgid "Message"
+msgstr "메시지"
+
+#: Activity\View\Helper\Activity.php
+msgid "Swarm Activity"
+msgstr "Swarm 활동"
+
+msgid "Changes"
+msgstr "변경 사항"
+
+msgid "Comments"
+msgstr "주석"
+
+msgid "Activity"
+msgstr "활동"
+
+msgid "Activity to Display"
+msgstr "표시할 활동"
+
+msgid "All Activity"
+msgstr "모든 활동"
+
+msgid "Followed Activity"
+msgstr "후속 활동"
+
+#: Changes/view/changes/index/changes.phtml
+msgid "Change"
+msgstr "변경"
+
+msgid "change"
+msgstr "변경"
+
+msgid "User"
+msgstr "사용자"
+
+msgid "Description"
+msgstr "설명"
+
+msgid "Committed"
+msgstr "커밋됨"
+
+#: Changes/view/changes/index/change.phtml
+msgid "View Review"
+msgstr "검토 보기"
+
+msgid "Request Review"
+msgstr "검토 요청"
+
+msgid "No description"
+msgstr "설명 없음"
+
+msgid "Files Edited"
+msgstr "파일 편집됨"
+
+msgid "edited"
+msgstr "편집됨"
+
+msgid "Files Added"
+msgstr "파일 추가됨"
+
+msgid "added"
+msgstr "추가됨"
+
+msgid "Files Deleted"
+msgstr "파일 삭제됨"
+
+msgid "deleted"
+msgstr "삭제됨"
+
+msgid "Show Comments"
+msgstr "주석 표시"
+
+msgid "Show Diffs In-Line"
+msgstr "일렬로 Diff 표시"
+
+msgid "Show Diffs Side-by-Side"
+msgstr "나란히 Diff 표시"
+
+msgid "Collapse All"
+msgstr "모두 축소"
+
+msgid "Expand All"
+msgstr "모두 확장"
+
+msgid "Open File"
+msgstr "파일 열기"
+
+msgid "Loading..."
+msgstr "로드 중..."
+
+msgid "Tip: Use %sn%s and %sp%s to cycle through the changes."
+msgstr "팁: 변경 사항을 순환해서 보려면 %sn%s 및 %sp%s를 사용하십시오."
+
+#: Changes/view/mail/commit-html.phtml
+msgid "JOBS"
+msgstr "작업"
+
+msgid "FILES"
+msgstr "파일"
+
+msgid "on behalf of"
+msgstr "다음을 대신하여"
+
+msgid "under"
+msgstr "아래"
+
+msgid "review"
+msgstr "검토"
+
+msgid "under review"
+msgstr "검토 중"
+
+msgid "Jobs:"
+msgstr "작업:"
+
+msgid "Files:"
+msgstr "파일:"
+
+msgid "files"
+msgstr "파일"
+
+msgid "Snip"
+msgstr "자르기"
+
+#: Comments/view/comments.phtml
+msgid "Archive"
+msgstr "보관"
+
+msgid "Add a comment"
+msgstr "주석 추가"
+
+msgid "Drop files here to attach them"
+msgstr "파일을 여기로 끌어와 첨부합니다."
+
+msgid "Emoji codes are supported"
+msgstr "Emoji 코드 지원됨"
+
+msgid "Post"
+msgstr "게시"
+
+msgid "Flag as Task"
+msgstr "작업으로 플래깅"
+
+msgid "Log in to comment"
+msgstr "로그인하여 주석 입력"
+
+#: Comments/view/mail/comment-html.phtml & comment-text.phtml
+msgid "ATTACHMENTS"
+msgstr "첨부 파일"
+
+msgid "Attachments"
+msgstr "첨부 파일"
+
+#: Files/view/files/index/diff.phtml
+msgid "Show More"
+msgstr "더 보기"
+
+msgid "content purged."
+msgstr "컨텐츠가 정리되었습니다."
+
+msgid "content unchanged."
+msgstr "컨텐츠가 변경되지 않았습니다."
+
+msgid "previous version"
+msgstr "이전 버전"
+
+#: Files/view/files/index/file.phtml
+msgid "View"
+msgstr "보기"
+
+msgid "Shorten URL"
+msgstr "단축 URL"
+
+msgid "Show Annotations"
+msgstr "주석 표시"
+
+msgid "Blame"
+msgstr "책임자"
+
+msgid "Open"
+msgstr "열린"
+
+msgid "Download .zip"
+msgstr ".zip 파일 다운로드"
+
+msgid "Download"
+msgstr "다운로드"
+
+#: Files/view/files/index/filelog.phtml
+msgid "Commited"
+msgstr "커밋됨"
+
+msgid "Remote depot (change details are not available)"
+msgstr "원격 데포(변경 세부 정보를 확인할 수 없음)"
+
+msgid "Deleted"
+msgstr "삭제됨"
+
+#: Files/view/files/index/list.phtml
+msgid "Browse"
+msgstr "탐색"
+
+msgid "Range"
+msgstr "범위"
+
+msgid "Examples"
+msgstr "예"
+
+msgid "All Time (Default)"
+msgstr "모두(기본값)"
+
+msgid "Between changes 80 and 90"
+msgstr "변경 80에서 90 사이"
+
+msgid "Up to change 80"
+msgstr "변경 80까지"
+
+msgid "Just change 80"
+msgstr "변경 80만"
+
+msgid "Newer than change 80"
+msgstr "변경 80 이후"
+
+msgid "Change 80 to Now"
+msgstr "변경 80에서 지금까지"
+
+msgid "Part of label 'label-name'"
+msgstr "라벨에 'label-name' 포함"
+
+msgid "Up to Nov 30, 2014"
+msgstr "2014년 11월 30일까지"
+
+msgid "Nov 30, 2014 to Now"
+msgstr "2014년 11월 30일부터 지금까지"
+
+msgid "Show Deleted Files"
+msgstr "삭제된 파일 표시"
+
+msgid "Name"
+msgstr "이름"
+
+msgid "Modified"
+msgstr "수정됨"
+
+msgid "Size"
+msgstr "크기"
+
+#: Jobs/view/jobs/index/jobs.phtml
+msgid "Select Columns"
+msgstr "열 선택"
+
+#: Jobs/view/jobs/index/job.phtml
+msgid "created this job"
+msgstr "이 작업 생성함"
+
+msgid "modified by"
+msgstr "수정 주체"
+
+msgid "last modified"
+msgstr "마지막 수정"
+
+msgid "modified this job"
+msgstr "이 작업 수정함"
+
+msgid "Details"
+msgstr "세부 정보"
+
+#: Projects/src/Projects/View/Helper/ProjectsSidebar.php
+msgid "Projects"
+msgstr "프로젝트"
+
+msgid "Projects to Display"
+msgstr "표시할 프로젝트"
+
+msgid "All Projects"
+msgstr "모든 프로젝트"
+
+msgid "My Projects"
+msgstr "내 프로젝트"
+
+msgid "Add Project"
+msgstr "프로젝트 추가"
+
+#: Projects/view/projects/index/edit.phtml
+msgid "Project"
+msgstr "프로젝트"
+
+msgid "Owners"
+msgstr "소유자"
+
+msgid "Only Owners and Administrators can edit the project"
+msgstr "소유자 및 관리자만 프로젝트 편집"
+
+msgid "Add an Owner"
+msgstr "소유자 추가"
+
+msgid "Members"
+msgstr "구성원"
+
+msgid "Add a Member"
+msgstr "구성원 추가"
+
+msgid "Only Moderators can approve or reject reviews"
+msgstr "중재자만 검토 승인 또는 거부"
+
+msgid "Moderator Name"
+msgstr "중재자 이름"
+
+msgid "Done"
+msgstr "완료"
+
+msgid "Remove"
+msgstr "제거"
+
+msgid "Add Branch"
+msgstr "브랜치 추가"
+
+msgid "Job Filter"
+msgstr "작업 필터"
+
+msgid "Email Notifications"
+msgstr "이메일 알림"
+
+msgid "Email project members when a new review is requested"
+msgstr "새 검토가 요청되면 프로젝트 구성원에게 이메일로 알림"
+
+msgid "Email project members and followers when a change is committed"
+msgstr "변경 사항이 커밋되면 프로젝트 구성원 및 팔로워에게 이메일로 알림"
+
+msgid "Users may still receive emails if: the change/review impacts other projects, they authored the review, or a change review daemon is installed."
+msgstr "변경 사항/검토가 다른 프로젝트에 영향을 미치거나, 자신이 해당 검토 작성자이거나 또는 변경 사항 검토 데몬이 설치된 경우에도 사용자는 이메일을 받을 수 있습니다."
+
+msgid "See help for more details."
+msgstr "자세한 정보는 도움말을 참조하십시오."
+
+msgid "Automated Tests"
+msgstr "자동화 테스트"
+
+msgid "Enable"
+msgstr "활성화"
+
+msgid "A URL that will trigger automated tests to run when reviews are created or updated."
+msgstr "검토 생성 또는 업데이트 시 자동화 테스트 실행을 트리거할 URL입니다."
+
+msgid "Some special"
+msgstr "일부 특수"
+
+msgid "Change Number"
+msgstr "번호 변경"
+
+msgid "Change Status"
+msgstr "상태 변경"
+
+msgid "Review Identifier"
+msgstr "검토 식별자"
+
+msgid "Project Identifier"
+msgstr "프로젝트 식별자"
+
+msgid "Project Name"
+msgstr "프로젝트 이름"
+
+msgid "Branch Identifier(s) (comma-separated)"
+msgstr "브랜치 식별자(쉼표로 구분)"
+
+msgid "Branch Name(s) (comma-separated)"
+msgstr "브랜치 이름(쉼표로 구분)"
+
+msgid "Pass Callback URL"
+msgstr "통과 회신 URL"
+
+msgid "Success Callback URL"
+msgstr "성공 회신 URL"
+
+msgid "Failure Callback URL"
+msgstr "실패 회신 URL"
+
+msgid "arguments%s are supported."
+msgstr "인수가%s 지원됩니다."
+
+msgid "POST Parameters"
+msgstr "POST 매개 변수"
+
+msgid "List of parameters that will be sent as POST parameters to the above URL. The special arguments supported for URLs can also be used here."
+msgstr "위 URL에서 POST 매개 변수로 전송될 매개 변수 목록입니다. URL에서 지원되는 특수 인수를 여기에서도 사용할 수 있습니다."
+
+msgid "Automated Deployment"
+msgstr "자동화 배포"
+
+msgid "A URL that will trigger a deployment when reviews are created or updated."
+msgstr "검토 생성 또는 업데이트 시 배포를 트리거할 URL입니다."
+
+msgid "Save"
+msgstr "저장"
+
+msgid "Cancel"
+msgstr "취소"
+
+msgid "Delete"
+msgstr "삭제"
+
+#: Projects/view/projects/index/project.phtml
+msgid "Unfollow"
+msgstr "팔로우 해제"
+
+msgid "Follow"
+msgstr "팔로우"
+
+msgid "Edit"
+msgstr "편집"
+
+msgid "Followers"
+msgstr "팔로워"
+
+#: \Reviews/view/reviews/index/review.phtml
+msgid "Review"
+msgstr "검토"
+
+msgid "%1$s authored this <span class=\"timeago\" title=\"%2$s\"></span> for "
+msgstr "%1$s이(가) 이 <span class=\"timeago\" title=\"%2$s\"></span>을(를) 다음에 대해 작성 "
+
+msgid "authored this"
+msgstr "이 항목 작성함"
+
+msgid "for"
+msgstr "대상"
+
+msgid "Diff Two Versions"
+msgstr "2개 버전에 대한 Diff"
+
+msgid "commited"
+msgstr "커밋됨"
+
+msgid "committed"
+msgstr "커밋됨"
+
+msgid "by"
+msgstr "작성자"
+
+msgid "in"
+msgstr ">"
+
+msgid "to"
+msgstr ">"
+
+msgid "last updated"
+msgstr "마지막 업데이트 시점"
+
+msgid "shelved"
+msgstr "보류됨"
+
+msgid "Shelved"
+msgstr "보류됨"
+
+msgid "Changes between"
+msgstr "다음 기간 중의 변경 사항"
+
+msgid "commit"
+msgstr "커밋"
+
+msgid "shelf"
+msgstr "셸프"
+
+msgid "and"
+msgstr "및"
+
+msgid "into"
+msgstr ">"
+
+msgid "Mark as"
+msgstr "다음으로 표시"
+
+msgid "Unread"
+msgstr "읽지 않음"
+
+msgid "Read"
+msgstr "읽음"
+
+msgid "No"
+msgstr "파일이"
+
+msgid "Files."
+msgstr "없습니다."
+
+msgid "Upgrade"
+msgstr "업그레이드"
+
+#: Reviews/view/reviews-pane.phtml
+msgid "All"
+msgstr "모두"
+
+msgid "My Reviews"
+msgstr "내 검토"
+
+msgid "Has Reviewers"
+msgstr "검토자 있음"
+
+msgid "No Reviewers"
+msgstr "검토자 없음"
+
+msgid "Needs Review"
+msgstr "검토 필요"
+
+msgid "Needs Revision"
+msgstr "수정 필요"
+
+msgid "Approved"
+msgstr "승인됨"
+
+msgid "Rejected"
+msgstr "거부됨"
+
+msgid "Archived"
+msgstr "보관됨"
+
+msgid "Tests Pass"
+msgstr "테스트 통과"
+
+msgid "Tests Fail"
+msgstr "테스트 실패"
+
+msgid "Author"
+msgstr "작성자"
+
+msgid "Created"
+msgstr "생성됨"
+
+msgid "State"
+msgstr "상태"
+
+msgid "Test Status"
+msgstr "테스트 상태"
+
+msgid "Votes"
+msgstr "투표"
+
+#: Users/view/users/index/login.phtml
+msgid "Login"
+msgstr "로그인"
+
+msgid "Log in to Swarm"
+msgstr "Swarm 로그인"
+
+msgid "Username or Email"
+msgstr "사용자 이름 또는 이메일"
+
+msgid "Password"
+msgstr "암호"
+
+msgid "Remember Me"
+msgstr "사용자 이름 및 암호 저장"
+
+#: Users/view/users/index/user.phtml
+msgid "Following"
+msgstr "팔로우 중"
+
+msgid "Invalid username or password."
+msgstr "사용자 이름 또는 암호가 잘못되었습니다."
+
+#: ../Application/view/error/index.phtml
+msgid "Not Logged In"
+msgstr "로그인되지 않음"
+
+msgid "Not Allowed"
+msgstr "허용되지 않음"
+
+msgid "Page Not Found"
+msgstr "페이지를 찾을 수 없음"
+
+#: ../Projects/view/projects/index/project.phtml:3
+#: ../Users/view/users/index/user.phtml:3
+msgid "login-reload"
+msgstr "로그인-재로드"
+
+#: JS
+msgid "Model Viewer isn't supported in your browser."
+msgstr "브라우저에서 모델 뷰어가 지원되지 않습니다."
+
+msgid "WebGL was not available, so rendering may be slow."
+msgstr "WebGL을 사용할 수 없으므로 렌더링이 느릴 수 있습니다."
+
+msgid "Hmm... no queue workers? Ask your administrator to check the"
+msgstr "큐 워커가 없습니까? 관리자에게 문의하여 워커 설정을"
+
+msgid "worker setup"
+msgstr "확인하십시오."
+
+msgid "Show In-Line"
+msgstr "일렬로 표시"
+
+msgid "Show Side-by-Side"
+msgstr "나란히 표시"
+
+msgid "Ignore Whitespace"
+msgstr "공백 무시"
+
+msgid "Show Full Context"
+msgstr "전체 컨텍스트 표시"
+
+msgid "You don't have permission to view this file."
+msgstr "이 파일에 대한 보기 권한이 없습니다."
+
+msgid "Remote depot (change details are not available)."
+msgstr "원격 데포입니다(변경 세부 정보를 확인할 수 없음)."
+
+msgid "No matching changes."
+msgstr "일치하는 변경 사항이 없습니다."
+
+msgid "Range Syntax Error"
+msgstr "범위 구문 오류"
+
+msgid "Select Change"
+msgstr "변경 사항 선택"
+
+msgid "Path"
+msgstr "경로"
+
+msgid "Select"
+msgstr "선택"
+
+msgid "Tasks"
+msgstr "작업"
+
+msgid "Open Task"
+msgstr "열린 작업"
+
+msgid "Open Tasks"
+msgstr "열린 작업"
+
+msgid "Addressed Task"
+msgstr "해결된 작업"
+
+msgid "Addressed Tasks"
+msgstr "해결된 작업"
+
+msgid "Verified Task"
+msgstr "확인된 작업"
+
+msgid "Verified Tasks"
+msgstr "확인된 작업"
+
+msgid "Verified"
+msgstr "확인됨"
+
+msgid "Not a"
+msgstr "작업"
+
+msgid " Task"
+msgstr " 아님"
+
+msgid "Restore"
+msgstr "복원"
+
+msgid "Add a Comment"
+msgstr "주석 추가"
+
+msgid "comment"
+msgid_plural "comments"
+msgstr[0] "주석"
+
+msgid "Press CTRL-C"
+msgstr "CTRL-C 키를 누릅니다"
+
+msgid "Long-press"
+msgstr "길게 누르기"
+
+msgid "Press &#8984;-C"
+msgstr "복사하려면 &#8984;-C 키를"
+
+msgid "to copy"
+msgstr "누릅니다"
+
+msgid "Your session has expired."
+msgstr "세션이 만료되었습니다."
+
+msgid "There was an issue with the Network"
+msgstr "네트워크에 문제가 있었습니다."
+
+msgid "No {{if query}}matching{{/if}} jobs."
+msgstr "{{if query}}일치하는{{/if}} 작업이 없습니다."
+
+msgid "Unlink"
+msgstr "링크 해제"
+
+msgid "Unlink Job"
+msgstr "작업 링크 해제"
+
+msgid "Add Job"
+msgstr "작업 추가"
+
+msgid "Unlink job from %s"
+msgstr "%s에서 작업 링크 해제"
+
+msgid "Select Job"
+msgstr "작업 선택"
+
+msgid "Review Updated"
+msgstr "검토 업데이트됨"
+
+msgid "Marked as"
+msgstr "다음으로 표시됨"
+
+msgid "Edit Description"
+msgstr "설명 편집"
+
+msgid "User Reviewer Menu"
+msgstr "사용자 검토자 메뉴"
+
+msgid "Vote Up"
+msgstr "투표로 승인"
+
+msgid "Clear Vote"
+msgstr "투표 삭제"
+
+msgid "Vote Down"
+msgstr "투표로 거부"
+
+msgid "Join Review"
+msgstr "검토 참여"
+
+msgid "Make my Vote Optional"
+msgstr "내 투표를 선택 사항으로 설정"
+
+msgid "Make my Vote Required"
+msgstr "내 투표를 필수로 설정"
+
+msgid "Leave Review"
+msgstr "검토 중단"
+
+msgid "Reviewers"
+msgstr "검토자"
+
+msgid "Edit Reviewers"
+msgstr "검토자 편집"
+
+msgid "Up Votes"
+msgstr "승인 투표"
+
+msgid "Down Votes"
+msgstr "거부 투표"
+
+msgid "Reviewer Name"
+msgstr "검토자 이름"
+
+msgid "Close"
+msgstr "닫기"
+
+msgid "Make Vote Optional"
+msgstr "투표를 선택 사항으로 설정"
+
+msgid "Make Vote Required"
+msgstr "투표를 필수로 설정"
+
+msgid "voted {{if vote.value > 0}}up{{else}}down{{/if}}"
+msgstr "{{if vote.value > 0}}승인{{else}}거부{{/if}} 투표"
+
+msgid "latest"
+msgstr "최종"
+
+msgid "Vote Required"
+msgstr "투표 필수"
+
+msgid "Vote Optional"
+msgstr "투표 선택"
+
+msgid "Provide a description"
+msgstr "설명 입력"
+
+msgid "Update"
+msgstr "업데이트"
+
+msgid "Commit"
+msgstr "커밋"
+
+msgid "Commits"
+msgstr "이력"
+
+msgid "Warning!"
+msgstr "경고!"
+
+msgid "There {{if openCount === 1}}is an open task{{else}}are {{:openCount}} open tasks{{/if}} on this review."
+msgstr "이 검토에 {{if openCount === 1}}열린 작업{{else}}이 {{:openCount}} 열린 작업{{/if}}이 있습니다."
+
+msgid "Optionally, provide a comment"
+msgstr "주석을 입력합니다(선택 사항)."
+
+msgid "Same"
+msgstr "동일"
+
+msgid "Job Status on Commit"
+msgstr "커밋 시 작업 상태"
+
+msgid "Pass"
+msgstr "통과"
+
+msgid "Fail"
+msgstr "실패"
+
+msgid "Tests %s"
+msgstr "테스트 %s"
+
+msgid "Try it out!"
+msgstr "시도해 보십시오!"
+
+msgid "Deploy Failed"
+msgstr "배포 실패"
+
+msgid "Already Committed"
+msgstr "이미 커밋됨"
+
+msgid "Add a Commit"
+msgstr "커밋 추가"
+
+msgid "Error committing"
+msgstr "커밋 오류"
+
+msgid "Error"
+msgstr "오류"
+
+msgid "Committing"
+msgstr "커밋"
+
+msgid "Transition Review"
+msgstr "검토 전이"
+
+msgid "Review Requested"
+msgstr "검토 요청됨"
+
+msgid "Delete this project?"
+msgstr "이 프로젝트를 삭제하시겠습니까?"
+
+msgid "Ok"
+msgstr "확인"
+
+msgid "My"
+msgstr "내"
+
+msgid "No projects."
+msgstr "프로젝트가 없습니다."
+
+msgid "No longer"
+msgstr "더 이상"
+
+msgid "Now"
+msgstr "현재"
+
+msgid "following"
+msgstr "활동을"
+
+msgid "activity."
+msgstr "팔로우 중입니다."
+
+msgid "matching "
+msgstr "일치함 "
+
+msgid "Approve"
+msgstr "승인"
+
+msgid "Approve and Commit"
+msgstr "승인 및 커밋"
+
+msgid "file moved"
+msgstr "파일 이동"
+
+msgid "Reject"
+msgstr "거부"
+
+msgid "User ids must be strings"
+msgstr "사용자 ID는 문자열로 구성되어야 함"
+
+msgid "Name is required and can't be empty."
+msgstr "이름은 필수이며 비워둘 수 없습니다."
+
+msgid "Name must contain at least one letter or number."
+msgstr "이름에는 한 개 이상의 문자 또는 숫자가 포함되어야 합니다."
+
+msgid "Unknown user id "
+msgid_plural "Unknown user ids "
+msgstr[0] "알 수 없는 사용자 ID "
+
+msgid "archived comment"
+msgid_plural "archived comments"
+msgstr[0] "보관된 주석"
+
+msgid " Moderator"
+msgid_plural " Moderators"
+msgstr[0] " 중재자"
+
+msgid "current"
+msgstr "현재"
+
+msgid "add-reviewer"
+msgstr "검토자 추가"
+
+msgid "Joined"
+msgstr "참여함"
+
+msgid "Left"
+msgstr "중단"
+
+msgid "active"
+msgstr "활성"
+
+msgid "This name is taken. Please pick a different name."
+msgstr "사용 중인 이름입니다. 다른 이름을 선택하십시오."
+
+msgid "Team must contain at least one member."
+msgstr "팀에는 최소 한 명의 구성원이 포함되어야 합니다."
+
+msgid "All branches require a name."
+msgstr "모든 브랜치에는 이름이 지정되어야 합니다."
+
+msgid "Branch name must contain at least one letter or number."
+msgstr "브랜치 이름에는 한 개 이상의 문자 또는 숫자가 포함되어야 합니다."
+
+msgid "Two branches cannot have the same id."
+msgstr "두 개의 브랜치가 동일한 ID를 가질 수 없습니다."
+
+msgid "'%s' is already in use."
+msgstr "'%s'은(는) 이미 사용 중입니다."
+
+msgid "Error in '%s' branch: "
+msgstr "브랜치 내 '%s' 오류: "
+
+msgid "Job filter only supports key=value conditions and the '*' wildcard."
+msgstr "작업 필터는 키=값 조합 및 '*' 와일드카드만 지원합니다."
+
+msgid "POST parameters for tests can only be in GET or JSON format."
+msgstr "테스트용 POST 매개 변수는 GET 또는 JSON 형식만 허용됩니다."
+
+msgid "POST parameters expected to be in GET format, but were invalid."
+msgstr "GET 형식이어야 하는 POST 매개 변수에 오류가 있습니다."
+
+msgid "POST parameters expected to be in JSON format, but were invalid."
+msgstr "JSON 형식이어야 하는 POST 매개 변수에 오류가 있습니다."
+
+msgid "Invalid request method. HTTP POST required."
+msgstr "요청 방법이 잘못되었습니다. HTTP POST가 필요합니다."
+
+msgid "The specified change does not exist."
+msgstr "지정된 변경 사항이 존재하지 않습니다."
+
+msgid "The specified review does not exist."
+msgstr "지정된 검토가 존재하지 않습니다."
+
+msgid "The review already contains change %d."
+msgstr "검토에 이미 변경 사항 %d이(가) 포함되어 있습니다."
+
+msgid "A Review for change %d already exists."
+msgstr "변경 사항 %d에 대한 검토가 이미 존재합니다."
+
+msgid "Invalid request method. PATCH or DELETE required."
+msgstr "요청 방법이 잘못되었습니다. PATCH 또는 DELETE가 필요합니다."
+
+msgid "Description is required when committing"
+msgstr "커밋 시 설명이 필요합니다."
+
+msgid "You cannot transition this review to '%s'."
+msgstr "이 검토를 '%s'(으)로 전이할 수 없습니다."
+
+msgid "A commit is already in progress."
+msgstr "커밋이 이미 진행 중입니다."
+
+msgid "A commit is in progress; can't clear commit status."
+msgstr "커밋이 진행 중이며 커밋 상태를 삭제할 수 없습니다."
+
+msgid "Commit status can only be cleared; not set."
+msgstr "커밋 상태는 삭제만 가능하며 설정할 수 없습니다."
+
+msgid "Test status must be 'pass' or 'fail'."
+msgstr "테스트 상태는 반드시 'pass' 또는 'fail' 중 하나여야 합니다."
+
+msgid "Url in test details must be a valid uri."
+msgstr "테스트 세부 정보의 URL은 올바른 URL이어야 합니다."
+
+msgid "Deploy status must be 'success' or 'fail'."
+msgstr "배포 상태는 반드시 'success' 또는 'fail' 중 하나여야 합니다."
+
+msgid "Url in deploy details must be a valid uri."
+msgstr "배포 세부 정보의 URL은 올바른 URL이어야 합니다."
+
+msgid "You must specify at least one known property."
+msgstr "알려진 속성을 최소 한 개 이상 지정해야 합니다."
+
+msgid "Invalid value specified for 'required', expecting true or false"
+msgstr "잘못된 값이 'required'에 지정되었습니다. true 또는 false가 지정되어야 합니다."
+
+msgid "Cannot join review, not logged in as %s."
+msgstr "검토에 참여할 수 없습니다. %s(으)로 로그인되어 있지 않습니다."
+
+msgid "Cannot leave review, not logged in as %s."
+msgstr "검토를 중단할 수 없습니다. %s(으)로 로그인되어 있지 않습니다."
+
+msgid "You do not have permission to edit reviewers."
+msgstr "검토자 편집 권한이 없습니다."
+
+msgid "You do not have permission to edit required reviewers."
+msgstr "필수 검토자 편집 권한이 없습니다."
+
+msgid "Invalid vote value"
+msgstr "잘못된 투표 값"
+
+msgid "Invalid vote version"
+msgstr "잘못된 투표 버전"
+
+msgid "Not logged in as %s"
+msgstr "%s(으)로 로그인되어 있지 않음"
+
+msgid "Follow type ('%s') must be either 'user' or 'project'."
+msgstr "팔로우 유형('%s')은 'user' 또는 'project'만 가능합니다."
+
+msgid "User ('%s') does not exist."
+msgstr "사용자('%s')가 존재하지 않습니다."
+
+msgid "Project ('%s') does not exist."
+msgstr "프로젝트('%s')가 존재하지 않습니다."
+
+msgid "Streams must be an array."
+msgstr "스트림은 배열이어야 합니다."
+
+msgid "Only string values are permitted in the streams array."
+msgstr "스트림 배열에는 문자열 값만 허용됩니다."
+
+msgid "Cannot apply line range to binary files"
+msgstr "이진 파일에는 줄 범위를 적용할 수 없습니다."
+
+msgid "Invalid Range Specified: "
+msgstr "잘못된 범위 지정됨: "
+
+msgid "JSON only supported when line range specified"
+msgstr "줄 범위 지정에는 JSON만 지원됨"
+
+msgid "flags must be set as strings"
+msgstr "플래그는 문자열로 설정되어야 함"
+
+msgid "No permission to list the associated file."
+msgstr "관련 파일 나열을 위한 권한이 없습니다."
+
+msgid "Supplied attachment(s) could not be located on the server"
+msgstr "제공된 첨부 파일의 위치를 서버에서 찾을 수 없습니다."
+
+msgid "Invalid task state transition specified. "
+msgstr "잘못된 작업 상태 전이가 지정되었습니다. "
+
+msgid "Valid transitions are: "
+msgstr "올바른 전이: "
+
+msgid "Invalid request method. HTTP POST or HTTP DELETE required."
+msgstr "요청 방법이 잘못되었습니다. HTTP POST 또는 HTTP DELETE가 필요합니다."
+
+msgid "Cannot delete project: project not found."
+msgstr "프로젝트를 찾을 수 없으므로 삭제할 수 없습니다."
+
+msgid "Job"
+msgstr "작업"
+
+msgid "Show More Context"
+msgstr "컨텍스트 더 보기"
+
+msgid "cleared an issue on"
+msgstr "다음에 대한 문제 삭제됨"
+
+msgid "reopened an issue on"
+msgstr "다음에 대한 문제 다시 열림"
+
+msgid "verified an issue on"
+msgstr "다음에 대한 문제 확인됨"
+
+msgid "addressed an issue on"
+msgstr "다음에 대한 문제 해결됨"
+
+msgid "Add"
+msgstr "추가"
+
+msgid "reviews"
+msgstr "검토"
+
+msgid "rejected"
+msgstr "거부됨"
+
+msgid "archived"
+msgstr "보관됨"
+
+msgid "voted up"
+msgstr "투표로 승인됨"
+
+msgid "opened an issue on"
+msgstr "다음에 대한 문제 열림"
+
+msgid "requested"
+msgstr "요청"
+
+msgid "requested revisions to"
+msgstr "다음에 대해 요청된 수정"
+
+msgid "commented on"
+msgstr "다음에 대해 주석 제공됨"
+
+msgid "condenced"
+msgstr "요약됨"
+
+msgid "on"
+msgstr "대상"
+
+msgid " match your filters."
+msgstr " 필터와 일치합니다."
+
+msgid "approved"
+msgstr "승인됨"
+
+msgid "Status"
+msgstr "상태"
+
+msgid "Date"
+msgstr "날짜"
+
+msgid "closed"
+msgstr "닫힘"
+
+msgid "open"
+msgstr "열림"
+
+msgid "suspended"
+msgstr "중지됨"
+
+msgid "addressed"
+msgstr "해결됨"
+
+msgid "Addressed"
+msgstr "해결됨"
+
+msgid "Comment"
+msgstr "주석"
+
+msgid "Not Committed"
+msgstr "커밋되지 않음"
+
+msgid "Review "
+msgstr "검토 "
+
+msgid "Flag as Task "
+msgstr "작업으로 플래깅 "
+
+msgid "Task Addressed"
+msgstr "작업 해결됨"
+
+msgid "Not a Task"
+msgstr "작업이 아님"
+
+msgid "Verify Task"
+msgstr "작업 확인"
+
+msgid "Verify and Archive"
+msgstr "확인 및 보관"
+
+msgid "Reopen Task"
+msgstr "작업 다시 열기"
+
+msgid "submitted"
+msgstr "제출됨"
+
+msgid "updated"
+msgstr "업데이트됨"
+
+msgid "automated deploy"
+msgstr "자동화 배포"
+
+msgid "joined"
+msgstr "참여함"
+
+msgid "left"
+msgstr "중단"
+
+msgid "made their vote required on"
+msgstr "다음에 대한 투표를 필수로 설정"
+
+msgid "made their vote optional on"
+msgstr "다음에 대한 투표를 선택 사항으로 설정"
+
+msgid "edited reviewers on"
+msgstr "다음에 대한 검토자를 편집함"
+
+msgid "up"
+msgstr "승인"
+
+msgid "down"
+msgstr "거부"
+
+msgid "voted "
+msgstr "투표함 "
+
+msgid "voted down"
+msgstr "투표로 거부함"
+
+msgid "cleared their vote on"
+msgstr "다음에 대한 투표 삭제"
+
+msgid "requested further review of"
+msgstr "다음에 대한 추가 검토를 요청함"
+
+msgid "updated description of"
+msgstr "다음에 대한 설명을 업데이트함"
+
+msgid "reported"
+msgstr "보고됨"
+
+msgid "failed tests for"
+msgstr "다음에 대한 테스트 실패함"
+
+msgid "passed tests for"
+msgstr "다음에 대한 테스트 통과함"
+
+msgid "updated files in"
+msgstr "업데이트된 파일"
+
+msgid "Added %s as an optional reviewer."
+msgid_plural "Added %s as optional reviewers."
+msgstr[0] "%s을(를) 선택 검토자로 추가했습니다."
+
+msgid "Made %s a required reviewer."
+msgid_plural "Made %s required reviewers."
+msgstr[0] "%s을(를) 필수 검토자로 지정했습니다."
+
+msgid "Added %s as a required reviewer."
+msgid_plural "Added %s as required reviewers."
+msgstr[0] "%s을(를) 필수 검토자로 추가했습니다."
+
+msgid "Made %s an optional reviewer."
+msgid_plural "Made %s optional reviewers."
+msgstr[0] "%s을(를) 선택 검토자로 지정했습니다."
+
+msgid "Removed %s from the review."
+msgstr "%s을(를) 검토에서 제거했습니다."
+
+msgid "opened"
+msgstr "열림"
+
+msgid "Suspended"
+msgstr "중지됨"
+
+msgid "Change Status (shelved/submitted)"
+msgstr "상태 변경(보류됨/제출됨)"
+
+msgid "Committed..."
+msgstr "커밋됨"
+
+msgid "Unknown"
+msgstr "알 수 없음"
+
+msgid "Initializing..."
+msgstr "초기화 중..."
+
+msgid "Compressing..."
+msgstr "압축 중..."
+
+msgid "Syncing..."
+msgstr "동기화 중..."
+
+msgid "Downloading..."
+msgstr "다운로드 중..."
+
+msgid "Trigger Token"
+msgid_plural "Trigger Tokens"
+msgstr[0] "트리거 토큰"
+
+msgid "Follower"
+msgid_plural "Followers"
+msgstr[0] "팔로워"
+
+msgid "Branch"
+msgid_plural "Branches"
+msgstr[0] "브랜치"
+
+msgid "Member"
+msgid_plural "Members"
+msgstr[0] "구성원"
+
+msgid "File too large"
+msgstr "파일이 너무 큼"
+
+msgid "Upload Failed"
+msgstr "업로드 실패"
+
+msgid "file"
+msgstr "파일"
+
+msgid "Invalid type given. Array required."
+msgstr "잘못된 유형입니다. 배열이 필요합니다."
+
+msgid "Invalid input given. JSON string required."
+msgstr "잘못된 입력입니다. JSON 문자열이 필요합니다."
+
+msgid "The only permitted wildcard is trailing '...'."
+msgstr "말줄임 기호 '...' 와일드카드만 허용됩니다."
+
+msgid "The first path component must be a valid depot name."
+msgstr "첫 번째 경로 요소는 올바른 데포 이름이어야 합니다."
+
+msgid "Depot name must be followed by a path or '/...'."
+msgstr "데포 이름 뒤에는 경로 또는 '/...' 기호가 와야 합니다."
+
+msgid "The path cannot end with a '/'."
+msgstr "경로는 '/' 기호로 끝날 수 없습니다."
+
+msgid "No depot paths specified."
+msgstr "지정된 데포 경로가 없습니다."
+
+msgid "line"
+msgstr "줄"
+
+msgid "File"
+msgstr "파일"
+
+msgid "Stack"
+msgstr "스택"
+
+msgid "Error Details"
+msgstr "오류 세부 정보"
+
+msgid "Mark as Unread"
+msgstr "읽지 않음으로 표시"
+
+msgid "Mark as Read"
+msgstr "읽음으로 표시"
+
+msgid "No matching activity."
+msgstr "일치하는 활동이 없습니다."
+
+msgid "No activity."
+msgstr "활동이 없습니다."
+
+msgid "No Files."
+msgstr "파일이 없습니다."
+
+msgid "No modified Files."
+msgstr "변경된 파일이 없습니다."
+
+msgid "file moved to"
+msgstr "파일이 다음 위치로 이동"
+
+msgid "Edit Project"
+msgstr "프로젝트 편집"
+
+msgid "//depot/path/to/branch/..."
+msgstr "//depot/path/to/branch/..."
+
+msgid "key=value"
+msgstr "키=값"
+
+msgid "Control Camera"
+msgstr "카메라 제어"
+
+msgid "Reset Camera"
+msgstr "카메라 재설정"
+
+msgid "Show Material"
+msgstr "재질 보기"
+
+msgid "Show Wireframe"
+msgstr "와이어프레임 보기"
+
+msgid "No matching jobs."
+msgstr "일치하는 작업이 없습니다."
+
+msgid "No jobs."
+msgstr "작업이 없습니다."
+
+msgid "No %s reviews."
+msgstr "%s 검토가 없습니다."
+
+msgid "No %s reviews match your filters."
+msgstr "필터와 일치하는 %s 검토가 없습니다."
+
+msgid "There is an open task on this review"
+msgstr "이 검토에 대한 열린 작업이 있습니다."
+
+msgid "There are %s open tasks on this review"
+msgstr "이 검토에 대한 %s개의 열린 작업이 있습니다."
+
+msgid "No longer following %s"
+msgstr "더 이상 %s을(를) 팔로우하지 않음"
+
+msgid "Now following %s"
+msgstr "현재 %s 팔로우 중"
+
+msgid "Shelved in %s"
+msgstr "%s에 보류됨"
+
+msgid "Committed in %s"
+msgstr "%s에 커밋됨"
+
+msgid "No opened reviews match your filters."
+msgstr "필터와 일치하는 열린 검토가 없습니다."
+
+msgid "No opened reviews."
+msgstr "열린 검토가 없습니다."
+
+msgid "No closed reviews match your filters."
+msgstr "필터와 일치하는 닫힌 검토가 없습니다."
+
+msgid "No closed reviews."
+msgstr "닫힌 검토가 없습니다."
+
+msgid "Unlink job from review?"
+msgstr "검토에서 작업 링크를 해제하겠습니까?"
+
+msgid "Unlink job from change?"
+msgstr "변경 사항에서 작업 링크를 해제하겠습니까?"
+
+msgid "review %s"
+msgstr "검토 %s"
+
+msgid "change %s"
+msgstr "변경 사항 %s"
+
+msgid "review %s (%s, line %s)"
+msgstr "검토 %s(%s, 줄 %s)"
+
+msgid "change %s (%s, line %s)"
+msgstr "변경 사항 %s(%s, 줄 %s)"
+
+msgid "Marked as Read"
+msgstr "읽음으로 표시됨"
+
+msgid "Marked as Unread"
+msgstr "읽지 않음으로 표시됨"
+
+msgid "Pending"
+msgstr "보류 중"
+
+msgid "Expression parse error at '%s'."
+msgstr "'%s'에 수식 구문 오류가 있습니다."
+
+msgid "Unknown field name '%s'."
+msgstr "'%s'은(는) 알 수 없는 필드 이름입니다."
+
+msgid "Review doesn't contain any files to commit."
+msgstr "검토에 커밋할 파일이 포함되어 있지 않습니다."
+
+msgid "Cannot update review; the shelved change we manage is unexpectedly committed."
+msgstr "검토를 업데이트할 수 없습니다. 관리 중이던 보류된 변경 사항이 예기치 않게 커밋되었습니다."
+
+msgid "No shelved files in changelist to delete."
+msgstr "삭제할 보류된 파일이 변경 목록에 없습니다."
+
+msgid "Cannot set versions. Each version must specify a change, user, time and pending."
+msgstr "버전을 설정할 수 없습니다. 각 버전에는 변경 사항, 사용자, 시간 및 보류 정보가 지정되어야 합니다."
+
+msgid "Cannot get change of version %d. No such version."
+msgstr "버전 %d의 변경 사항을 가져올 수 없습니다. 해당 버전이 없습니다."
+
+msgid "Tokens must be a string or null"
+msgstr "토큰은 문자열 또는 널이어야 합니다."
+
+msgid "Cannot save. Upgrade level is too high."
+msgstr "저장할 수 없습니다. 업그레이드 수준이 너무 높습니다."
+
+msgid "Cannot delete review; the shelved change we manage is unexpectedly committed."
+msgstr "검토를 삭제할 수 없습니다. 관리 중이던 보류된 변경 사항이 예기치 않게 커밋되었습니다."
+
+#: error status messages
+msgid "Continue"
+msgstr "계속"
+
+msgid "Switching Protocols"
+msgstr "프로토콜 전환"
+
+msgid "Processing"
+msgstr "프로세싱"
+
+msgid "OK"
+msgstr "확인"
+
+msgid "Accepted"
+msgstr "허용됨"
+
+msgid "Non-Authoritative Information"
+msgstr "비공인 정보"
+
+msgid "No Content"
+msgstr "컨텐츠 없음"
+
+msgid "Reset Content"
+msgstr "컨텐츠 재설정"
+
+msgid "Partial Content"
+msgstr "일부 컨텐츠"
+
+msgid "Multi-status"
+msgstr "다중 상태"
+
+msgid "Already Reported"
+msgstr "이미 보고됨"
+
+msgid "Multiple Choices"
+msgstr "다중 선택"
+
+msgid "Moved Permanently"
+msgstr "영구 이동됨"
+
+msgid "Found"
+msgstr "찾음"
+
+msgid "See Other"
+msgstr "다른 항목 보기"
+
+msgid "Not Modified"
+msgstr "변경되지 않음"
+
+msgid "Use Proxy"
+msgstr "프록시 사용"
+
+msgid "Switch Proxy"
+msgstr "프록시 전환"
+
+msgid "Temporary Redirect"
+msgstr "임시 재전송"
+
+msgid "Bad Request"
+msgstr "불량 요청"
+
+msgid "Unauthorized"
+msgstr "미승인"
+
+msgid "Payment Required"
+msgstr "결제 필요"
+
+msgid "Forbidden"
+msgstr "금지됨"
+
+msgid "Not Found"
+msgstr "찾을 수 없음"
+
+msgid "Method Not Allowed"
+msgstr "허용되지 않는 방법"
+
+msgid "Not Acceptable"
+msgstr "허용할 수 없음"
+
+msgid "Proxy Authentication Required"
+msgstr "프록시 인증 필요"
+
+msgid "Request Time-out"
+msgstr "요청 타임아웃"
+
+msgid "Conflict"
+msgstr "충돌"
+
+msgid "Gone"
+msgstr "해결"
+
+msgid "Length Required"
+msgstr "길이 필수"
+
+msgid "Precondition Failed"
+msgstr "전제 조건 실패"
+
+msgid "Request Entity Too Large"
+msgstr "요청 개체가 너무 큼"
+
+msgid "Request-URI Too Large"
+msgstr "요청 URI가 너무 큼"
+
+msgid "Unsupported Media Type"
+msgstr "지원되지 않는 미디어 유형"
+
+msgid "Requested range not satisfiable"
+msgstr "요청된 범위가 충분하지 않음"
+
+msgid "Expectation Failed"
+msgstr "기대 실패"
+
+msgid "I'm a teapot"
+msgstr "저는 차주전자입니다."
+
+msgid "Unprocessable Entity"
+msgstr "처리할 수 없는 개체"
+
+msgid "Locked"
+msgstr "잠김"
+
+msgid "Failed Dependency"
+msgstr "실패한 종속성"
+
+msgid "Unordered Collection"
+msgstr "불규칙 컬렉션"
+
+msgid "Upgrade Required"
+msgstr "업그레이드 필요"
+
+msgid "Precondition Required"
+msgstr "전제 조건 필요"
+
+msgid "Too Many Requests"
+msgstr "요청이 너무 많음"
+
+msgid "Request Header Fields Too Large"
+msgstr "요청 헤더 필드가 너무 큼"
+
+msgid "Internal Server Error"
+msgstr "내부 서버 오류"
+
+msgid "Not Implemented"
+msgstr "구현되지 않음"
+
+msgid "Bad Gateway"
+msgstr "불량 게이트웨이"
+
+msgid "Service Unavailable"
+msgstr "서비스를 사용할 수 없음"
+
+msgid "Gateway Time-out"
+msgstr "게이트웨이 시간 초과"
+
+msgid "HTTP Version not supported"
+msgstr "HTTP 버전이 지원되지 않음"
+
+msgid "Variant Also Negotiates"
+msgstr "Variant Also Negotiates"
+
+msgid "Insufficient Storage"
+msgstr "용량 부족"
+
+msgid "Loop Detected"
+msgstr "루프 감지됨"
+
+msgid "Network Authentication Required"
+msgstr "네트워크 인증 필요"
+
+msgid "A valid response status line was not found in the provided string"
+msgstr "입력된 문자열에서 올바른 응답 상태 줄을 찾을 수 없습니다."
+
+msgid "Error parsing body - doesn't seem to be a chunked message"
+msgstr "본문 구문 분석 오류 - 청크 메시지가 아닌 것 같습니다."
+
+msgid "zlib extension is required in order to decode 'gzip' encoding"
+msgstr "'gzip' 인코딩을 디코딩하려면 zlib 확장이 필요합니다."
+
+msgid "Error occurred during gzip inflation"
+msgstr "gzip 확장 중 오류 발생"
+
+msgid "zlib extension is required in order to decode 'deflate' encoding"
+msgstr "'deflate' 인코딩을 디코딩하려면 zlib 확장이 필요합니다."
+
+msgid "Move/delete"
+msgstr "이동/삭제"
+
+msgid "Move/add"
+msgstr "이동/추가"
+
+msgid "Command failed: Out of date files must be resolved or reverted."
+msgstr "명령 실패: 유효 기간이 지난 파일은 문제를 해결하거나 복원되어야 합니다."
+
+msgid "Command failed: Merges still pending -- use 'resolve' to merge files."
+msgstr "명령 실패: 여전히 병합 보류 중 -- 'resolve'를 사용하여 파일을 병합하십시오."
+
+#: library/Zend/Validator :
+msgid "Invalid type given"
+msgstr "잘못된 유형 입력"
+
+msgid "Missing captcha fields"
+msgstr "Captcha 필드 누락"
+
+msgid "Failed to validate captcha"
+msgstr "Captcha 확인에 실패함"
+
+msgid "Captcha value is wrong: %value%"
+msgstr "Captcha 값 오류: %value%"
+
+msgid "Empty captcha value"
+msgstr "Captcha 값이 비어 있음"
+
+msgid "Captcha ID field is missing"
+msgstr "Captcha ID 필드 누락됨"
+
+msgid "Captcha value is wrong"
+msgstr "Captcha 값 오류"
+
+msgid "Invalid type given. String, integer or float expected"
+msgstr "잘못된 유형이 입력되었습니다. 문자열, 정수 또는 부동 소수 입력"
+
+msgid "The input contains characters which are non alphabetic and no digits"
+msgstr "입력 내용에 알파벳 및 숫자가 아닌 문자가 포함되어 있습니다."
+
+msgid "The input is an empty string"
+msgstr "공백 문자열이 입력되었습니다."
+
+msgid "Invalid type given. String expected"
+msgstr "잘못된 유형이 입력되었습니다. 문자열 입력"
+
+msgid "The input contains non alphabetic characters"
+msgstr "입력 내용에 알파벳이 아닌 문자가 포함되어 있습니다."
+
+msgid "The input does not appear to be a valid datetime"
+msgstr "입력 내용이 올바른 날짜 시간 값이 아닙니다."
+
+msgid "The input does not appear to be a float"
+msgstr "입력 내용이 부동 소수가 아닙니다."
+
+msgid "Invalid type given. String or integer expected"
+msgstr "잘못된 유형이 입력되었습니다. 문자열 또는 정수 입력"
+
+msgid "The input does not appear to be an integer"
+msgstr "입력 내용이 정수가 아닙니다."
+
+msgid "The input does not match a phone number format"
+msgstr "입력 내용이 전화 번호 형식에 일치하지 않습니다."
+
+msgid "The country provided is currently unsupported"
+msgstr "입력된 국가는 현재 지원되지 않습니다."
+
+msgid "The input does not appear to be a postal code"
+msgstr "입력 내용이 우편번호가 아닙니다."
+
+msgid "An exception has been raised while validating the input"
+msgstr "입력 확인 중 예외가 발생했습니다."
+
+msgid "The input failed checksum validation"
+msgstr "입력 내용의 체크섬 확인에 실패했습니다."
+
+msgid "The input contains invalid characters"
+msgstr "입력 내용에 잘못된 문자가 포함되어 있습니다."
+
+msgid "The input should have a length of %length% characters"
+msgstr "입력 내용은 %length% 길이의 문자여야 합니다."
+
+msgid "The input is not between '%min%' and '%max%', inclusively"
+msgstr "입력 내용이 전체적으로 '%min%' ~ '%max%' 범위에 있지 않습니다."
+
+msgid "The input is not strictly between '%min%' and '%max%'"
+msgstr "입력 내용이 전혀 '%min%' ~ '%max%' 범위에 있지 않습니다."
+
+msgid "The input is not valid"
+msgstr "입력 내용이 잘못되었습니다."
+
+msgid "An exception has been raised within the callback"
+msgstr "회신에서 예외가 발생했습니다."
+
+msgid "The input seems to contain an invalid checksum"
+msgstr "입력 내용에 잘못된 체크섬이 포함된 것 같습니다."
+
+msgid "The input must contain only digits"
+msgstr "오직 숫자만 입력되어야 합니다."
+
+msgid "The input contains an invalid amount of digits"
+msgstr "입력 내용에 잘못된 수량이 포함되어 있습니다."
+
+msgid "The input is not from an allowed institute"
+msgstr "허용된 기관으로부터의 입력이 아닙니다."
+
+msgid "The input seems to be an invalid credit card number"
+msgstr "입력 내용이 잘못된 신용 카드 번호로 보입니다."
+
+msgid "The form submitted did not originate from the expected site"
+msgstr "제출된 형식은 해당 사이트로부터 전송된 것이 아닙니다."
+
+msgid "Invalid type given. String, integer, array or DateTime expected"
+msgstr "잘못된 유형이 입력되었습니다. 문자열, 정수, 배열 또는 날짜 시간 값 입력"
+
+msgid "The input does not appear to be a valid date"
+msgstr "입력 내용이 올바른 날짜가 아닙니다."
+
+msgid "The input does not fit the date format '%format%'"
+msgstr "입력 내용이 '%format%' 날짜 형식에 맞지 않습니다."
+
+msgid "The input is not a valid step"
+msgstr "입력 내용이 올바른 단계가 아닙니다."
+
+msgid "No record matching the input was found"
+msgstr "입력 내용과 일치하는 레코드를 찾을 수 없습니다."
+
+msgid "A record matching the input was found"
+msgstr "입력 내용에 일치하는 레코드를 찾았습니다."
+
+msgid "The input is not a valid email address. Use the basic format local-part@hostname"
+msgstr "입력 내용은 올바른 이메일 주소가 아닙니다. 기본 형식인 local-part@hostname 형식을 사용하십시오."
+
+msgid "'%hostname%' is not a valid hostname for the email address"
+msgstr "'%hostname%'은(는) 해당 이메일 주소의 올바른 호스트 이름이 아닙니다."
+
+msgid "'%hostname%' does not appear to have any valid MX or A records for the email address"
+msgstr "'%hostname%'에 해당 이메일 주소에 대한 올바른 MX 또는 A 레코드가 포함되어 있지 않습니다."
+
+msgid "'%hostname%' is not in a routable network segment. The email address should not be resolved from public network"
+msgstr "'%hostname%'은(는) 라우트 가능한 네트워크 세그먼트가 아닙니다. 해당 이메일 주소는 공용 네트워크에서 해석될 수 없습니다."
+
+msgid "'%localPart%' can not be matched against dot-atom format"
+msgstr "'%localPart%'은(는) dot-atom 형식에 일치할 수 없습니다."
+
+msgid "'%localPart%' can not be matched against quoted-string format"
+msgstr "'%localPart%'은(는) quoted-string 형식에 일치할 수 없습니다."
+
+msgid "'%localPart%' is not a valid local part for the email address"
+msgstr "'%localPart%'은(는) 해당 이메일 주소의 올바른 로컬 파트가 아닙니다."
+
+msgid "The input exceeds the allowed length"
+msgstr "입력 내용이 허용된 길이를 초과했습니다."
+
+msgid "Too many files, maximum '%max%' are allowed but '%count%' are given"
+msgstr "파일이 너무 많습니다. 최대 '%max%'개가 허용되지만 '%count%'개가 제공되었습니다."
+
+msgid "Too few files, minimum '%min%' are expected but '%count%' are given"
+msgstr "파일이 너무 적습니다. 최소 '%min%'개를 예상하지만 '%count%'개가 제공되었습니다."
+
+msgid "File does not match the given crc32 hashes"
+msgstr "파일이 주어진 crc32 해시와 일치하지 않습니다."
+
+msgid "A crc32 hash could not be evaluated for the given file"
+msgstr "주어진 파일에 대해 crc32 해시를 평가할 수 없습니다."
+
+msgid "File is not readable or does not exist"
+msgstr "파일을 읽을 수 없거나 찾을 수 없습니다."
+
+msgid "File has an incorrect extension"
+msgstr "파일 확장자가 잘못되었습니다."
+
+msgid "File does not exist"
+msgstr "파일을 찾을 수 없습니다."
+
+msgid "All files in sum should have a maximum size of '%max%' but '%size%' were detected"
+msgstr "전체 파일 크기의 최대값은 '%max%'이지만 감지된 크기는 %size%'입니다."
+
+msgid "All files in sum should have a minimum size of '%min%' but '%size%' were detected"
+msgstr "전체 파일 크기의 최소값은 '%min%'이지만 감지된 크기는 '%size%'입니다."
+
+msgid "One or more files can not be read"
+msgstr "하나 이상의 파일을 읽을 수 없습니다."
+
+msgid "File does not match the given hashes"
+msgstr "파일이 주어진 해시와 일치하지 않습니다."
+
+msgid "A hash could not be evaluated for the given file"
+msgstr "주어진 파일에 대해 해시를 평가할 수 없습니다."
+
+msgid "Maximum allowed width for image should be '%maxwidth%' but '%width%' detected"
+msgstr "이미지 너비 최대값은 '%maxwidth%'이지만 감지된 너비는 '%width%'입니다."
+
+msgid "Minimum expected width for image should be '%minwidth%' but '%width%' detected"
+msgstr "이미지 너비 최소값은 '%minwidth%'이지만 감지된 너비는 '%width%'입니다."
+
+msgid "Maximum allowed height for image should be '%maxheight%' but '%height%' detected"
+msgstr "이미지 높이 최대값은 '%maxheight%'이지만 감지된 높이는 %height%'입니다."
+
+msgid "Minimum expected height for image should be '%minheight%' but '%height%' detected"
+msgstr "이미지 높이 최소값은 '%minheight%'이지만 감지된 높이는 '%height%'입니다."
+
+msgid "The size of image could not be detected"
+msgstr "이미지 크기를 감지할 수 없습니다."
+
+msgid "File is not compressed, '%type%' detected"
+msgstr "파일을 압축할 수 없으며 '%type%' 유형으로 감지되었습니다."
+
+msgid "The mimetype could not be detected from the file"
+msgstr "파일에서 Mimetype을 감지할 수 없습니다."
+
+msgid "File is no image, '%type%' detected"
+msgstr "파일이 이미지가 아니며 '%type%' 유형으로 감지되었습니다."
+
+msgid "File does not match the given md5 hashes"
+msgstr "파일이 주어진 md5 해시와 일치하지 않습니다."
+
+msgid "An md5 hash could not be evaluated for the given file"
+msgstr "주어진 파일에 대해 md5 해시를 평가할 수 없습니다."
+
+msgid "File has an incorrect mimetype of '%type%'"
+msgstr "파일에 잘못된 '%type%' Mimetype이 포함되어 있습니다."
+
+msgid "File exists"
+msgstr "파일이 존재합니다."
+
+msgid "File does not match the given sha1 hashes"
+msgstr "파일이 주어진 sha1 해시와 일치하지 않습니다."
+
+msgid "A sha1 hash could not be evaluated for the given file"
+msgstr "주어진 파일에 대해 sha1 해시를 평가할 수 없습니다."
+
+msgid "Maximum allowed size for file is '%max%' but '%size%' detected"
+msgstr "파일 크기 최대값은 '%max%'이지만 감지된 크기는 '%size%'입니다."
+
+msgid "Minimum expected size for file is '%min%' but '%size%' detected"
+msgstr "파일 크기 최소값은 '%min%'이지만 감지된 크기는 '%size%'입니다."
+
+msgid "File '%value%' exceeds the defined ini size"
+msgstr "파일 '%value%'이(가) 정의된 ini 크기를 초과합니다."
+
+msgid "File '%value%' exceeds the defined form size"
+msgstr "파일 '%value%'이(가) 정의된 폼 사이즈를 초과합니다."
+
+msgid "File '%value%' was only partially uploaded"
+msgstr "파일 '%value%'의 일부만 업로드되었습니다."
+
+msgid "File '%value%' was not uploaded"
+msgstr "파일 '%value%'이(가) 업로드되지 않았습니다."
+
+msgid "No temporary directory was found for file '%value%'"
+msgstr "파일 '%value%'에 대한 임시 디렉토리를 찾을 수 없습니다."
+
+msgid "File '%value%' can't be written"
+msgstr "파일 '%value%'에 대한 쓰기가 불가능합니다."
+
+msgid "A PHP extension returned an error while uploading the file '%value%'"
+msgstr "파일 '%value%' 업로드 중 PHP 확장에서 오류가 반환되었습니다."
+
+msgid "File '%value%' was illegally uploaded. This could be a possible attack"
+msgstr "파일 '%value%'이(가) 규정에 맞지 않게 업로드되었습니다. 이는 공격일 가능성이 있습니다."
+
+msgid "File '%value%' was not found"
+msgstr "파일 '%value%'을(를) 찾을 수 없습니다."
+
+msgid "Unknown error while uploading file '%value%'"
+msgstr "파일 '%value%' 업로드 중 알 수 없는 오류가 발생했습니다."
+
+msgid "File exceeds the defined ini size"
+msgstr "파일이 정의된 ini 크기를 초과합니다."
+
+msgid "File exceeds the defined form size"
+msgstr "파일이 정의된 폼 크기를 초과합니다."
+
+msgid "File was only partially uploaded"
+msgstr "파일이 일부만 업로드되었습니다."
+
+msgid "File was not uploaded"
+msgstr "파일이 업로드되지 않았습니다."
+
+msgid "No temporary directory was found for file"
+msgstr "파일에 대한 임시 디렉토리를 찾을 수 없습니다."
+
+msgid "File can't be written"
+msgstr "파일에 대한 쓰기가 불가능합니다."
+
+msgid "A PHP extension returned an error while uploading the file"
+msgstr "파일 업로드 중 PHP 확장에서 오류가 반환되었습니다."
+
+msgid "File was illegally uploaded. This could be a possible attack"
+msgstr "파일이 규정에 맞지 않게 업로드되었습니다. 이는 공격일 가능성이 있습니다."
+
+msgid "File was not found"
+msgstr "파일을 찾을 수 없습니다."
+
+msgid "Unknown error while uploading file"
+msgstr "파일 업로드 중 알 수 없는 오류가 발생했습니다."
+
+msgid "Too many words, maximum '%max%' are allowed but '%count%' were counted"
+msgstr "단어가 너무 많습니다. 최대 '%max%'개가 허용되지만 총 '%count%'개입니다."
+
+msgid "Too few words, minimum '%min%' are expected but '%count%' were counted"
+msgstr "단어가 너무 적습니다. 최소 '%min%'개가 예상되지만 총 '%count%'개입니다."
+
+msgid "The input is not greater than '%min%'"
+msgstr "입력 내용이 '%min%'보다 크지 않습니다."
+
+msgid "The input is not greater or equal than '%min%'"
+msgstr "입력 내용이 '%min%'보다 크거나 같지 않습니다."
+
+msgid "The input contains non-hexadecimal characters"
+msgstr "입력 내용에 16진수 형식이 아닌 문자가 포함되어 있습니다."
+
+msgid "The input appears to be a DNS hostname but the given punycode notation cannot be decoded"
+msgstr "입력 내용은 DNS 호스트 이름이지만 제공된 퓨니코드 표시를 디코딩할 수 없습니다."
+
+msgid "The input appears to be a DNS hostname but contains a dash in an invalid position"
+msgstr "입력 내용은 DNS 호스트 이름이지만 잘못된 위치의 대시 기호가 포함되어 있습니다."
+
+msgid "The input does not match the expected structure for a DNS hostname"
+msgstr "입력 내용이 DNS 호스트 이름의 올바른 구조와 일치하지 않습니다."
+
+msgid "The input appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'"
+msgstr "입력 내용은 DNS 호스트 이름이지만 TLD '%tld%'에 대한 호스트 이름 체계와 일치하지 않습니다."
+
+msgid "The input does not appear to be a valid local network name"
+msgstr "입력 내용은 올바른 로컬 네트워크 이름이 아닙니다."
+
+msgid "The input does not appear to be a valid URI hostname"
+msgstr "입력 내용은 올바른 URI 호스트 이름이 아닙니다."
+
+msgid "The input appears to be an IP address, but IP addresses are not allowed"
+msgstr "입력 내용은 IP 주소지만 IP 주소는 허용되지 않습니다."
+
+msgid "The input appears to be a local network name but local network names are not allowed"
+msgstr "입력 내용은 로컬 네트워크 이름이지만 로컬 네트워크 이름은 허용되지 않습니다."
+
+msgid "The input appears to be a DNS hostname but cannot extract TLD part"
+msgstr "입력 내용은 DNS 호스트 이름이지만 TLD 부분을 추출할 수 없습니다."
+
+msgid "The input appears to be a DNS hostname but cannot match TLD against known list"
+msgstr "입력 내용은 DNS 호스트 이름이지만 알려진 목록에 대해 TLD를 일치시킬 수 없습니다."
+
+msgid "Unknown country within the IBAN"
+msgstr "알 수 없는 국가가 IBAN에 포함됨"
+
+msgid "Countries outside the Single Euro Payments Area (SEPA) are not supported"
+msgstr "SEPA(단일 유로 결제 지역) 외부의 국가는 지원되지 않습니다."
+
+msgid "The input has a false IBAN format"
+msgstr "입력 내용에 잘못된 IBAN 형식이 있습니다."
+
+msgid "The input has failed the IBAN check"
+msgstr "입력 내용의 IBAN 확인에 실패했습니다."
+
+msgid "The two given tokens do not match"
+msgstr "주어진 2개의 토큰이 일치하지 않습니다."
+
+msgid "No token was provided to match against"
+msgstr "일치시킬 토큰이 제공되지 않았습니다."
+
+msgid "The input was not found in the haystack"
+msgstr "입력 내용을 찾을 수 없습니다."
+
+msgid "The input does not appear to be a valid IP address"
+msgstr "입력 내용은 올바른 IP 주소가 아닙니다."
+
+msgid "The input is not an instance of '%className%'"
+msgstr "입력 내용은 '%className%'의 인스턴스가 아닙니다."
+
+msgid "The input is not a valid ISBN number"
+msgstr "입력 내용은 올바른 ISBN 번호가 아닙니다."
+
+msgid "The input is not less than '%max%'"
+msgstr "입력 내용이 '%max%'보다 작습니다."
+
+msgid "The input is not less or equal than '%max%'"
+msgstr "입력 내용이 '%max%'보다 작거나 같습니다."
+
+msgid "Value is required and can't be empty"
+msgstr "값을 입력해야 하며 비워둘 수 없습니다."
+
+msgid "Invalid type given. String, integer, float, boolean or array expected"
+msgstr "잘못된 유형이 입력되었습니다. 문자열, 정수, 부동 소수, 부울 또는 배열 입력"
+
+msgid "The input does not match against pattern '%pattern%'"
+msgstr "입력 내용이 '%pattern%' 패턴과 일치하지 않습니다."
+
+msgid "There was an internal error while using the pattern '%pattern%'"
+msgstr "'%pattern%' 패턴 사용 중 내부 오류가 발생했습니다."
+
+msgid "The input is not a valid sitemap changefreq"
+msgstr "입력 내용은 올바른 사이트맵 changefreq가 아닙니다."
+
+msgid "The input is not a valid sitemap lastmod"
+msgstr "입력 내용은 올바른 사이트맵 lastmod가 아닙니다."
+
+msgid "The input is not a valid sitemap location"
+msgstr "입력은 올바른 사이트맵 location이 아닙니다."
+
+msgid "The input is not a valid sitemap priority"
+msgstr "입력은 올바른 사이트맵 priority가 아닙니다."
+
+msgid "Invalid type given. Numeric string, integer or float expected"
+msgstr "잘못된 유형이 입력되었습니다. 숫자 문자열, 정수 또는 부동 소수 입력"
+
+msgid "Invalid value given. Scalar expected"
+msgstr "잘못된 값이 입력되었습니다. 스칼라 입력"
+
+msgid "The input is less than %min% characters long"
+msgstr "입력 내용이 %min%개의 문자 길이보다 짧습니다."
+
+msgid "The input is more than %max% characters long"
+msgstr "입력 내용이 %max%개의 문자 길이보다 깁니다."
+
+msgid "The input does not appear to be a valid Uri"
+msgstr "입력 내용은 올바른 Uri가 아닙니다."
+

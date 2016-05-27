@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Swarm QUnit Test Runner</title>
+    <link rel="stylesheet" href="/vendor/qunit-1.14.0.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="/vendor/qunit-1.14.0.js"></script>
+    <script src="/vendor/jquery/jquery-1.11.1.min.js"></script>
+    <!-- @TODO: Use dependency injection for tests -->
+    <script src="/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="/vendor/jsrender/jsrender.js"></script>
+    <script src="/swarm/js/application.js"></script>\
+    <script src="/swarm/js/jquery-plugins.js"></script>
+    <script src="/libs/utils.js"></script>
+    <script src="/libs/testConfig.js"></script>
+    <script>
+
+    /* "$.deparam" TEST MODULE */
+    (function() {
+        // define the module
+        module('$.deparam', {
+            setup: function() {
+
+            },
+            teardown: function() {
+
+            }
+        });
+
+        test("$.deparam jquery", function() {
+            var params, settings;
+
+            // reverse jquery's tests
+            equal(!(jQuery.ajaxSettings && jQuery.ajaxSettings.traditional), true);
+
+            params = {"foo":"bar", "baz":"42", "quux":"All your base are belong to us"};
+            deepEqual($.deparam("foo=bar&baz=42&quux=All+your+base+are+belong+to+us"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = {"string":"foo","null":'',"undefined":''};
+            deepEqual($.deparam("string=foo&null=&undefined="), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = {"someName": ["1", "2", "3"], "regularThing": "blah" };
+            deepEqual($.deparam("someName%5B%5D=1&someName%5B%5D=2&someName%5B%5D=3&regularThing=blah"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = {"foo": ["a", "b", "c"]};
+            deepEqual($.deparam("foo%5B%5D=a&foo%5B%5D=b&foo%5B%5D=c"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = {"foo": ["baz", "42", "All your base are belong to us"] };
+            deepEqual($.deparam("foo%5B%5D=baz&foo%5B%5D=42&foo%5B%5D=All+your+base+are+belong+to+us") ,params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = {"foo": { "bar": "baz", "beep": "42", "quux": "All your base are belong to us" } };
+            deepEqual($.deparam("foo%5Bbar%5D=baz&foo%5Bbeep%5D=42&foo%5Bquux%5D=All+your+base+are+belong+to+us"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = { a:['1','2'], b:{ c:'3', d:['4','5'], e:{ x:['6'], y:'7', z:['8','9'] }, f:'true', g:'false', h:'' }, i:['10','11'], j:'true', k:'false', l:['','0'], m:"cowboy hat?" };
+            deepEqual($.deparam("a[]=1&a[]=2&b[c]=3&b[d][]=4&b[d][]=5&b[e][x][]=6&b[e][y]=7&b[e][z][]=8&b[e][z][]=9&b[f]=true&b[g]=false&b[h]=&i[]=10&i[]=11&j=true&k=false&l[]=&l[]=0&m=cowboy+hat?"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = { "a":["1","2"], "b":"[object Object]", "i":["10","11"], "j":"true", "k":"false", "l":["","0"], "m":"cowboy hat?" };
+            deepEqual($.deparam("a=1&a=2&b=%5Bobject+Object%5D&i=10&i=11&j=true&k=false&l=&l=0&m=cowboy+hat%3F", false, true), params);
+            deepEqual($.deparam($.param(params, true), false, true), params);
+
+            params = {
+                "a": [
+                    '0',
+                    [ '1', '2' ],
+                    [ '3', [ '4', '5' ], [ '6' ] ],
+                    { "b": [ '7', [ '8', '9' ], [ { "c": '10', "d": '11' } ], [ [ '12' ] ], [ [ [ '13' ] ] ], { "e": { "f": { "g": [ '14', [ '15' ] ] } } }, '16' ] },
+                    '17'
+                ]
+            };
+            deepEqual($.deparam("a[]=0&a[1][]=1&a[1][]=2&a[2][]=3&a[2][1][]=4&a[2][1][]=5&a[2][2][]=6&a[3][b][]=7&a[3][b][1][]=8&a[3][b][1][]=9&a[3][b][2][0][c]=10&a[3][b][2][0][d]=11&a[3][b][3][0][]=12&a[3][b][4][0][0][]=13&a[3][b][5][e][f][g][]=14&a[3][b][5][e][f][g][1][]=15&a[3][b][]=16&a[]=17"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = {"jquery": "1.4.2"};
+            deepEqual($.deparam("jquery=1.4.2"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            // test with parsing
+            params = { a:[1,2], b:{ c:3, d:[4,5], e:{ x:[6], y:7, z:[8,9] }, f:true, g:false, h:null }, i:[10,11], j:true, k:false, l:[null,0], m:"cowboy hat?" };
+            deepEqual($.deparam("a[]=1&a[]=2&b[c]=3&b[d][]=4&b[d][]=5&b[e][x][]=6&b[e][y]=7&b[e][z][]=8&b[e][z][]=9&b[f]=true&b[g]=false&b[h]=&i[]=10&i[]=11&j=true&k=false&l[]=&l[]=0&m=cowboy+hat?", true), params);
+            deepEqual($.deparam($.param(params), true), params);
+
+            params = { "a":[1,2], "b":"[object Object]", "i":[10,11], "j":true, "k":false, "l":[null,0], "m":"cowboy hat?" };
+            deepEqual($.deparam("a=1&a=2&b=%5Bobject+Object%5D&i=10&i=11&j=true&k=false&l=&l=0&m=cowboy+hat%3F", true, true), params);
+            deepEqual($.deparam($.param(params, true), true, true), params);
+
+            params = {"jquery": "1.4.2"}
+            deepEqual($.deparam("jquery=1.4.2", true), params);
+            deepEqual($.deparam($.param(params), true), params);
+
+            settings = {traditional: true};
+
+            if (jQuery.ajaxSettings) {
+                jQuery.ajaxSetup(settings);
+            } else {
+                jQuery.ajaxSettings = settings;
+            }
+
+            params = {"foo":"bar", "baz":"42", "quux":"All your base are belong to us"};
+            deepEqual($.deparam("foo=bar&baz=42&quux=All+your+base+are+belong+to+us"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = {"someName": ["1", "2", "3"], "regularThing": "blah" };
+            deepEqual($.deparam("someName=1&someName=2&someName=3&regularThing=blah"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = {"foo": ["a", "b", "c"]};
+            deepEqual($.deparam("foo=a&foo=b&foo=c"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = {"foo[]":["baz", "42", "All your base are belong to us"]};
+            deepEqual($.deparam("foo%5B%5D=baz&foo%5B%5D=42&foo%5B%5D=All+your+base+are+belong+to+us"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = {"foo[bar]":"baz", "foo[beep]":"42", "foo[quux]":"All your base are belong to us"};
+            deepEqual($.deparam("foo%5Bbar%5D=baz&foo%5Bbeep%5D=42&foo%5Bquux%5D=All+your+base+are+belong+to+us"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = { a:["1","2"], b:"[object Object]", i:["10","11"], j:"true", k:"false", l:["","0"], m:"cowboy hat?" };
+            deepEqual($.deparam("a=1&a=2&b=%5Bobject+Object%5D&i=10&i=11&j=true&k=false&l=&l=0&m=cowboy+hat%3F"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = { "a": [ "0", "1,2", "3,4,5,6", "[object Object]", "17" ] };
+            deepEqual($.deparam("a=0&a=1%2C2&a=3%2C4%2C5%2C6&a=%5Bobject+Object%5D&a=17"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = {a:["1","2"], b:{c:"3", d:["4","5"], e:{x:["6"], y:"7", z:["8","9"]}, f:"true", g:"false", h:""}, i:["10","11"], j:"true", k:"false", l:["","0"], m:"cowboy hat?"};
+            deepEqual(
+                $.deparam(
+                    "a[]=1&a[]=2&b[c]=3&b[d][]=4&b[d][]=5&b[e][x][]=6&b[e][y]=7&b[e][z][]=8&b[e][z][]=9&b[f]=true&b[g]=false&b[h]=&i[]=10&i[]=11&j=true&k=false&l[]=&l[]=0&m=cowboy+hat?",
+                    false,
+                    false
+                ),
+                params
+            );
+            deepEqual($.deparam($.param(params, false), false, false), params);
+
+            params = { "param1": "" };
+            deepEqual($.deparam("param1=", false, false), params);
+            deepEqual($.deparam($.param(params, false), false, false), params);
+
+            params = {"test": {"length": "3", "foo": "bar"} };
+            deepEqual($.deparam("test%5Blength%5D=3&test%5Bfoo%5D=bar", false, false), params);
+            deepEqual($.deparam($.param(params, false), false, false), params);
+
+            // test parsing
+            params = { a:[1,2], b:"[object Object]", i:[10,11], j:true, k:false, l:[null,0], m:"cowboy hat?" };
+            deepEqual($.deparam("a=1&a=2&b=%5Bobject+Object%5D&i=10&i=11&j=true&k=false&l=&l=0&m=cowboy+hat%3F", true), params);
+            deepEqual($.deparam($.param(params), true), params);
+
+            params = { "param1": null };
+            deepEqual($.deparam("param1=", true), params);
+            deepEqual($.deparam($.param(params), true), params);
+
+            if ( jQuery.ajaxSettings === settings ) {
+                delete jQuery.ajaxSettings;
+            } else {
+                jQuery.ajaxSetup({ traditional: false });
+            }
+        });
+
+        test("$.deparam swarm", function() {
+            var params = {"a":"1+1=2"};
+            deepEqual($.deparam("a=1%2B1%3D2"), params);
+            deepEqual($.deparam($.param(params)), params);
+
+            params = { a:[1.2,'2.2.2'], b:{ c:3, d:[4,5], e:{ x:[6], y:7, z:[8,9] }, f:true, g:false, h:null }, i:[10,11], j:true, k:false, l:[null,null,null], m:"cowboy hat?" };
+            deepEqual(
+                $.deparam(
+                    "a[]=1.2&a[]=2.2.2&b[c]=3&b[d][]=4&b[d][]=5&b[e][x][]=6&b[e][y]=7&b[e][z][]=8&b[e][z][]=9&b[f]=true&b[g]=false&b[h]=&i[]=10&i[]=11&j=true&k=false&l[]=&l[]=undefined&l[]=null&m=cowboy+hat?",
+                    true
+                ),
+                params
+            );
+            deepEqual($.deparam($.param(params), true), params);
+
+            params = { "a":[1.1,"2.2.2"], "b":"[object Object]", "i":[10,11], "j":true, "k":false, "l":[null,null, null], "m":"cowboy hat?" };
+            deepEqual($.deparam("a=1.1&a=2.2.2&b=%5Bobject+Object%5D&i=10&i=11&j=true&k=false&l=&l=undefined&l=null&m=cowboy+hat%3F", true, true), params);
+            deepEqual($.deparam($.param(params, true), true, true), params);
+
+            params = { "a":[1.1,"2.2.2"], "b":"[object Object]" };
+            deepEqual($.deparam("?a=1.1&a=2.2.2&b=%5Bobject+Object%5D", true, true), params);
+            deepEqual($.deparam($.param(params, true), true, true), params);
+
+            params = { "a":[1.1,"2.2.2?"], "b":"[object Object]" };
+            deepEqual($.deparam("?a=1.1&a=2.2.2?&b=%5Bobject+Object%5D", true, true), params);
+            deepEqual($.deparam($.param(params, true), true, true), params);
+
+            params = { "?a":[1.1,"2.2.2?"], "b":"[object Object]" };
+            deepEqual($.deparam("%3Fa=1.1&?a=2.2.2?&b=%5Bobject+Object%5D", true, true), params);
+            deepEqual($.deparam($.param(params, true), true, true), params);
+
+            params = { a:[1.2,'2.2.2'], b:{ c:3, d:[4,5], e:{ '$x':[6], 'y?':7, z:[8,9] }, f:true, g:false, h:null }, i:[10,11], j:true, '-k':false, l:[null,null,null], m:"cowboy hat?" };
+            deepEqual(
+                $.deparam(
+                    "a[]=1.2&a[]=2.2.2&b[c]=3&b[d][]=4&b[d][]=5&b[e][$x][]=6&b[e][y?]=7&b[e][z][]=8&b[e][z][]=9&b[f]=true&b[g]=false&b[h]=&i[]=10&i[]=11&j=true&-k=false&l[]=&l[]=undefined&l[]=null&m=cowboy+hat?",
+                    true
+                ),
+                params
+            );
+            deepEqual($.deparam($.param(params), true), params);
+        });
+
+    }());
+    /* End OF "$.deparam" TEST MODULE */
+
+    </script>
+</body>
+</html>

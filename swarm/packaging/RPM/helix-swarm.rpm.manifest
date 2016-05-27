@@ -1,0 +1,13 @@
+---
+# specify distro for deb files, unnecessary for rpms
+# distro:
+
+# list of files to process
+product-files: 
+    - yum/rhel/6/x86_64/helix-swarm-<LONGREL><*>-<CHANGE>.el6.x86_64.rpm
+    - yum/rhel/6/x86_64/helix-swarm-optional-<LONGREL><*>-<CHANGE>.el6.x86_64.rpm
+    - yum/rhel/6/x86_64/helix-swarm-triggers-<LONGREL><*>-<CHANGE>.el6.x86_64.rpm
+
+external-files:
+    - yum/rhel/6/x86_64/perforce-cli-base-2014.1-<CHANGE>.x86_64.rpm
+...

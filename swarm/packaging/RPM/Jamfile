@@ -1,0 +1,8 @@
+SubDir SWARM packaging RPM ;
+
+if $(OS) = LINUX && $(RPM)
+{
+
+  RPM helix-swarm : perforce-swarm.spec ;
+
+}

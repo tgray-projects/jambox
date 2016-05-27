@@ -1,0 +1,22 @@
+<?php
+$deleteLink = $this->qualifiedUrl('confirm-delete', array('project' => $project->getId(), 'token' => $token));
+?>
+<html>
+<body style="font-family: sans-serif; background-color: #eee; padding: 1em;">
+<div style="background-color: #fff; border: 1px solid #ccc; padding: 1em;">
+    <div style="font-size: 115%;">
+        The <?php echo $project->getName(); ?> project on the Perforce Workshop has been deleted by user
+        <?php echo $user->getId(); ?>.  Additionally, all of the project files can be unrecoverably removed
+        from our system.  This action requires the approval of one of the project
+        owners and, once taken, cannot be undone.<br />
+        To confirm that all files from all branches of <?php echo $project->getName(); ?> should be removed, please
+        click this link: <a href="<?php echo $deleteLink; ?>"><?php echo $deleteLink; ?></a><br />
+
+        If this action is ignored, the files will remain in place, but the project itself will remain removed from
+        the Workshop.  This confirmation option will expire in 24 hours, after which data must be removed manually
+        using one of the <a href="http://www.perforce.com/downloads/helix">Perforce Helix clients</a>.
+    </div>
+    <br/>
+</div>
+</body>
+</html>

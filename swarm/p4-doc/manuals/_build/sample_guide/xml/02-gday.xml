@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- vim: set ts=2 sw=2 tw=80 ai si: -->
+<chapter
+  xml:id="chapter.gday"
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="5.0"
+>
+  <title>G&#8217;day Bruce!</title>
+
+  <para>
+    Ethel needs some information about quantity surveying:
+  </para>
+
+  <itemizedlist>
+    <listitem>
+      <para>
+        How not to be seen
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        Nudge, nudge, wink, wink!
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        Venezuelan Beaver Cheese
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        My hovercraft is full of eels
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        Spam!
+      </para>
+    </listitem>
+  </itemizedlist>
+</chapter>

@@ -1,0 +1,79 @@
+<html>
+<title><?php echo $title ?></title>
+<head>
+    <link rel="stylesheet" type="text/css" href="custom/Highscore/highscore.css">
+</head>
+<h1 class="hs">HIGH-SCORES</h1>
+<body style="background-color:black">
+<div align="center">
+    <table>
+        <tr>
+            <td class="col1"><h1 class="body">RANK</h1></td>
+            <td class="col2"><h1 class="body">SCORE</h1></td>
+            <td class="col3"><h1 class="body">NAME</h1></td>
+        </tr>
+        <tr>
+            <td><h1 class="body">1ST</h1></td>
+            <td><h1 class="body"><?php echo $this->escapeHtml($score[0])?></a></h1></td>
+            <td><h1 class="body"><a class="hs" href="<?php echo $user[0] ?>">
+                        <?php echo $this->escapeHtml($user[0]) ?> </a></h1><td>
+        </tr>
+        <tr>
+            <td><h1 class="body">2ND</h1></td>
+            <td><h1 class="body"><?php echo $this->escapeHtml($score[1])?> </h1></td>
+            <td><h1 class="body"><a class="hs" href="<?php echo $user[1] ?>">
+                    <?php echo $this->escapeHtml($user[1])?> </h1><td>
+        </tr>
+        <tr>
+            <td><h1 class="body">3RD</h1></td>
+            <td><h1 class="body"><?php echo $this->escapeHtml($score[2])?> </h1></td>
+            <td><h1 class="body"><a class="hs" href="<?php echo $user[2] ?>">
+                        <?php echo $this->escapeHtml($user[2])?> </h1><td>
+        </tr>
+        <tr>
+            <td><h1 class="body">4TH</h1></td>
+            <td><h1 class="body"><?php echo $this->escapeHtml($score[3])?></h1></td>
+            <td><h1 class="body"><a class="hs" href="<?php echo $user[3] ?>">
+                        <?php echo $this->escapeHtml($user[3])?> </h1><td>
+        </tr>
+        <tr>
+            <td><h1 class="body">5TH</h1></td>
+            <td><h1 class="body"><?php echo $this->escapeHtml($score[4])?> </h1></td>
+            <td><h1 class="body"><a class="hs" href="<?php echo $user[4] ?>">
+                    <?php echo $this->escapeHtml($user[4])?> </h1><td>
+        </tr>
+        <tr>
+            <td><h1 class="body">6TH</h1></td>
+            <td><h1 class="body"><?php echo $this->escapeHtml($score[5])?></h1></td>
+            <td><h1 class="body"><a class="hs" href="<?php echo $user[5] ?>">
+                        <?php echo $this->escapeHtml($user[5])?> </h1><td>
+        </tr>
+        <tr>
+            <td><h1 class="body">7TH</h1></td>
+            <td><h1 class="body"><?php echo $this->escapeHtml($score[6])?> </h1></td>
+            <td><h1 class="body"><a class="hs" href="<?php echo $user[6] ?>">
+                        <?php echo $this->escapeHtml($user[6])?> </h1><td>
+        </tr>
+        <tr>
+            <td><h1 class="body">8TH</h1></td>
+            <td><h1 class="body">  <?php echo $this->escapeHtml($score[7])?> </h1></td>
+            <td><h1 class="body"> <a class="hs" href="<?php echo $user[7] ?>">
+                        <?php echo $this->escapeHtml($user[7])?> </h1><td>
+        </tr>
+        <tr>
+            <td><h1 class="body">9TH</h1></td>
+            <td><h1 class="body">  <?php echo $this->escapeHtml($score[8])?> </h1></td>
+            <td><h1 class="body">  <a class="hs" href="<?php echo $user[8] ?>">
+                        <?php echo $this->escapeHtml($user[8])?> </h1><td>
+        </tr>
+        <tr>
+            <td><h1 class="body">10TH</h1></td>
+            <td><h1 class="body">  <?php echo $this->escapeHtml($score[9])?></h1></td>
+            <td><h1 class="body">  <a class="hs" href="<?php echo $user[9] ?>">
+                        <?php echo $this->escapeHtml($user[9])?> </h1><td>
+        </tr>
+        <tr><td><h1 class="credit">CREDIT 0</h1></td></tr>
+    </table>
+</div>
+</body>
+</html>

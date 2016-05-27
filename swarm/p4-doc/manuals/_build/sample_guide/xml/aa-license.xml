@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- vim: set ts=2 sw=2 tw=80 ai si: -->
+<appendix
+  xml:id="license.statements"
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  version="5.0"
+>
+  <title>License Statements</title>
+
+  <para>
+    The content in this guide is <emphasis role="bold">not</emphasis> licensed.
+  </para>
+
+  <!-- to include a common licensing statement, uncomment/edit: -->
+  <!-- xi:include href="file://@common-xml@/license-openssl.xml"/ -->
+</appendix>

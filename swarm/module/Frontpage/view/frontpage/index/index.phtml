@@ -1,0 +1,101 @@
+<?php
+$this->headTitle()->set('Jambox');
+?>
+    <div class="row-fluid">
+
+        <div class="span4">
+        </div>
+        <div class="span8">
+
+        </div>
+    </div>
+</div>
+
+<div class="container wide">
+    <div>
+        <img src="/custom/Frontpage/jambox_banner.jpg" height="150">
+    </div>
+    <br>
+    <br>
+    <div class="row-fluid about-workshop">
+        <div class="span4">
+            <h2>Create an account</h2>
+            <div>
+                <p>Every user needs a Perforce account.  Start here if you don't already have one.</p>
+            </div>
+        </div>
+        <div class="span8">
+            <div class="row-fluid">
+                <div class="span8 well">
+                    <button id="signup" class="btn btn-large btn-primary span6">Sign up</button>
+                </div>
+            </div>
+            <div class="row-fluid">
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row-fluid about-workshop">
+        <div class="span4">
+            <h2>Create a Project</h2>
+            <div>
+                <p>If you're an admin or team lead, create your project here.</p>
+            </div>
+        </div>
+        <div class="span8">
+            <div class="row-fluid">
+                <div class="span8 well">
+                    <button id="setupProject" class="btn btn-large btn-primary span6 disabled">Setup a Project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row-fluid about-workshop">
+        <div class="span4">
+            <h2>Join a Project</h2>
+            <div>
+                <p>Looking for a team to join? If you have an account, login and start here.</p>
+            </div>
+        </div>
+         <div class="span8">
+            <div class="row-fluid">
+                <div class="span8 well">
+                    <button id="joinProject" class="btn btn-large btn-primary span6 disabled">Join a Project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row-fluid disclaimer">
+        <div class="span12 well">
+            <div>
+                <em>Perforce Game Development Jambox</em>
+                <strong>Disclaimer of warranty:</strong>
+                Perforce Software, Inc. disclaims all warranties, either express or implied, including but not limited to the implied warranties of merchantability and fitness for a particular purpose.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container-fluid">
+        <div class="span8 pull-left"></div>
+        <div class="span4 pull-right">
+            <a class="pull-right" href=""></a>
+            <a class="pull-right" href=""></a>
+        </div>
+    </div>
+</div>
+<?php echo $this->message(); ?>
+
+<script type="text/javascript">
+    $(function() {
+        if ($('body').is('.authenticated')) {
+            $('#setupProject').removeClass("disabled");
+            $('#joinProject').removeClass("disabled");
+        }
+    });
+</script>

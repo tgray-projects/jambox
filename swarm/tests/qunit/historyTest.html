@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Swarm QUnit Test Runner</title>
+    <link rel="stylesheet" href="/vendor/qunit-1.14.0.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="/vendor/qunit-1.14.0.js"></script>
+    <script src="/vendor/jquery/jquery-1.11.1.min.js"></script>
+    <!-- @TODO: Use dependency injection for tests -->
+    <script src="/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="/vendor/jsrender/jsrender.js"></script>
+    <script src="/swarm/js/application.js"></script>
+    <script src="/libs/utils.js"></script>
+    <script src="/libs/testConfig.js"></script>
+    <script>
+
+    /* PHANTOMJS PATCH */
+    // detect partial history support and add History.state property
+    if (swarm.has.partialHistorySupport()) {
+        swarm.history.patchPartialSuppport();
+    }
+
+    /* "swarm.history" TEST MODULE */
+    (function() {
+        // define the module
+        module('swarm.history', {
+            setup: function() {
+                this.url         = document.location.href;
+                this.stateLength = 0;
+                this.pushState   = swarm.history.pushState;
+                var environment  = this;
+                swarm.history.pushState    = function() {
+                    environment.pushState.apply(this, arguments);
+                    environment.stateLength++;
+                };
+
+                // start tests in a known state
+                $(window).off('beforeSetState');
+                window.history.replaceState(null, null, this.url);
+                swarm.history.init();
+            },
+            teardown: function() {
+                swarm.history.pushState = this.pushState;
+                $(window).off('popstate');
+                $(window).off('beforeSetState');
+                swarm.test.reset();
+
+                // clear out any previous state
+                if (this.stateLength) {
+                    var url = this.url;
+                    $(window).one('popstate', function() {
+                        setTimeout(function() {
+                            swarm.history.pushState(null, null, url, true);
+                            start();
+                        }, 0);
+                    });
+                    stop();
+                    window.history.go(this.stateLength * -1);
+                } else {
+                    swarm.history.replaceState(null, null, this.url, true);
+                }
+
+                delete this.url;
+                delete this.stateLength;
+                delete this.pushState;
+            }
+        });
+
+        // define scoped helper functions for ease of use in tests
+        var go = function(distance, callback) {
+            swarm.test.push(function(distance, callback) {
+                this.testEnvironment.stateLength = this.testEnvironment.stateLength + distance;
+
+                // leave time for navigation
+                var testEnvironment = this.testEnvironment;
+                $(window).one('popstate', function() {
+                    setTimeout(function() {
+                        callback.call(testEnvironment, QUnit.assert);
+                        swarm.test.nextQueued();
+                    }, 0);
+                });
+
+                window.history.go(distance);
+            }, [distance, callback]);
+        };
+
+        // write our tests
+        test('supported', 1, function() {
+            ok(swarm.history.supported);
+        });
+
+        test('initialized', 1, function() {
+            swarm.history.initialized = false;
+            swarm.history.init();
+            ok(swarm.history.initialized);
+        });
+
+        test('replaceState', 7, function() {
+            var url      = document.location.href,
+                initial  = { step: 1, value1: true },
+                default1 = { step: 2, value2: false },
+                state1   = { step: 2, value2: false, value3: true },
+                default2 = { step: 4, value3: false },
+                state2   = { step: 4, value2: false, value3: false };
+
+            // test just setting the state
+            swarm.history.replaceState(initial, null, null);
+            deepEqual(window.history.state, initial);
+            equal(document.location.href, url);
+
+            // test setting path
+            swarm.history.replaceState(default1, null, '#extra');
+            deepEqual(window.history.state, default1);
+            equal(document.location.hash, '#extra');
+
+            // test using default state
+            $(window).on('beforeSetState', function(e, defaults) { $.extend(defaults, default1); });
+            swarm.history.replaceState({step: 2, value3: true}, null, null);
+            deepEqual(window.history.state, state1);
+
+            // test multiple default state
+            $(window).on('beforeSetState', function(e, defaults) { $.extend(defaults, default2); });
+            swarm.history.replaceState(null, null, null);
+            deepEqual(window.history.state, state2);
+
+
+            // test clearing the current state
+            swarm.history.clearState();
+            equal(window.history.state, null);
+        });
+
+        test('pushState', 12, function() {
+            // stop to test async code
+            stop();
+
+            var url      = document.location.href,
+                initial  = { step: 1, value1: true },
+                default1 = { step: 2, value1: false },
+                state1   = { step: 2, value1: false, value3: true };
+
+            // test just setting the state
+            swarm.history.pushState(initial, null, null);
+            deepEqual(window.history.state, initial);
+            equal(document.location.href, url);
+
+            // test setting the path
+            swarm.history.pushState(default1, null, '#extra');
+            deepEqual(window.history.state, default1);
+            equal(document.location.hash, '#extra');
+
+            // test using default state
+            $(window).on('beforeSetState', function(e, defaults) { $.extend(defaults, default1); });
+            swarm.history.pushState({step: 2, value3: true}, null, '#moreExtra');
+            deepEqual(window.history.state, state1);
+            equal(document.location.hash, '#moreExtra');
+
+            // test clearing the current state
+            swarm.history.clearState();
+            equal(window.history.state, null);
+            equal(document.location.hash, '#moreExtra');
+
+            // test back navigation
+            go(-2, function() {
+                deepEqual(window.history.state, initial);
+                equal(document.location.hash, '');
+            });
+
+            // test forward nav
+            go(1, function() {
+                deepEqual(window.history.state, default1);
+                equal(document.location.hash, '#extra');
+            });
+
+            // start only after queued items are finished
+            queueStart();
+        });
+
+        test('popstate', 2, function() {
+            // stop to test async code
+            stop();
+
+            var popped     = false,
+                knownState = {key:'value'};
+            swarm.history.replaceState(knownState);
+            swarm.history.pushState(null, null, null);
+
+            swarm.history.onPopState(function() {
+                popped = true;
+            });
+
+            go(-1, function() {
+                deepEqual(window.history.state, knownState);
+                equal(popped, true);
+            });
+
+            // start only after queued items are finished
+            queueStart();
+        });
+    }());
+    /* End OF "swarm.history" TEST MODULE */
+    </script>
+</body>
+</html>

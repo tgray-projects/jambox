@@ -1,0 +1,197 @@
+# behat.yml
+default:
+  paths:
+    features: '%behat.paths.base%/../features'
+    bootstrap: '%behat.paths.features%/bootstrap'
+  formatter:
+    name: pretty
+    parameters:
+      language: en
+  context:
+    class: BehatTests\FeatureContext
+    parameters:
+      failures_dir: '%behat.paths.features%/../failures'
+      data_dir: '%behat.paths.features%/../data'
+      p4d_dir: '%behat.paths.features%/../p4d'
+      base_url: CHANGE_ME
+      contexts:
+        browser_session: BrowserSessionContext
+        p4: P4Context
+        login: LoginContext
+        job: JobContext
+        comment: CommentContext
+        file_context: FileContext
+        project_context: ProjectContext
+        change_context: ChangeContext
+        review_context: ReviewContext
+
+chrome_p4d13.1:
+  context:
+    class: BehatTests\FeatureContext
+    parameters:
+      p4d_version: 13.1
+      default_session: goutte
+      javascript_session: selenium2
+      browser: chrome
+      selenium2:
+        host: localhost
+        port: 4444
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte:      ~
+      selenium2:
+        browser: chrome
+        capabilities:
+          browser: chrome
+          browserName: chrome
+          version: ANY
+          deviceType: ANY
+
+safari_p4d13.1:
+  context:
+    class: BehatTests\FeatureContext
+    parameters:
+      p4d_version: 13.1
+      default_session: goutte
+      javascript_session: selenium2
+      selenium2:
+        host: localhost
+        port: 5555
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte:      ~
+      selenium2:
+        browser: safari
+        capabilities:
+          browser: safari
+          browserVersion: ANY
+          version: ANY
+
+firefox_p4d10.2:
+  context:
+    class: BehatTests\FeatureContext
+    parameters:
+      p4d_version: 10.2
+      default_session: goutte
+      javascript_session: selenium2
+      browser: firefox
+      selenium2:
+        host: localhost
+        port: 4444
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte:      ~
+      selenium2:   ~
+
+firefox_p4d11.1:
+  context:
+    class: BehatTests\FeatureContext
+    parameters:
+      p4d_version: 11.1
+      default_session: goutte
+      javascript_session: selenium2
+      browser: firefox
+      selenium2:
+        host: localhost
+        port: 4444
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte:      ~
+      selenium2:   ~
+
+firefox_p4d12.1:
+  context:
+    class: BehatTests\FeatureContext
+    parameters:
+      p4d_version: 12.1
+      default_session: goutte
+      javascript_session: selenium2
+      browser: firefox
+      selenium2:
+        host: localhost
+        port: 4444
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte:      ~
+      selenium2:   ~
+
+firefox_p4d12.2:
+  context:
+    class: BehatTests\FeatureContext
+    parameters:
+      p4d_version: 12.2
+      default_session: goutte
+      javascript_session: selenium2
+      browser: firefox
+      selenium2:
+        host: localhost
+        port: 4444
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte:      ~
+      selenium2:   ~
+
+
+firefox_p4d13.1:
+  context:
+    class: BehatTests\FeatureContext
+    parameters:
+      p4d_version: 13.1
+      default_session: goutte
+      javascript_session: selenium2
+      browser: firefox
+      selenium2:
+        host: localhost
+        port: 4444
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte:      ~
+      selenium2:   ~
+
+firefox_p4d13.2:
+  context:
+    class: BehatTests\FeatureContext
+    parameters:
+      p4d_version: 13.2
+      default_session: goutte
+      javascript_session: selenium2
+      browser: firefox
+      selenium2:
+        host: localhost
+        port: 4444
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte:      ~
+      selenium2:   ~
+
+firefox_p4d13.3:
+  context:
+    class: BehatTests\FeatureContext
+    parameters:
+      p4d_version: 13.3
+      default_session: goutte
+      javascript_session: selenium2
+      browser: firefox
+      selenium2:
+        host: localhost
+        port: 4444
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte:      ~
+      selenium2:   ~
+
+firefox_p4d14.1:
+  context:
+    class: BehatTests\FeatureContext
+    parameters:
+      p4d_version: 14.1
+      default_session: goutte
+      javascript_session: selenium2
+      browser: firefox
+      selenium2:
+        host: localhost
+        port: 4444
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte:      ~
+      selenium2:   ~

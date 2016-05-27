@@ -1,0 +1,18 @@
+<?php
+$resetLink = $this->qualifiedUrl('resetPassword', array('user' => $user, 'token' => $token));
+?>
+<html>
+    <body style="font-family: sans-serif; background-color: #eee; padding: 1em;">
+        <div style="background-color: #fff; border: 1px solid #ccc; padding: 1em;">
+            <div style="font-size: 115%;">
+To reset your password, please go to the following page:
+
+<a href="<?php echo $resetLink; ?>"><?php echo $resetLink; ?></a>
+
+If you do not wish to reset your password, ignore this message. It will
+expire in 24 hours.
+            </div>
+            <br/>
+        </div>
+    </body>
+</html>

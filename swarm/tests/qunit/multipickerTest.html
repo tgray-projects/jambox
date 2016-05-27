@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Swarm QUnit Test Runner</title>
+    <link rel="stylesheet" href="/vendor/qunit-1.14.0.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="/vendor/qunit-1.14.0.js"></script>
+    <script src="/vendor/jquery/jquery-1.11.1.min.js"></script>
+    <!-- @TODO: Use dependency injection for tests -->
+    <script src="/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="/vendor/jsrender/jsrender.js"></script>
+    <script src="/vendor/jed/jed.js"></script>
+    <script src="/swarm/js/application.js"></script>
+    <script src="/swarm/js/i18n.js"></script>
+    <script src="/swarm/js/jquery-plugins.js"></script>
+    <script src="/libs/utils.js"></script>
+    <script src="/libs/testConfig.js"></script>
+    <script>
+    /* "$.fn.multiPicker" TEST MODULE */
+    (function() {
+        // define the module
+        module('$.fn.multiPicker', {
+            setup: function() {
+                swarm.translator.init();
+            },
+            teardown: function() {
+
+            }
+        });
+
+        test('loaded', 1, function() {
+            // test that the plugin is loaded
+            ok(!!$.fn.multiPicker);
+        });
+
+        test('init', 1, function() {
+            // test that the plugin is usable and outputs markup
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            element.multiPicker({
+                selected:       ['test init 1', 'test init 2'],
+                itemsContainer: '#qunit-fixture'
+            });
+            equal($('#qunit-fixture').find('.multipicker-item').length, 2);
+        });
+
+        test('typeaheadLookup', 3, function() {
+            // test that the typeahead lookup function pulls from the multipicker source
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            var source  = ['test lookup 1', 'test lookup 2'];
+            element.multiPicker({
+                itemsContainer: '#qunit-fixture',
+                source:         source
+            });
+
+            var typeahead = element.data('multipicker').typeahead;
+            element.val('test');
+            var resultMenu = typeahead.lookup().$menu;
+
+            equal(resultMenu.find('li').length, 2);
+            resultMenu.find('li').each(function() {
+                var inSourceArray = $.inArray($(this).text(), source) !== -1;
+                ok(inSourceArray);
+            });
+        });
+
+        test('setSource', 1, function() {
+            // test that the setSource function properly set's the typeahead source
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            var source  = ['test source 1', 'test source 2'];
+            element.multiPicker({
+                itemsContainer: '#qunit-fixture'
+            });
+            element.data('multipicker').setSource(source);
+            var typeahead = element.data('multipicker').typeahead;
+            deepEqual(typeahead.source, source);
+        });
+
+        test('highlighter', 1, function() {
+            // test that highlighter escapes properly
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            element.multiPicker({
+                itemsContainer: '#qunit-fixture'
+            });
+            var plugin = element.data('multipicker');
+            plugin.typeahead.query = 'no match';
+
+            var value   = 'Hip</span> & <span>Hop';
+            var escaped = 'Hip&lt;/span&gt; &amp; &lt;span&gt;Hop';
+            equal(plugin.highlighter(value), escaped);
+        });
+
+        test('matcher', 3, function() {
+            // test that selected items are not included in results
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            element.multiPicker({
+                selected:       ['test match 1', 'test match 2'],
+                source:         ['test match 1', 'test match 2', 'test match 3'],
+                itemsContainer: '#qunit-fixture'
+            });
+            var plugin = element.data('multipicker');
+            plugin.typeahead.query = 'test';
+
+            // only the non-selected source should be matchable
+            ok(plugin.matcher('test match 3'));
+            ok(!plugin.matcher('test match 2'));
+            ok(!plugin.matcher('test match 1'));
+        });
+
+
+        test('select', 1, function() {
+            // test that the select method is correctly integrated between the typeahead and multipicker
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            element.multiPicker({
+                itemsContainer: '#qunit-fixture',
+                source:         ['test select 1', 'test select 2']
+            });
+            var plugin = element.data('multipicker');
+            element.val('2');
+            plugin.typeahead.lookup().select();
+
+            deepEqual(plugin.getSelected(), ['test select 2']);
+        });
+
+        test('getSelected', 1, function() {
+            // test getSelected returns the items we put into it
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            var items   = ['test selected 1', 'test selected 2'];
+            element.multiPicker({
+                selected:       items,
+                itemsContainer: '#qunit-fixture'
+            });
+
+            var plugin = element.data('multipicker');
+            deepEqual(plugin.getSelected(), items);
+        });
+
+        test('updateRequired', 3, function() {
+            // test the required state of the input is toggled based on the selected contents
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            element.multiPicker({
+                itemsContainer: '#qunit-fixture',
+                source:         ['test require 1', 'test require 2'],
+                required:       true
+            });
+
+            ok(element.prop('required'));
+
+            var plugin = element.data('multipicker');
+            element.val('2');
+            plugin.typeahead.lookup().select();
+
+            ok(!element.prop('required'));
+
+            plugin.clear();
+            ok(element.prop('required'));
+        });
+
+        test('clear', 2, function() {
+            // test that the clear function clears all items
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            element.multiPicker({
+                selected:       ['test clear 1', 'test clear 2'],
+                itemsContainer: '#qunit-fixture'
+            });
+            equal($('#qunit-fixture').find('.multipicker-item').length, 2);
+            element.multiPicker('clear');
+            equal($('#qunit-fixture').find('.multipicker-item').length, 0);
+        });
+
+        test('removeButton', 2, function() {
+            // test that the selected pill remove buttons works
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            element.multiPicker({
+                selected:       ['test remove'],
+                itemsContainer: '#qunit-fixture'
+            });
+            equal($('#qunit-fixture').find('.multipicker-item').length, 1);
+            $('#qunit-fixture').find('.multipicker-item .item-remove').click();
+            equal($('#qunit-fixture').find('.multipicker-item').length, 0);
+        });
+    }());
+    /* End OF "$.fn.multiPicker" TEST MODULE */
+    </script>
+    <script>
+    /* "$.fn.userMultiPicker" TEST MODULE */
+    (function() {
+        // deferred object that each test can resolve for testing the user list
+        var usersDeferred;
+
+        // define the module
+        module('$.fn.userMultiPicker', {
+            setup: function() {
+                usersDeferred = $.Deferred();
+                $.fn.userMultiPicker.Promise = function() {
+                    return usersDeferred.promise();
+                };
+            },
+            teardown: function() {
+
+            }
+        });
+
+        test('loaded', 1, function() {
+            // test that the plugin is loaded
+            ok(!!$.fn.userMultiPicker);
+        });
+
+        test('init', 1, function() {
+            // test that the plugin is usable and outputs markup
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            element.userMultiPicker({
+                selected:       ['test init 1', 'test init 2'],
+                itemsContainer: '#qunit-fixture'
+            });
+            equal($('#qunit-fixture').find('.multipicker-item').length, 2);
+        });
+
+        test('setSource', 1, function() {
+            // test that the setSource function properly set's the typeahead source
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            var source  = [{id:'test source 1', fullName: 'test source 1'}, {id: 'test source 2', fullName: 'test 2'}];
+            var output  = ['test source 1', 'test source 2 (test 2)'];
+            element.userMultiPicker({
+                itemsContainer: '#qunit-fixture'
+            });
+            element.data('user-multipicker').setSource(source);
+            var typeahead = element.data('user-multipicker').typeahead;
+            deepEqual(typeahead.source, output);
+        });
+
+        test('setSourceFromPromise', 1, function() {
+            // test that the resolving the multipickers's user promise sets the typeahead source
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            var source  = [{id:'test promise 1', fullName: 'test promise 1'}, {id: 'test promise 2', fullName: 'test 2'}];
+            var output  = ['test promise 1', 'test promise 2 (test 2)'];
+            element.userMultiPicker({
+                itemsContainer: '#qunit-fixture'
+            });
+
+            usersDeferred.resolve(source);
+            var typeahead = element.data('user-multipicker').typeahead;
+            deepEqual(typeahead.source, output);
+        });
+
+        test('updater', 2, function() {
+            // test that the updater method splits as expected
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            var source  = [
+                {id:'test updater 1', fullName: 'test updater 1'}, {id: 'test updater 2', fullName: 'test 2'}
+            ];
+            element.userMultiPicker({
+                source:         source,
+                itemsContainer: '#qunit-fixture'
+            });
+            var plugin = element.data('user-multipicker');
+            $.each(plugin.typeahead.source, function(index, value) {
+                equal(plugin.updater(value), source[index].id);
+            });
+        });
+
+        test('matcher', 4, function() {
+            // test that excluded and selected users are not included in results
+            var element = $('<input type="text" />').appendTo('#qunit-fixture');
+            element.userMultiPicker({
+                selected:      ['test match 1', 'test match 2'],
+                excludeUsers:  ['test match 4'],
+                source:        [
+                    {id:'test match 1', fullname: '1'},
+                    {id:'test match 2', fullName: '2'},
+                    {id:'test match 3', fullName: '3'},
+                    {id:'test match 4', fullName: '4'}
+                ],
+                itemsContainer: '#qunit-fixture'
+            });
+            var plugin = element.data('user-multipicker');
+            plugin.typeahead.query = 'test';
+
+            // only the non-selected source and non-excluded user should be matchable
+            ok(plugin.matcher('test match 3'));
+            ok(!plugin.matcher('test match 2'));
+            ok(!plugin.matcher('test match 1'));
+            ok(!plugin.matcher('test match 4'));
+        });
+    }());
+    /* End OF "$.fn.userMultiPicker" TEST MODULE */
+    </script>
+</body>
+</html>

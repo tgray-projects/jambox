@@ -1,0 +1,118 @@
+Overview
+
+These instructions are to run the frontend tests on Sauce Labs from your local
+machine.
+
+The Swarm automated test dynamically creates hosts used for testing.  Each host
+will have its own data directory, with its own depot, ensuring that each test
+is run in isolation.
+
+These instructions assume a familiarity with Apache config and Swarm
+installation.
+
+DNS Config
+Get IT to set the nameservers up such that *.yourdomain.perforce.com points to
+your domain by contacting Graeme in IT and requesting a wildcard DNS entry for your
+ip for Swarm testing.
+
+Note that if you're working in the Victoria office, your local PC has this
+enabled by default and you don't need to bother Graeme.
+
+PHP with curl
+You need it: sudo apt-get install curl libcurl3 libcurl3-dev php5-curl
+
+Apache Config
+Enable mod_vhost_alias using a2enmod mod_vhost_alias
+By default, most linux Apache configurations have a default site, linked as
+000-default in sites-enabled.  The testing site must come before this site in
+the sites-enabled list, so you will have to rename the default site to
+001-default.
+
+Create a new site in sites-available called swarmtest with the following virtual
+host:
+
+<VirtualHost *:80>
+   ServerName frontend
+
+   # set environment variable using $1
+   SetEnvIf Host ^((?:[a-z0-9\-][a-z0-9\-]+)) SWARM_DATA_PATH=/full/path/to/Swarm/data/$1
+   UseCanonicalName Off
+   VirtualDocumentRoot /path/to/swarm/public
+   <Directory /path/to/swarm/public>
+     Options FollowSymLinks
+     AllowOverride All
+     Order allow,deny
+     Allow from all
+   </Directory>
+</VirtualHost>
+
+Note that in the SetEnvIf Host line, your full path must be used due to this known issue:
+https://github.com/zendframework/zf2/issues/4087
+http://php.net/manual/en/function.register-shutdown-function.php#92657
+
+Link this new site to you sites-enabled folder as 000-swarmtest and restart apache.
+
+.htaccess
+This change is needed to run the tests, but is not compatible with running
+Swarm in a subdirectory (ie: domain.com/swarm/), so do not submit it.  This is
+a known issue and this step will be removed as soon as a viable alternative is
+available.
+
+In /path/swarm/public/.htaccess on or about line 43, add the line:
+RewriteBase /
+
+So .htaccess looks like:
+RewriteEngine On
+RewriteBase /
+
+Verify DNS and Apache
+Create the following test.php file and place it in the Swarm /public path:
+
+<?php echo getenv('SWARM_DATA_PATH');
+
+When you navigate to foo.swarmdomain.com/test.php, the page should
+display "../data/foo".  If not, something has not been configured properly.
+
+When done, remove the test.php file.
+
+Sausage
+The newest version of Sausage will not run tests out of the box, so grab my
+sausage from the collateral folder.
+
+The tarball creates its own sausage directory, and does not need to be web
+accessible.
+
+Once unpacked, run:
+sausage/vendor/bin/sauce-config [your sauce sub account] [your sauce access key]
+
+Sauce Connect
+Sauce connect is currently checked into the depot in
+//depot/main/swarm/tests/phpunit/FrontendTest/sauce-connect/...
+
+Invoke Sauce Connect:
+java -jar /path/to/Sauce-Connect.jar -s swarmqa [your sub account] [your access key]
+
+Sauce connect may need to be restarted periodically.  See instructions here:
+https://saucelabs.com/docs/connect#keeping-connect-fresh
+
+Environment Variables
+These tests depend on a number of environment variables which must be set.
+
+The SAUSAGE_PATH allows the tests to find the php libraries that come with Sausage.
+export SAUSAGE_PATH=~/sausage
+
+SWARM_TEST_HOST is used to compose dynamic urls to access Swarm, and will be prepended with a unique id.
+export SWARM_TEST_HOST=swarmdomain.com
+
+P4D_BINARY allows the test infrastructure to invoke p4d via rsh per request to Swarm.
+export P4D_BINARY=/path/to/p4d
+
+Run Tests
+Ensure that tests are run using the phpunit that comes with Sausage, rather
+than another version which may be on your system.
+~/sausage/vendor/bin/phpunit LoginTest.php
+
+Common problems:
+Command [url] not recognized.
+Ensure the tunnel is up and that you have the correct account set with
+sausage/vendor/bin/sauce-config

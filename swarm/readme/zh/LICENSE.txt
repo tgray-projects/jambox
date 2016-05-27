@@ -1,0 +1,93 @@
+﻿版权所有 (c)2013-2015, Perforce Software, Inc.保留所有权利。
+
+允许对源代码及其二进制文件（无论修改与否）进行重新分发和使用，前提是满足以下条件：
+
+1.重新分发源代码时必须保留上述版权声明、此条件列表及下述免责条款。
+
+2.重新分发二进制文件时必须在软件文档和/或其他随附材料中复制上述版权声明、此条件列表及下
+述免责条款。
+
+	本软件由其版权持有人和贡献者按"原样"提供，不包含任何明示或暗示性保证，
+	包括但不限于对软件内容的适销性和某一特定用途适用性的任何暗示担保。在任何情况下，
+	对于因使用本软件而导致的任何直接、间接、附带、特殊、后果性或排除性损失（包括但不
+	限于购买替代货物和服务，无法使用、数据丢失或利润损失，或业务中断等），
+	PERFORCE SOFTWARE, INC. 公司概不承担责任，无论此类损失因何引起，无论规则原理如何，
+	是否出于合同约定、严格责任或是侵权行为（包括疏忽或其它），即使曾被告知过存在此类伤害的可能性。
+	
+
+
+软件及文件中的观点和结论仅代表作者立场，请勿解读为 Perforce Software 公司的官方政策，无论是明示还是暗示。
+
+</para> <para> 
+本产品应遵守美国出口管制法律和法规的规定，包括但不限于《美国出口管理条例》、《国际武器贸易条例》以及
+其他所有适用的最终用途、最终用户及目的地的限制。
+
+被许可人不得同意将 Perforce 技术直接或间接用于任何受美国禁运制裁的国家或任何违反美国出口管制法律和法规的用途。
+
+
+本发行版中包含以下 Perforce 软件，请查看以下内容，了解仅适用于这些单款软件的许可条款：
+
+	* P4PHP：Perforce 的 PHP 扩展程序 
+	位置：p4-bin/bin。<platform>
+	使用条款：http://www.perforce.com/downloads/terms-use
+
+
+本发行版还包含以下第三方软件，请分别查看这些软件随附的许可文件，了解仅适用于该软件的许可
+条款：
+
+	* Arimo Font
+	位置：public/vendor/arimo
+	许可证：public/vendor/arimo/OFL.txt
+
+	* Bootstrap
+	位置：public/vendor/bootstrap
+	许可证：public/vendor/bootstrap/LICENSE
+
+	* Cousine Font
+	位置：public/vendor/cousine
+	许可证：public/vendor/cousine/OFL.txt
+
+	* Git Logo
+	位置：public/vendor/git
+	许可证：public/vendor/git/CC-LICENSE.txt
+
+	* Google Diff-Match-Patch
+	位置：public/vendor/diff_match_patch
+	许可证：public/vendor/diff_match_patch/COPYING
+
+	* Google Code Prettify
+	位置：public/vendor/prettify
+	许可证：public/vendor/prettify/COPYING
+
+	* Jed:
+	位置：public/vendor/jed
+	许可文件：public/vendor/jed/copying.txt
+
+	* jQuery:
+	位置：public/vendor/jquery
+	许可文件：public/vendor/jquery/MIT-LICENSE.txt
+
+	* jQuery Expander:
+	位置：public/vendor/jquery.expander
+	许可文件：public/vendor/jquery.expander/license.txt
+
+	* jQuery Sortable:
+	位置：public/vendor/jquery-sortable
+	许可文件：public/vendor/jquery-sortable/LICENSE.txt
+
+	* jQuery Timeago:
+	位置：public/vendor/jquery.timeago
+	许可文件：public/vendor/jquery.timeago/MIT-LICENSE.txt
+
+	* JsRender:
+	位置：public/vendor/jsrender
+	许可文件：public/vendor/jsrender/MIT-LICENSE.txt
+
+	* ThreeJS:
+	位置：public/vendor/threejs
+	许可文件：public/vendor/threejs/LICENSE
+
+	* Zend Framework 2
+	位置：library/Zend
+	许可文件：library/Zend/LICENSE.txt
+

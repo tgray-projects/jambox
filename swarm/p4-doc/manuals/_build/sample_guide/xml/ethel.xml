@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.oasis-open.org/docbook/xml/5.0/rng/docbookxi.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- vim: set ts=2 sw=2 tw=80 ai si: -->
+<book
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="5.0"
+><?dbhtml filename="copyright.html"?>
+  <title>Ethel the Aardvark Goes Quantity Surveying</title>
+  <subtitle>An ode to Monty Python</subtitle>
+
+  <info>
+    <pubdate>May 2015</pubdate>
+    <publishername>Perforce</publishername>
+    <xi:include href="file://@common-xml@/legalnotice.xml" />
+    <copyright>
+      <year>1968-2015</year>
+      <holder>John Cleese, Graham Chapman.</holder>
+    </copyright>
+  </info>
+    
+  <xi:include href="01-different.xml" />
+  <xi:include href="02-gday.xml" />
+  <xi:include href="03-lumberjack.xml" />
+  <xi:include href="04-castle.xml" />
+  <xi:include href="aa-license.xml" />
+</book>

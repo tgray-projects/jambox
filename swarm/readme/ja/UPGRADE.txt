@@ -1,0 +1,187 @@
+﻿Swarm のアップグレード
+===============
+
+この文書では、Swarm の以前のバージョンを最新リリースにアップグレードする方法
+について説明します。過去 3 回の Swarm のリリースがカバーされており、
+一番最近のリリースが最初にあります。古い
+リリースからアップグレードするには、下までスキップします。
+
+まだ Swarm を使用していない場合、これらの手順はお客様には
+当てはまりません。INSTALL.txt 中の手順に従って Swarm をインストールします。
+
+注:次の手順は、OVA に適用されます。OVAвЂ™ の
+      SWARM_ROOT (Swarm のインストールフォルダ) は、/opt/swarm です。
+
+      ただし、新しい OVA をダウンロードし、INSTALL.txt に記載された
+      OVA 設定手順を実行することをお勧めします。これにより、
+      Swarm をアップグレードできるだけでなく、OVA 内の Web ホスティング環境を
+      更新することができます。OVA には、ディストリビューション、Web サーバー、PHP、
+      セキュリティ更新などが含まれます。
+
+      元の OVAвЂ™ の中から Swarm 設定をカスタマイズした場合、
+      /opt/swarm/data/config.php を新しい OVA 内の同じパスにコピーします。
+
+      /opt/swarm/data/queue/tokens/ に含まれるすべてのトークンファイルを、
+      新しい OVA 内の同じパスにコピーします。
+
+      Swarm 2014.2 OVA 以降を実行している場合、Swarm は
+      システムパッケージを使用してインストールされており、INSTALL.txt にある
+      パッケージのアップデート手順に従ってアップグレードすることができます。
+
+この文書に記載されたプロセスでは、ダウンタイムの最小化を試みていますが、
+Swarm ユーザーに短時間ダウンタイムが発生することは避けられません。ただし、
+Perforce サービスのダウンタイムは発生しません。アップグレードが正常に行われると、
+すべての Swarm ユーザーはログアウトします。
+
+実稼働環境にて Swarm を使用している場合、まず最初に
+テスト用環境にてアップグレードプロセスをテストすることをお勧めします。
+
+重要:
+    P4PHP は、新しい Swarm リリースに含まれるバージョンにアップグレード
+    する必要があります。Swarm が提供する P4PHP を使用するよう既に PHP を
+    設定してある場合は、この作業は自動的に行われます。その他の方法で
+    P4PHP を手動でインストールした場合、以下のアップグレード手順を開始する前に
+    P4PHP をアップグレードしてください。
+
+
+2014.4 リリースから 2015.1 リリースにアップグレードする際の作業手順
+-----------------------------------------
+
+このセクションでは、Swarm の 2014.4 リリースから 2015.1 リリースへの
+アップグレードプロセスについて説明します。
+
+以下の手順により、提供されるアーカイブファイルを使用して Swarm を
+アップグレードすることができます。SWARM_ROOT は、現在の Swarm のインストールを参照します。
+
+1.新たにダウンロードした「swarm.tgz」を解凍します。
+
+   $ tar -zxf swarm.tgz
+
+   「swarm.tgz」に含まれるファイルは、最上位階層の「swarm-*version*」という
+   名前のフォルダに展開されます。ここでの「version」は、ダウンロードされたバージョンに
+   対応します。このディレクトリは、以下の説明で「SWARM_NEW」として扱われます。
+
+2.「SWARM_NEW」を、「SWARM_ROOT」と同じフォルダに移動させます。
+
+   $ mv SWARM_NEW SWARM_ROOT/../
+
+3.「data/config.php」ファイルを、以前の Swarm から新しい Swarm に
+   コピーします。
+
+   $ cp -p SWARM_ROOT/data/config.php SWARM_NEW/data/
+
+4.キュートークンのディレクトリを作成します。
+
+   $ mkdir SWARM_NEW/data/queue
+
+5.既存のトリガートークンをコピーします。
+
+   $ sudo cp -R SWARM_ROOT/data/queue/tokens SWARM_NEW/data/queue/
+
+6.新しい Swarm のデータディレクトリへ、正しい所有権を割り当てます。
+
+   $ sudo chown -pR www-data SWARM_NEW/data
+
+7.以前の Swarm を、新しい Swarm に置き換えます。
+   ダウンタイムは、このステップで発生します。
+
+   $ sudo apache2ctl stop; mv SWARM_ROOT to SWARM.old; mv SWARM_NEW SWARM_ROOT; sudo apache2ctl start
+
+これで完了です。
+
+
+2014.3 リリースから 2014.4 リリースにアップグレードする際の作業手順
+-----------------------------------------
+
+このセクションでは、Swarm の 2014.3 リリースから 2014.4 リリースへの
+アップグレードプロセスについて説明します。
+
+以下の手順により、提供されるアーカイブファイルを使用して Swarm を
+アップグレードすることができます。SWARM_ROOT は、現在の Swarm のインストールを参照します。
+
+1.新たにダウンロードした「swarm.tgz」を解凍します。
+
+   $ tar -zxf swarm.tgz
+
+   「swarm.tgz」に含まれるファイルは、最上位階層の「swarm-*version*」という
+   名前のフォルダに展開されます。ここでの「version」は、ダウンロードされたバージョンに
+   対応します。このディレクトリは、以下の説明で「SWARM_NEW」として扱われます。
+
+2.「SWARM_NEW」を、「SWARM_ROOT」と同じフォルダに移動させます。
+
+   $ mv SWARM_NEW SWARM_ROOT/../
+
+3.「data/config.php」ファイルを、以前の Swarm から新しい Swarm に
+   コピーします。
+
+   $ cp -p SWARM_ROOT/data/config.php SWARM_NEW/data/
+
+4.キュートークンのディレクトリを作成します。
+
+   $ mkdir SWARM_NEW/data/queue
+
+5.既存のトリガートークンをコピーします。
+
+   $ sudo cp -R SWARM_ROOT/data/queue/tokens SWARM_NEW/data/queue/
+
+6.新しい Swarm のデータディレクトリへ、正しい所有権を割り当てます。
+
+   $ sudo chown -pR www-data SWARM_NEW/data
+
+7.以前の Swarm を、新しい Swarm に置き換えます。
+   ダウンタイムは、このステップで発生します。
+
+   $ sudo apache2ctl stop; mv SWARM_ROOT to SWARM.old; mv SWARM_NEW SWARM_ROOT; sudo apache2ctl start
+
+これで完了です。
+
+
+2014.2 リリースから 2014.3 リリースにアップグレードする際の作業手順
+-----------------------------------------
+
+このセクションでは、Swarm の 2014.2 リリースから 2014.3 リリースへの
+アップグレードプロセスについて説明します。
+
+以下の手順により、提供されるアーカイブファイルを使用して Swarm を
+アップグレードすることができます。SWARM_ROOT は、現在の Swarm のインストールを参照します。
+
+1.新たにダウンロードした「swarm.tgz」を解凍します。
+
+   $ tar -zxf swarm.tgz
+
+   「swarm.tgz」に含まれるファイルは、最上位階層の「swarm-*version*」という
+   名前のフォルダに展開されます。ここでの「version」は、ダウンロードされたバージョンに
+   対応します。このディレクトリは、以下の説明で「SWARM_NEW」として扱われます。
+
+2.「SWARM_NEW」を、「SWARM_ROOT」と同じフォルダに移動させます。
+
+   $ mv SWARM_NEW SWARM_ROOT/../
+
+3.「data/config.php」ファイルを、以前の Swarm から新しい Swarm に
+   コピーします。
+
+   $ cp -p SWARM_ROOT/data/config.php SWARM_NEW/data/
+
+4.Swarm のライセンスファイルがある場合は、「data/swarm-license」ファイルを、
+   以前の Swarm から新しい Swarm にコピーします。
+
+   $ cp -p SWARM_ROOT/data/swarm-license SWARM_NEW/data/
+
+5.キュートークンのディレクトリを作成します。
+
+   $ mkdir SWARM_NEW/data/queue
+
+6.既存のトリガートークンをコピーします。
+
+   $ sudo cp -R SWARM_ROOT/data/queue/tokens SWARM_NEW/data/queue/
+
+7.新しい Swarm のデータディレクトリへ、正しい所有権を割り当てます。
+
+   $ sudo chown -pR www-data SWARM_NEW/data
+
+8.以前の Swarm を、新しい Swarm に置き換えます。
+   ダウンタイムは、このステップで発生します。
+
+   $ sudo apache2ctl stop; mv SWARM_ROOT to SWARM.old; mv SWARM_NEW SWARM_ROOT; sudo apache2ctl start
+
+これで完了です。

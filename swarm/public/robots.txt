@@ -1,0 +1,5 @@
+User-Agent: *
+Disallow:
+Disallow: /docs
+Disallow: /signup
+Disallow: /login

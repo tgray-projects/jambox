@@ -1,0 +1,15 @@
+[[chapter.castle]]
+== The Castle Aaarrrrggh
+// vim: set ts=2 sw=2 tw=80 ai si:
+
+Ethel the hip aarvark processes her results with Ruby.
+Thanks to Kyle Rames for this example code:
+
+http://gist.github.com/krames/874305
+
+[split]
+[source, ruby, role="split"]
+----
+include::../assets/_common/code/python.rb[]
+----
+

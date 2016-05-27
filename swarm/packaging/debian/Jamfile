@@ -1,0 +1,31 @@
+SubDir SWARM packaging debian ;
+
+if $(OS) = LINUX && $(DEB)
+{
+
+  MkDeb helix-swarm : 
+		# Package names
+		helix-swarm :
+
+		# Packaging files
+		changelog
+		compat
+		control
+		copyright
+		docs
+		helix-swarm.cron.d
+		helix-swarm.dirs
+		helix-swarm.install
+		helix-swarm.postinst
+		helix-swarm.preinst
+		helix-swarm.prerm
+		helix-swarm-optional.postinst
+		helix-swarm-triggers.dirs
+		helix-swarm-triggers.install
+		helix-swarm-triggers.postinst
+		helix-swarm-triggers.prerm
+		rules
+		source-format
+		;
+
+}

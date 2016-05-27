@@ -1,0 +1,20 @@
+<phpunit bootstrap="TestBootstrap.php">
+ <testsuites>
+  <testsuite name="TestControllerCase">
+   <file>TestControllerCaseTest.php</file>
+  </testsuite>
+  <testsuite name="TriggerScripts">
+   <file>BashTriggerTest.php</file>
+   <file>PerlTriggerTest.php</file>
+  </testsuite>
+  <testsuite name="Modules">
+   <file>TestRunner.php</file>
+  </testsuite>
+ </testsuites>
+ <filter>
+  <whitelist processUncoveredFilesFromWhitelist="true">
+    <file>TestControllerCase.php</file>
+    <directory>../../../module</directory>
+  </whitelist>
+ </filter>
+</phpunit>

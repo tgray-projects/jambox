@@ -1,0 +1,160 @@
+﻿升级 Swarm
+===============
+
+本文档描述了如何从 Swarm 的之前版本升级到最新版本，其中包含 Swarm 之前三个版本的升级步骤，
+有关最新版本的升级说明放在最前面。请直接跳至相应的旧版本进行升级
+。
+
+若尚未使用 Swarm，则这些说明不适用于您。安装 Swarm 时请按照 INSTALL.txt 中的步骤操作。
+
+注意：以下说明可应用于 OVA。OVA 的 SWARM_ROOT（Swarm 安装文件夹）为 /opt/swarm。
+
+	不过，建议下载新 OVA，然后按照 INSTALL.txt 中所述的如下	OVA 设置步骤进行操作。
+	这样就可通过 OVA 获得经过升级的 Swarm 和经过更新的 Web 托管环境，包括发行版、
+	Web 服务器、PHP 和安全更新。
+
+	若已自定义原 OVA 的 Swarm 配置，请将 /opt/swarm/data/config.php 复制到新 OVA 中的同一路径。
+
+	将 /opt/swarm/data/queue/tokens/ 中的所有令牌文件复制到新 OVA 中的同一路径。
+
+	若正在运行 Swarm 2014.2 OVA 或更高版本，则应已使用系统软件包安装 Swarm，并可按照 INSTALL.txt 
+	中所述的软件包更新说明进行升级。
+
+本文档中所述的流程已尽力缩短停机时间，但 Swarm 用户仍可能无法避免短暂的停机。Perforce 服务应该不会暂停。
+在成功升级后，所有 Swarm 用户都将被注销。
+
+若正在生产环境中使用 Swarm，则建议先在非生产环境下测试此升级流程。
+
+重要说明：
+	P4PHP 应升级至新版 Swarm 中随附的版本。若已将 PHP 配置为使用 Swarm 提供的 P4PHP，
+	则将自动执行此操作。若已按其他方式手动安装 P4PHP，请先升级 P4PHP，然后再执行以下
+	升级步骤。
+
+
+2014.4 -> 2015.1 升级说明
+-----------------------------------------
+
+本节详细介绍如何将 Swarm 从 2014.4 版本升级至 2014.5 版本。
+
+以下步骤介绍如何使用提供的存档文件升级 Swarm。"SWARM_ROOT" 指向当前 Swarm 
+安装文件夹。
+
+1.展开新的 "swarm.tgz"：
+
+	$ tar -zxf swarm.tgz
+
+	"swarm.tgz" 的内容展开到名为 "swarm-*version*" 的顶级文件夹，其中
+	"version" 对应的是所下载版本。此目录即为下面的 "SWARM_NEW"。
+
+2.将 "SWARM_NEW" 移至 "SWARM_ROOT" 同级位置：
+
+	$ mv SWARM_NEW SWARM_ROOT/../
+
+3.将 data/config.php 文件从旧 Swarm 复制到新 Swarm：
+
+	$ cp -p SWARM_ROOT/data/config.php SWARM_NEW/data/
+
+4.创建队列令牌目录：
+
+	$ mkdir SWARM_NEW/data/queue
+
+5.复制现有触发令牌：
+
+	$ sudo cp -R SWARM_ROOT/data/queue/tokens SWARM_NEW/data/queue/
+
+6.向新 Swarm 的数据目录分配正确的所有权：
+
+	$ sudo chown -pR www-data SWARM_NEW/data
+
+7.将旧 Swarm 替换为新 Swarm。在执行此步骤时可能会出现停机。
+
+	$ sudo apache2ctl stop; mv SWARM_ROOT to SWARM.old; mv SWARM_NEW SWARM_ROOT; sudo apache2ctl start
+
+大功告成！
+
+
+2014.3 -> 2014.4 升级说明
+-----------------------------------------
+
+本节详细介绍如何将 Swarm 从 2014.3 版本升级至 2014.4 版本。
+
+以下步骤介绍如何使用提供的存档文件升级 Swarm。"SWARM_ROOT" 指向当前 Swarm 安装文件夹。
+
+1.展开新的 "swarm.tgz"：
+
+	$ tar -zxf swarm.tgz
+
+	"swarm.tgz" 的内容展开到名为 "swarm-*version*" 的顶级文件夹，其中 
+	"version" 对应的是所下载版本。此目录即为下面的 "SWARM_NEW"。
+
+2.将 "SWARM_NEW" 移至 "SWARM_ROOT" 同级位置：
+
+	$ mv SWARM_NEW SWARM_ROOT/../
+
+3.将 data/config.php 文件从旧 Swarm 复制到新 Swarm：
+
+	$ cp -p SWARM_ROOT/data/config.php SWARM_NEW/data/
+
+4.创建队列令牌目录：
+
+	$ mkdir SWARM_NEW/data/queue
+
+5.复制现有触发令牌：
+
+	$ sudo cp -R SWARM_ROOT/data/queue/tokens SWARM_NEW/data/queue/
+
+6.向新 Swarm 的数据目录分配正确的所有权：
+
+	$ sudo chown -pR www-data SWARM_NEW/data
+
+7.将旧 Swarm 替换为新 Swarm。在执行此步骤时可能会出现停机。
+
+	$ sudo apache2ctl stop; mv SWARM_ROOT to SWARM.old; mv SWARM_NEW SWARM_ROOT; sudo apache2ctl start
+
+大功告成！
+
+
+2014.2 -> 2014.3 升级说明
+-----------------------------------------
+
+本节详细介绍如何将 Swarm 从 2014.2 版本升级至 2014.3 版本。
+
+以下步骤介绍如何使用提供的存档文件升级 Swarm。"SWARM_ROOT" 指向当前 Swarm 安装文件夹。
+
+1.展开新的 "swarm.tgz"：
+
+	$ tar -zxf swarm.tgz
+
+	"swarm.tgz" 的内容展开到名为 "swarm-*version*" 的顶级文件夹，其中 
+	"version" 对应的是所下载版本。此目录即为下面的 "SWARM_NEW"。
+
+2.将 "SWARM_NEW" 移至 "SWARM_ROOT" 同级位置：
+
+	$ mv SWARM_NEW SWARM_ROOT/../
+
+3.将 data/config.php 文件从旧 Swarm 复制到新 Swarm：
+
+	$ cp -p SWARM_ROOT/data/config.php SWARM_NEW/data/
+
+4.若拥有 Swarm 许可证文件，请将 "data/swarm-license" 文件从旧 Swarm 复制到新 Swarm：
+
+	$ cp -p SWARM_ROOT/data/swarm-license SWARM_NEW/data/
+
+5.创建队列令牌目录：
+
+	$ mkdir SWARM_NEW/data/queue
+
+6.复制现有触发令牌：
+
+	$ sudo cp -R SWARM_ROOT/data/queue/tokens SWARM_NEW/data/queue/
+
+7.向新 Swarm 的数据目录分配正确的所有权：
+
+	$ sudo chown -pR www-data SWARM_NEW/data
+
+8.将旧 Swarm 替换为新 Swarm。在执行此步骤时可能会出现停机。
+
+	$ sudo apache2ctl stop; mv SWARM_ROOT to SWARM.old; mv SWARM_NEW SWARM_ROOT; sudo apache2ctl start
+
+大功告成！
+

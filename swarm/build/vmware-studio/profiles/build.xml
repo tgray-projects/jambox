@@ -1,0 +1,32 @@
+<project default="profile_xml" basedir=".">
+    <property name="app.package.name"           value="NO-DEFAULT" />
+
+    <property name="app.version"                value="2000.1.0.0" />
+    <property name="app.version.internal"       value="2000.1.0.0" />
+    <property name="app.version.configpanel"    value="2000.1.0.0" />
+
+    <property name="app.packageurl"             value="http://127.0.0.1/NO/DEFAULT/" />
+    <property name="vendor.packageurl"          value="http://127.0.0.1/NO/DEFAULT/" />
+
+    <property name="profile.filename"           value="${app.package.name}.xml" />
+    <property name="profile.filename.in"        value="${profile.filename}.in" />
+
+    <target name="profile_xml" description="Update tokens in ${profile.filename.in}" depends="clean" >
+        <copy file="${profile.filename.in}" toFile="${profile.filename}">
+            <filterset>
+                <filter token="PACKAGE"                value="${app.package.name}"/>
+
+                <filter token="VERSION"                value="${app.version}"/>
+                <filter token="INTERNAL_VERSION"       value="${app.version.internal}"/>
+                <filter token="CONFIG_PANEL_VERSION"   value="${app.version.configpanel}"/>
+
+                <filter token="APP_PACKAGE_URL"        value="${app.packageurl}"/>
+                <filter token="VENDOR_PACKAGE_URL"     value="${vendor.packageurl}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="clean">
+        <delete file="${profile.filename}" />
+    </target>
+</project>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- vim: set ts=2 sw=2 tw=80 ai si: -->
+<chapter
+  xml:id="chapter.different"
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="5.0"
+><?dbhtml filename="index.html"?>
+  <title>And now for something completely different&#8230;</title>
+
+  <mediaobject>
+    <imageobject role="fo">
+      <imagedata fileref="../assets/pdf/images/aardvark.svg" width="100%" scalefit="1" align="center"/>
+    </imageobject>
+    <imageobject role="html">
+      <imagedata fileref="../assets/publicsite/images/aardvark.png" width="100%" align="center"/>
+    </imageobject>
+    <textobject><phrase>Ethel the aardvark</phrase></textobject>
+  </mediaobject>
+
+  <para>
+    Ethel the Aardvark was trotting down the lane one lovely summer day,
+    trottety-trottety-trot, when she saw a nice Quantity-Surveyor named Rarnaby
+    Budge.
+  </para>
+</chapter>

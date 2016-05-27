@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<ruleset name="Swarm">
+
+  <description>Swarm ruleset for PHP CodeSniffer</description>
+
+  <!-- Swarm generally (with exceptions below) adheres to PSR2:
+       https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
+
+       As of PHP_CodeSniffer 1.5.2, the PSR2 standard contains 40 sniffs:
+
+       Generic (12 sniffs)
+       ===================
+         Generic.ControlStructures.InlineControlStructure
+         Generic.Files.ByteOrderMark
+         Generic.Files.LineEndings
+         Generic.Files.LineLength
+         Generic.Formatting.DisallowMultipleStatements
+         Generic.Functions.FunctionCallArgumentSpacing
+         Generic.NamingConventions.CamelCapsFunctionName
+         Generic.NamingConventions.UpperCaseConstantName
+         Generic.PHP.DisallowShortOpenTag
+         Generic.PHP.LowerCaseConstant
+         Generic.WhiteSpace.DisallowTabIndent
+         Generic.WhiteSpace.ScopeIndent
+
+       PEAR (1 sniff)
+       ===============
+         PEAR.Functions.ValidDefaultValue
+
+       PSR1 (3 sniffs)
+       ===============
+         PSR1.Classes.ClassDeclaration
+         PSR1.Files.SideEffects
+         PSR1.Methods.CamelCapsMethodName
+
+       PSR2 (10 sniffs)
+       ===============
+         PSR2.Classes.ClassDeclaration
+         PSR2.Classes.PropertyDeclaration
+         PSR2.ControlStructures.ControlStructureSpacing
+         PSR2.ControlStructures.ElseIfDeclaration
+         PSR2.ControlStructures.SwitchDeclaration
+         PSR2.Files.EndFileNewline
+         PSR2.Methods.FunctionCallSignature
+         PSR2.Methods.MethodDeclaration
+         PSR2.Namespaces.NamespaceDeclaration
+         PSR2.Namespaces.UseDeclaration
+
+       Squiz (13 sniffs)
+       =================
+         Squiz.Classes.ValidClassName
+         Squiz.ControlStructures.ControlSignature
+         Squiz.ControlStructures.ForEachLoopDeclaration
+         Squiz.ControlStructures.ForLoopDeclaration
+         Squiz.ControlStructures.LowercaseDeclaration
+         Squiz.Functions.FunctionDeclarationArgumentSpacing
+         Squiz.Functions.FunctionDeclaration
+         Squiz.Functions.LowercaseFunctionKeywords
+         Squiz.Functions.MultiLineFunctionDeclaration
+         Squiz.Scope.MethodScope
+         Squiz.WhiteSpace.ScopeClosingBrace
+         Squiz.WhiteSpace.ScopeKeywordSpacing
+         Squiz.WhiteSpace.SuperfluousWhitespace
+
+       Zend (1 sniffs)
+       ===============
+         Zend.Files.ClosingTag
+  -->
+  <rule ref="PSR2">
+    <!-- suppress this included sniff, as want to allow aligning arguments across lines -->
+    <exclude name="Generic.Functions.FunctionCallArgumentSpacing.TooMuchSpaceAfterComma"/>
+  </rule>
+
+  <!-- also perform these sniffs -->
+  <rule ref="Generic.Classes.DuplicateClassName"/>
+  <rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
+  <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+  <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+  <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+  <!-- these potentially, but not now
+  <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+  <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+  <rule ref="Generic.Commenting.Fixme"/>
+  <rule ref="Generic.Commenting.Todo"/>
+  -->
+  <rule ref="Generic.Files.OneClassPerFile"/>
+  <rule ref="PEAR.Functions.FunctionCallSignature"/>
+  <rule ref="Squiz.PHP.DiscouragedFunctions"/>
+  <!-- avoid eval(), but permit its use in tests -->
+  <rule ref="Squiz.PHP.Eval">
+    <exclude-pattern>tests/phpunit/*</exclude-pattern>
+  </rule>
+
+  <!-- exclude this specific sniff for the bootstrap files -->
+  <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+    <exclude-pattern>public/index.php</exclude-pattern>
+    <exclude-pattern>tests/phpunit/*/TestBootstrap.php</exclude-pattern>
+    <exclude-pattern>tests/behat/*/bootstrap.php</exclude-pattern>
+  </rule>
+
+  <!-- don't sniff the queue file -->
+  <exclude-pattern>public/queue.php</exclude-pattern>
+  <exclude-pattern>tests/phpunit/ModuleTest/assets/language/</exclude-pattern>
+</ruleset>
+

@@ -1,0 +1,9 @@
+[[license.statements]]
+[appendix]
+== License Statements
+// vim: set ts=2 sw=2 tw=80 ai si:
+
+The content in this guide is **not** licensed.
+
+// to include a common licensing statement, uncomment/edit:
+// include::{common_adoc}/license-openssl.adoc[]

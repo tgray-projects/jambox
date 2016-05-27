@@ -1,0 +1,69 @@
+<?php
+$this->headTitle()->set('Reset Password');
+?>
+<?php if (!$partial): ?>
+  <div class="reset-panel">
+    <h1 class="center">Reset Password</h1>
+<?php endif ?>
+<div class="<?php echo $partial ? 'modal hide fade' : '' ?> reset-password-dialog">
+  <form method="post" class="modal-form">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h3>Change Password</h3>
+    </div>
+    <div class="modal-body">
+        <div class="control-group">
+            <label for="username">Username or Email Address</label>
+            <input type="text" id="identity" name="identity" class="span4"
+                   autocomplete="off" required>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-mlarge btn-primary reset">Request Reset</button>
+    </div>
+  </form>
+</div>
+<?php if (!$partial): ?>
+  <div class="links muted center">
+    <a href="/docs/">Help</a>
+  </div>
+</div>
+<?php endif ?>
+
+<script type="text/javascript">
+    $(function() {
+        <?php if (isset($message)): ?>
+          swarm.workshop.notification('<?= $message ?>', '<?= isset($messageType) ?: 'error' ?>');
+        <?php endif ?>
+        // focus first, empty, input on show
+        $('.change-password-dialog').on('shown', function() {
+            var username = $('input[name=username]', this);
+            if (!username.val()) {
+                username.focus();
+            } else {
+                $('input[name=new]', this).focus();
+            }
+        });
+        <?php if ($partial): ?>
+            swarm.modal.show('.reset-password-dialog');
+        <?php endif ?>
+
+        $('.reset-password-dialog form').submit(function(e) {
+            e.preventDefault();
+            swarm.form.post('/account/password/reset', '.reset-password-dialog form', function(response){
+                if (response.isValid) {
+                    swarm.workshop.notification(response.message, 'success');
+                    <?php if ($partial): ?>
+                        $('.reset-password-dialog').modal('hide');
+                    <?php endif ?>
+                } else {
+                    var message = $('<div class="alert" />').text(response.message);
+
+                    swarm.form.clearErrors('.reset-password-dialog form', true);
+                    $('.reset-password-dialog .modal-body').prepend(message);
+                    return;
+                }
+            }, '.reset-password-dialog .modal-body');
+        });
+    });
+</script>

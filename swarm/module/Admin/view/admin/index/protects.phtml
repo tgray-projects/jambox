@@ -1,0 +1,41 @@
+<?php
+$this->headTitle()->set('Admin')->setTranslatorEnabled(false);
+$this->bodyClass()->append('login-reload');
+echo $this->adminToolbar();
+?>
+<form class="form-horizontal span10" method="POST">
+    <textarea name="protects" class="span10" rows="25">
+<?php
+foreach ($protections as $protect) {
+    echo $protect['mode'] . "\t" . $protect['type'] . "\t" . $protect['name'] . "\t";
+    echo $protect['host'] . "\t" . $protect['path'] . "\n";
+}
+echo '</textarea>';
+?>
+<br />
+<div class="control-group error">
+    <label class="control-label" for="confirm">I'm probably about to break things.</label>
+    <div class="controls">
+        <input type="checkbox" name="confirm" class="error" id="confirm"/>
+    </div>
+</div>
+<input type="submit" name="save"  class="btn btn-danger" disabled value="Save and Replace">
+</form>
+
+<script type="text/javascript">
+
+    swarm.form.post(swarm.url('protects'), form);
+</script>
+
+<script type="text/javascript">
+    $(function() {
+        $('.route-protects form').submit(function(e) {
+            e.preventDefault();
+            swarm.form.post('/admin', '.route-protects form', function(response){
+                if (response.isValid) {
+                    window.location.reload();
+                }
+            }, '.route-protects form');
+        });
+    });
+</script>

@@ -1,0 +1,12 @@
+<?php
+$userLink = $this->qualifiedUrl('user', array('user' => $username));
+?>
+You have been registered for the Perforce Workshop with the username
+"<?= $username ?>".  You can view your user profile here: <?= $userLink ?>
+
+Feel free to change your password, but please do not remove it.
+
+You have permission to submit files into the //guest/<?= $username ?>/ branch.
+
+For more information about the public depot, see our wiki:
+https://swarm.workshop.perforce.com/files/guest/perforce_software/contributing.md

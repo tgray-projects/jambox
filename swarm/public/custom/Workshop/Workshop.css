@@ -1,0 +1,21 @@
+.project-sidebar .branches ul li {
+    line-height: 30px;
+}
+
+.job-info .job-edit {
+    line-height: 17px;
+    background-color: #fff;
+    color: #006dcc;
+    border: 1px solid #006dcc;
+    font-weight: normal;
+    text-shadow: none;
+}
+.job-info .job-edit span {
+    position: relative;
+    top: 1px;
+}
+
+.route-project-jobs .jobs-toolbar .project-add-job {
+    vertical-align: top;
+    margin-left: 4px;
+}

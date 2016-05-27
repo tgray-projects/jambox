@@ -1,0 +1,21 @@
+<?php
+$userLink = $this->qualifiedUrl('user', array('user' => $username));
+?>
+<html>
+    <body style="font-family: sans-serif; background-color: #eee; padding: 1em;">
+        <div style="background-color: #fff; border: 1px solid #ccc; padding: 1em;">
+            <div style="font-size: 115%;">
+You have been registered for the Perforce Workshop with the username
+"<a style="text-decoration: none;" href="<?= $userLink ?>"><?= $username ?></a>".
+<br/>
+Feel free to change your password, but please do not remove it.
+<br/>
+You have permission to submit files into the <a style="text-decoration: none" href="http://swarm.workshop.perforce.com/files/guest/<?= $username ?>">//guest/<?= $username ?>/</a> branch.
+<br/>
+For more information about the public depot, see our wiki:
+https://swarm.workshop.perforce.com/files/guest/perforce_software/contributing.md
+            </div>
+            <br/>
+        </div>
+    </body>
+</html>

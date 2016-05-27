@@ -1,0 +1,26 @@
+<?php
+$this->headTitle()->set('Admin')->setTranslatorEnabled(false);
+$this->bodyClass()->append('login-reload');
+echo $this->adminToolbar();
+?>
+
+<?php
+
+if (isset($msg)) {
+    echo $msg;
+} else {
+    echo '<h4>Followers Moved!</h4>';
+    echo 'The following have been moved from <strong> ';
+    echo $source;
+    echo '</strong> to <strong>';
+    echo $target;
+    echo '</strong>:';
+    echo '<br>';
+    echo '<br>';
+    foreach ($followers as $follower) {
+    echo $follower . "<br>";
+    }
+}
+?>
+
+

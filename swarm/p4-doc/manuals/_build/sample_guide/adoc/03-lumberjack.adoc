@@ -1,0 +1,23 @@
+[[chapter.lumberjack]]
+== I'm a Lumberjack, and I'm okay!
+// vim: set ts=2 sw=2 tw=80 ai si:
+
+Ethel's surveying produced the following results:
+
+[options="header",cols="2,4"]
+|===
+| Location
+| Observation
+
+| Doune Castle
+| Your mother smells of elderberries
+
+| Loch Tay
+| And the count shall be three
+
+| Glen Coe
+| What is your favorite color?
+
+| Epping Forest
+| It's only a flesh wound!
+|===

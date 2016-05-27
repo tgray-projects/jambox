@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# If vmwgfx framebuffer is initialized, it'll default to 800x600.
+# Switch back to 640x480 so that the swarm text console banner
+# fills the screen as intended.
+if [ -d /sys/module/vmwgfx ]; then
+    fbset -a 640x480-75 -depth 32 -match
+fi
+
+: eof

@@ -1,0 +1,188 @@
+Upgrading Swarm
+===============
+
+This document describes how to upgrade a previous version of Swarm to
+the latest release. It covers the upgrade steps for the past three
+releases of Swarm, with the most recent release covered first. Skip
+down to upgrade from the older releases.
+
+If are are not already using Swarm, these instructions do not apply to
+you. Follow the steps in INSTALL.txt to install Swarm.
+
+Note: The instructions below can be applied to an OVA. The OVA’s
+      SWARM_ROOT, the folder where Swarm is installed, is /opt/swarm.
+
+      However, we recommend downloading the new OVA and then following
+      the OVA setup steps described in INSTALL.txt. This provides you
+      with an upgraded Swarm plus an updated web hosting environment
+      within the OVA, which can include distribution, web server, PHP,
+      and security updates.
+
+      If you have customized the original OVA’s Swarm configuration,
+      copy /opt/swarm/data/config.php to the same path in the new OVA.
+
+      Copy all token files in /opt/swarm/data/queue/tokens/ to the same
+      path in the new OVA.
+
+      If you are running the Swarm 2014.2 OVA, or newer, Swarm was
+      installed using system packages and can be upgraded by following
+      the package update instructions in INSTALL.txt
+
+The processes describe in this document attempt to minimize downtime,
+but a short period of downtime for Swarm users is unavoidable. There
+should be no downtime for your Perforce service. After a successful
+upgrade, all Swarm users are logged out.
+
+If you are using Swarm in a production environment, we encourage you
+to test the upgrade process in a non-production environment first.
+
+Important:
+    P4PHP should be upgraded to the version included in the new Swarm
+    release. If you have already configured PHP to use the
+    Swarm-provided P4PHP, this happens automatically. If you have
+    manually installed P4PHP in some other fashion, upgrade P4PHP
+    before you perform any of the upgrade steps below.
+
+
+
+Upgrade Instructions for 2014.4/2015.1 to 2015.2
+------------------------------------------------
+
+This section covers the process to upgrade from Swarm's 2014.4 and
+2015.1 releases to the 2015.2 release.
+
+The following steps describe how to upgrade Swarm using the provided
+archive file. "SWARM_ROOT" refers to the current Swarm installation.
+
+1. Expand the new "swarm.tgz":
+
+   $ tar -zxf swarm.tgz
+
+   The contents of "swarm.tgz" are expanded into a top-level folder
+   named "swarm-*version*", where 'version' corresponds to the version
+   downloaded. This directory is identified as "SWARM_NEW" below.
+
+2. Move "SWARM_NEW" to be a peer of "SWARM_ROOT":
+
+   $ mv SWARM_NEW SWARM_ROOT/../
+
+3. Copy the "data/config.php" file from the old Swarm to the new
+   Swarm:
+
+   $ cp -p SWARM_ROOT/data/config.php SWARM_NEW/data/
+
+4. Create the queue token directory:
+
+   $ mkdir SWARM_NEW/data/queue
+
+5. Copy the existing trigger token(s):
+
+   $ sudo cp -R SWARM_ROOT/data/queue/tokens SWARM_NEW/data/queue/
+
+6. Assign correct ownership to the new Swarm's data directory:
+
+   $ sudo chown -pR www-data SWARM_NEW/data
+
+7. Replace the old Swarm with the new Swarm.
+   DOWNTIME OCCURS IN THIS STEP!
+
+   $ sudo apache2ctl stop; mv SWARM_ROOT to SWARM.old; mv SWARM_NEW SWARM_ROOT; sudo apache2ctl start
+
+All done!
+
+
+Upgrade Instructions for 2014.3 to 2014.4
+-----------------------------------------
+
+This section covers the process to upgrade from Swarm's 2014.3
+release to the 2014.4 release.
+
+The following steps describe how to upgrade Swarm using the provided
+archive file. "SWARM_ROOT" refers to the current Swarm installation.
+
+1. Expand the new "swarm.tgz":
+
+   $ tar -zxf swarm.tgz
+
+   The contents of "swarm.tgz" are expanded into a top-level folder
+   named "swarm-*version*", where 'version' corresponds to the version
+   downloaded. This directory is identified as "SWARM_NEW" below.
+
+2. Move "SWARM_NEW" to be a peer of "SWARM_ROOT":
+
+   $ mv SWARM_NEW SWARM_ROOT/../
+
+3. Copy the "data/config.php" file from the old Swarm to the new
+   Swarm:
+
+   $ cp -p SWARM_ROOT/data/config.php SWARM_NEW/data/
+
+4. Create the queue token directory:
+
+   $ mkdir SWARM_NEW/data/queue
+
+5. Copy the existing trigger token(s):
+
+   $ sudo cp -R SWARM_ROOT/data/queue/tokens SWARM_NEW/data/queue/
+
+6. Assign correct ownership to the new Swarm's data directory:
+
+   $ sudo chown -pR www-data SWARM_NEW/data
+
+7. Replace the old Swarm with the new Swarm.
+   DOWNTIME OCCURS IN THIS STEP!
+
+   $ sudo apache2ctl stop; mv SWARM_ROOT to SWARM.old; mv SWARM_NEW SWARM_ROOT; sudo apache2ctl start
+
+All done!
+
+
+Upgrade Instructions for 2014.2 to 2014.3
+-----------------------------------------
+
+This section covers the process to upgrade from Swarm's 2014.2
+release to the 2014.3 release.
+
+The following steps describe how to upgrade Swarm using the provided
+archive file. "SWARM_ROOT" refers to the current Swarm installation.
+
+1. Expand the new "swarm.tgz":
+
+   $ tar -zxf swarm.tgz
+
+   The contents of "swarm.tgz" are expanded into a top-level folder
+   named "swarm-*version*", where 'version' corresponds to the version
+   downloaded. This directory is identified as "SWARM_NEW" below.
+
+2. Move "SWARM_NEW" to be a peer of "SWARM_ROOT":
+
+   $ mv SWARM_NEW SWARM_ROOT/../
+
+3. Copy the "data/config.php" file from the old Swarm to the new
+   Swarm:
+
+   $ cp -p SWARM_ROOT/data/config.php SWARM_NEW/data/
+
+4. If you have a Swarm license file, copy the "data/swarm-license"
+   file from the old Swarm to the new Swarm:
+
+   $ cp -p SWARM_ROOT/data/swarm-license SWARM_NEW/data/
+
+5. Create the queue token directory:
+
+   $ mkdir SWARM_NEW/data/queue
+
+6. Copy the existing trigger token(s):
+
+   $ sudo cp -R SWARM_ROOT/data/queue/tokens SWARM_NEW/data/queue/
+
+7. Assign correct ownership to the new Swarm's data directory:
+
+   $ sudo chown -pR www-data SWARM_NEW/data
+
+8. Replace the old Swarm with the new Swarm.
+   DOWNTIME OCCURS IN THIS STEP!
+
+   $ sudo apache2ctl stop; mv SWARM_ROOT to SWARM.old; mv SWARM_NEW SWARM_ROOT; sudo apache2ctl start
+
+All done!

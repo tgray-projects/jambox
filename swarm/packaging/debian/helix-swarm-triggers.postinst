@@ -1,0 +1,163 @@
+#!/bin/sh -e
+# postinst script for perforce-swarm-triggers
+#
+# see: dh_installdeb(1)
+
+# Summary of how this script can be called:
+# <postinst>                'configure'         <most-recently-configured-version>
+# <old-postinst>            'abort-upgrade'     <new version>
+# <conflictor's-postinst>   'abort-remove'      'in-favour'  <package> <new-version>
+# <postinst>                'abort-remove'
+# <deconfigured's-postinst> 'abort-deconfigure' \
+#                           'in-favour' <failed-install-package> <version> \
+#                           'removing'  <conflicting-package> <version>
+# for details, see http://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+
+ME="${0##*/}"
+#echo "###########################"
+#echo "[$ME] [$*]"
+
+THISPKG="helix-swarm-triggers"
+PERFORCE_ROOT="/opt/perforce"
+PERFORCE_CFGDIR="$PERFORCE_ROOT/etc"
+SWARM_ROOT="$PERFORCE_ROOT/swarm"
+SWARM_DATADIR="$SWARM_ROOT/data"
+SWARM_SBINDIR="$SWARM_ROOT/sbin"
+SWARM_CONFIG="$SWARM_DATADIR/config.php"
+
+SWARM_TRIG_BINDIR="$PERFORCE_ROOT/swarm-triggers/bin"
+SWARM_TRIG_SCRIPT="$SWARM_TRIG_BINDIR/swarm-trigger.pl"
+SWARM_CONFIG_SRCNAME="swarm-trigger.conf"
+SWARM_TRIG_CONFIG="$PERFORCE_CFGDIR/$SWARM_CONFIG_SRCNAME"
+
+do_configure()
+{
+    if [ -z "$1" ]; then
+        mode=install
+    else
+        mode=upgrade
+        from_version="$1"
+        from_version_major="${from_version%%-*}"
+    fi
+
+    # Create the trigger config file template
+    local good_swarm_trig_config=0
+    while true; do
+        if [ ! -r "$SWARM_TRIG_SCRIPT" ]; then
+            error_msg="cannot find Swarm trigger script [$SWARM_TRIG_SCRIPT]"
+            break
+        fi
+
+        local new_swarm_trig_config="$SWARM_TRIG_CONFIG.dpkg-new"
+        mkdir -p "$(dirname "$new_swarm_trig_config")"
+
+        sed -ne '/^# SWARM_HOST/,/^ADMIN_TICKET_FILE/p' "$SWARM_TRIG_SCRIPT" > "$new_swarm_trig_config"
+        if [ $? -ne 0 ]; then
+            error_msg="trouble composing new Swarm trigger config [$new_swarm_trig_config]"
+            break
+        fi
+
+        # Put new file into place only if one doesn't exist
+        if [ -r "$SWARM_TRIG_CONFIG" ]; then
+            # Check if it's the same
+            if diff -q "$new_swarm_trig_config" "$SWARM_TRIG_CONFIG" > /dev/null; then
+                # No difference, so remove what we created
+                rm -f "$new_swarm_trig_config"
+            else
+                # Different, so leave it as *.dpkg-new
+                echo "$THISPKG: warning: $SWARM_TRIG_CONFIG created as $new_swarm_trig_config"
+            fi
+        else
+            # Move into place
+            mv "$new_swarm_trig_config" "$SWARM_TRIG_CONFIG"
+        fi
+
+        good_swarm_trig_config=1
+        break
+    done
+
+    if [ $good_swarm_trig_config -ne 1 ]; then
+        cat << __WARNING__
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!
+!!  $THISPKG: Warning: problems creating Swarm trigger config file
+!!  Problem:
+!!  $error_msg
+!!
+!!  You must manually edit the following file as appropriate:
+!!
+!!      ${SWARM_TRIG_CONFIG}
+!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+__WARNING__
+    fi
+
+    if [ "$mode" = "install" ]; then
+        cat << __INSTALL_MSG__
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::
+::  Swarm Triggers are now installed, but not configured.
+::  You must edit the following file as appropriate:
+::
+::      ${SWARM_TRIG_CONFIG}
+::
+::  Ensure you create the triggers in your Perforce server.
+::
+::  Reference:
+::  http://www.perforce.com/perforce/doc.current/manuals/swarm/setup.perforce.html
+::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+__INSTALL_MSG__
+
+    elif [ "$mode" = "upgrade" ]; then
+        if [ "$from_version_major" = "2014.2" ]; then
+            cat << __UPGRADE_MSG__
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::
+::  Swarm Triggers have been upgraded, but must be
+::  reconfigured. You must edit the following file as appropriate:
+::
+::      ${SWARM_TRIG_CONFIG}
+::
+::  Ensure you update the triggers in your Perforce server, as new
+::  entries have been added for this release. Reference:
+::
+::  http://www.perforce.com/perforce/doc.current/manuals/swarm/setup.perforce.html
+::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+__UPGRADE_MSG__
+        else
+            : # should be a smooth upgrade at this point
+        fi
+    fi
+}
+
+case "$1" in
+    configure)
+        do_configure "$2"
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "$ME called with unknown argument [$1]" >&2
+        exit 1
+    ;;
+esac
+
+# dh_installdeb will replace this with shell code automatically
+# generated by other debhelper scripts.
+
+#DEBHELPER#
+
+exit 0

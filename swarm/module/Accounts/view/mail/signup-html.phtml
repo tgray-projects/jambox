@@ -1,0 +1,17 @@
+<?php
+$signupLink = $this->qualifiedUrl('verify', array('token' => $token));
+?>
+<html>
+    <body style="font-family: sans-serif; background-color: #eee; padding: 1em;">
+        <div style="background-color: #fff; border: 1px solid #ccc; padding: 1em;">
+            <div style="font-size: 115%;">
+                You are receiving this email because you have signed up for the Perforce Workshop with the username "<?= $username ?>".
+                <br/>
+                To activate your account, please click here: <a href="<?= $signupLink ?>"><?= $signupLink ?></a> or copy and paste the provided url into your browser.
+                <br/>
+                This url will remain valid for the next 48 hours, but can only be used once.
+            </div>
+            <br/>
+        </div>
+    </body>
+</html>

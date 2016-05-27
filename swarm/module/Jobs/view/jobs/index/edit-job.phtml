@@ -1,0 +1,89 @@
+<?php if (!$partial): ?>
+<?php $this->headTitle()->set(ucfirst($mode) . ' Job'); ?>
+
+<div class="job-edit">
+    <h1><?php echo $this->escapeHtml(ucfirst($mode)) ?> Job</h1>
+<?php endif ?>
+    <form method="post" class="form-horizontal form">
+        <div class="control-group">
+            <label class="control-label" for="severity">Severity</label>
+            <div class="controls">
+                <input type="hidden" name="severity" value="<?php echo $this->escapeHtmlAttr($job->getRawValue('Severity')); ?>" />
+                <div class="btn-group" data-toggle="buttons-radio"">
+                    <?php
+                    foreach (array('c' => 'Low', 'b' => 'Medium', 'a' => 'High') as $severity => $label) {
+                        echo '<button type="button" class="btn job-severity';
+                        if ($mode == 'edit' && strtolower($job->getRawValue('Severity')) == $severity
+                            || $mode == 'add' && $severity == 'c') {
+                            echo ' active';
+                        }
+                        echo '" value="' . ucfirst($severity) . '">' . $label . '</button>';
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="severity">Type</label>
+            <div class="controls">
+                <input type="hidden" name="type" value="<?php echo $this->escapeHtmlAttr($job->getRawValue('Type')); ?>" />
+                <div class="btn-group" data-toggle="buttons-radio"">
+                    <button type="button" class="btn job-type<?= ($job->getRawValue('Type') == 'Bug') ? ' active' : '' ?>" value="Bug">Bug</button>
+                    <button type="button" class="btn job-type<?= ($job->getRawValue('Type') == 'Feature') ? ' active' : '' ?>" value="Feature">Feature</button>
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="description">Status</label>
+            <div class="controls">
+                <input type="hidden" name="status" value="<?php echo $this->escapeHtmlAttr($job->getRawValue('Status')); ?>" />
+                <div class="btn-group" data-toggle="buttons-radio"">
+                    <button type="button" class="btn job-status<?= ($job->getRawValue('Status') == 'open') ? ' active' : '' ?>" value="open">Open</button>
+                    <button type="button" class="btn job-status<?= ($job->getRawValue('Status') == 'inprogress') ? ' active' : '' ?>" value="inprogress">In Progress</button>
+                    <button type="button" class="btn job-status<?= ($job->getRawValue('Status') == 'block') ? ' active' : '' ?>" value="block">Blocked</button>
+                    <button type="button" class="btn job-status<?= ($job->getRawValue('Status') == 'suspended') ? ' active' : '' ?>" value="suspended">Suspended</button>
+                    <button type="button" class="btn job-status<?= ($job->getRawValue('Status') == 'closed') ? ' active' : '' ?>" value="closed">Closed</button>
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="description">Description</label>
+            <div class="controls">
+                <textarea class="input-xlarge" type="text" name="description" id="description"
+                       placeholder="Description" required><?php
+                    echo $this->escapeHtmlAttr($job->getRawValue('Description')) ?></textarea>
+            </div>
+        </div>
+    </form>
+ <?php if (!$partial): ?>
+    <div class="control-group">
+        <div class="controls">
+            <button type="button" class="btn btn-submit">Save</button>
+            <button type="button" class="btn">Cancel</button>
+        </div>
+    </div>
+</div>
+<?php endif ?>
+
+<script type="text/javascript">
+
+    $('button.btn').button();
+
+    <?php if (!$partial): ?>
+    <?php
+    $actionUrl  = ($mode === 'edit')
+        ? '/projects/' . $this->escapeUrl($job->getRawValue('Project')) . '/job/' . $this->escapeUrl($job->getId()) . '/edit/'
+        : '/projects/' . $this->escapeUrl($job->getRawValue('Project')) . '/job/add';
+    ?>
+    var saveUrl = '<?php echo $this->escapeJs($actionUrl) ?>';
+    var wrapper = $('.job-edit');
+
+    // wire-up save button
+    swarm.form.checkInvalid($(wrapper).find('form'));
+    $(wrapper).find('form').submit(function(e) {
+        e.preventDefault();
+        swarm.form.post(saveUrl, $(wrapper).find('form'));
+    });
+
+    <?php endif ?>
+</script>

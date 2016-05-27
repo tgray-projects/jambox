@@ -1,0 +1,10 @@
+<pubdate>May 2015</pubdate>
+<publishername>Perforce</publishername>
+<xi:include
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  href="file://@common-xml@/legalnotice.xml"
+/>
+<copyright>
+  <year>1968-2015</year>
+  <holder>John Cleese, Graham Chapman</holder>
+</copyright>

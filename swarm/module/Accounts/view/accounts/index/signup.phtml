@@ -1,0 +1,80 @@
+<?php
+$this->headTitle()->set('Signup');
+
+$services = $this->getHelperPluginManager()->getServiceLocator();
+$config   = $services->get('config');
+?>
+
+<?php if (!$partial): ?>
+  <div class="signup-panel">
+    <div class="well">
+      <img src="/custom/Frontpage/jambox_signup.jpg"></img>
+    </div>
+<?php endif ?>
+<div class="<?php echo $partial ? 'modal hide fade' : '' ?> signup-dialog">
+  <form method="post" class="modal-form">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h3>Sign up</h3>
+    </div>
+    <div class="modal-body">
+        <div class="control-group">
+            <label for="user">Username</label>
+            <input type="text" id="user" name="user" class="span4" 
+                   value="<?php echo $this->escapeHtmlAttr($user) ?>" required>
+            <div class="help-block">
+                Only alphanumeric characters and the underscore are valid.
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="email">Email</label>
+            <input type="text" id="user" name="email" class="span4" 
+                   value="" required>
+        </div>
+        <div class="control-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="span4" 
+                   autocomplete="off" required>
+        </div>
+      <label class="checkbox" for="signupRemember">
+          <input type="checkbox" id="signupRemember" name="signupRemember" <?php echo $remember ? 'checked' : ''?>>Remember Me After Login
+      </label>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-mlarge btn-primary signup">Sign up</button>
+    </div>
+  </form>
+</div>
+<?php if (!$partial): ?>
+  <div class="links muted center">
+    <a href="/docs/">Help</a>
+  </div>
+</div>
+<?php endif ?>
+
+<script type="text/javascript">
+    $(function() {
+        <?php if ($partial): ?>
+            // focus first, empty, input on show
+            $('.signup-dialog').on('shown', function() {
+                var user = $('input[name=user]', this);
+                if (!user.val()) {
+
+                    user.focus();
+                } else {
+                    $('input[name=password]', this).focus();
+                }
+            });
+
+            swarm.modal.show('.signup-dialog');
+        <?php else: ?>
+            // focus first, empty, input on show
+            var user = $('.signup-dialog input[name=user]');
+            if (!user.val()) {
+                user.focus();
+            } else {
+                $('.signup-dialog input[name=password]').focus();
+            }
+        <?php endif ?>
+    });
+</script>

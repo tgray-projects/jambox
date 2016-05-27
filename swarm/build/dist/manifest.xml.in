@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<package format="1.0" type="linux">
+  <name>perforce-swarm-ova</name>
+  <version>BUILD_VERSION</version>
+  <vendor>Perforce Software, Inc.</vendor>
+  <depends>helix-swarm</depends>
+  <depends>fbset</depends>
+  <arch>none</arch>
+  <short-description>Perforce Swarm OVA</short-description>
+  <description>Foundation to install Perforce Swarm on its OVA</description>
+  <preinstall>#!/bin/sh
+  </preinstall>
+  <postinstall>#!/bin/sh
+rm -f /etc/apache2/sites-enabled/000-default
+true
+  </postinstall>
+  <preremove>#!/bin/sh
+  </preremove>
+  <postremove>#!/bin/sh
+  </postremove>
+  <configuration-files>
+  </configuration-files>
+</package>

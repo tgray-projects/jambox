@@ -1,0 +1,1782 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Swarm\n"
+"POT-Creation-Date: 2015-03-23 17:08+0200\n"
+"PO-Revision-Date: 2015-05-28 10:13+0300\n"
+"Last-Translator: \n"
+"Language-Team: Alpha CRC\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Language: zh_CN\n"
+
+#. common strings
+msgid "Search"
+msgstr "搜索"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "modified"
+msgstr "修改了"
+
+msgid "this change"
+msgstr "该更改，时间："
+
+msgid "Overview"
+msgstr "概述"
+
+msgid "Opened"
+msgstr "已打开"
+
+msgid "Closed"
+msgstr "已关闭"
+
+msgid "Branch Name"
+msgstr "分支名称"
+
+msgid "Branches"
+msgstr "分支"
+
+msgid "Paths"
+msgstr "路径"
+
+#: ../Application/view/layout/layout.phtml:15
+msgid "Swarm"
+msgstr "Swarm"
+
+#: ../Application/view/layout/toolbar.phtml
+msgid "User Menu"
+msgstr "用户菜单"
+
+msgid "Profile"
+msgstr "配置文件"
+
+msgid "About Swarm"
+msgstr "关于 Swarm"
+
+msgid "Log out"
+msgstr "注销"
+
+msgid "Log in"
+msgstr "登录"
+
+msgid "Home"
+msgstr "首页"
+
+msgid "Reviews"
+msgstr "审查"
+
+msgid "Files"
+msgstr "文件"
+
+msgid "History"
+msgstr "历史记录"
+
+msgid "Jobs"
+msgstr "作业"
+
+msgid "Help"
+msgstr "帮助"
+
+#: Application\view\application\index\about.phtml modal window
+msgid "About"
+msgstr "关于"
+
+msgid "Perforce Swarm"
+msgstr "Perforce Swarm"
+
+msgid "Copyright"
+msgstr "版权所有"
+
+msgid "Perforce Software"
+msgstr "Perforce Software"
+
+msgid "System Information"
+msgstr "系统信息"
+
+#: Application/view/application/index/info.phtml
+msgid "Perforce"
+msgstr "Perforce"
+
+msgid "Log"
+msgstr "日志"
+
+msgid "PHP Info"
+msgstr "PHP 信息"
+
+msgid "Refresh Log"
+msgstr "刷新日志"
+
+msgid "Download Log"
+msgstr "下载日志"
+
+msgid "Time"
+msgstr "时间"
+
+msgid "Severity"
+msgstr "严重性"
+
+msgid "Message"
+msgstr "消息"
+
+#: Activity\View\Helper\Activity.php
+msgid "Swarm Activity"
+msgstr "Swarm 活动"
+
+msgid "Changes"
+msgstr "更改"
+
+msgid "Comments"
+msgstr "备注"
+
+msgid "Activity"
+msgstr "活动"
+
+msgid "Activity to Display"
+msgstr "要显示的活动"
+
+msgid "All Activity"
+msgstr "所有活动"
+
+msgid "Followed Activity"
+msgstr "关注的活动"
+
+#: Changes/view/changes/index/changes.phtml
+msgid "Change"
+msgstr "更改"
+
+msgid "change"
+msgstr "更改"
+
+msgid "User"
+msgstr "用户"
+
+msgid "Description"
+msgstr "描述"
+
+msgid "Committed"
+msgstr "提交时间"
+
+#: Changes/view/changes/index/change.phtml
+msgid "View Review"
+msgstr "查看审查"
+
+msgid "Request Review"
+msgstr "请求审查"
+
+msgid "No description"
+msgstr "无描述"
+
+msgid "Files Edited"
+msgstr "已编辑文件数"
+
+msgid "edited"
+msgstr "已编辑"
+
+msgid "Files Added"
+msgstr "已添加文件数"
+
+msgid "added"
+msgstr "已添加"
+
+msgid "Files Deleted"
+msgstr "已删除文件数"
+
+msgid "deleted"
+msgstr "已删除"
+
+msgid "Show Comments"
+msgstr "显示备注"
+
+msgid "Show Diffs In-Line"
+msgstr "内联显示差异"
+
+msgid "Show Diffs Side-by-Side"
+msgstr "并列显示差异"
+
+msgid "Collapse All"
+msgstr "折叠全部"
+
+msgid "Expand All"
+msgstr "展开全部"
+
+msgid "Open File"
+msgstr "打开文件"
+
+msgid "Loading..."
+msgstr "正在加载..."
+
+msgid "Tip: Use %sn%s and %sp%s to cycle through the changes."
+msgstr "提示：使用 %sn%s 和 %sp%s 在更改内容中循环。"
+
+#: Changes/view/mail/commit-html.phtml
+msgid "JOBS"
+msgstr "作业"
+
+msgid "FILES"
+msgstr "文件"
+
+msgid "on behalf of"
+msgstr "代表"
+
+msgid "under"
+msgstr "下方"
+
+msgid "review"
+msgstr "审查"
+
+msgid "under review"
+msgstr "正在审查"
+
+msgid "Jobs:"
+msgstr "作业："
+
+msgid "Files:"
+msgstr "文件："
+
+msgid "files"
+msgstr "文件"
+
+msgid "Snip"
+msgstr "剪断"
+
+#: Comments/view/comments.phtml
+msgid "Archive"
+msgstr "存档"
+
+msgid "Add a comment"
+msgstr "添加备注"
+
+msgid "Drop files here to attach them"
+msgstr "将文件拖放到此处以添加附件"
+
+msgid "Emoji codes are supported"
+msgstr "支持使用 Emoji 表情符号"
+
+msgid "Post"
+msgstr "发布"
+
+msgid "Flag as Task"
+msgstr "标记为任务"
+
+msgid "Log in to comment"
+msgstr "登录到备注"
+
+#: Comments/view/mail/comment-html.phtml & comment-text.phtml
+msgid "ATTACHMENTS"
+msgstr "附件"
+
+msgid "Attachments"
+msgstr "附件"
+
+#: Files/view/files/index/diff.phtml
+msgid "Show More"
+msgstr "显示更多"
+
+msgid "content purged."
+msgstr "内容已清空。"
+
+msgid "content unchanged."
+msgstr "内容未更改。"
+
+msgid "previous version"
+msgstr "上一版本"
+
+#: Files/view/files/index/file.phtml
+msgid "View"
+msgstr "查看"
+
+msgid "Shorten URL"
+msgstr "缩短 URL"
+
+msgid "Show Annotations"
+msgstr "显示注释"
+
+msgid "Blame"
+msgstr "归责"
+
+msgid "Open"
+msgstr "打开"
+
+msgid "Download .zip"
+msgstr "下载 .zip"
+
+msgid "Download"
+msgstr "下载"
+
+#: Files/view/files/index/filelog.phtml
+msgid "Commited"
+msgstr "提交时间"
+
+msgid "Remote depot (change details are not available)"
+msgstr "远程存储库（不提供更改详细信息）"
+
+msgid "Deleted"
+msgstr "已删除"
+
+#: Files/view/files/index/list.phtml
+msgid "Browse"
+msgstr "浏览"
+
+msgid "Range"
+msgstr "范围"
+
+msgid "Examples"
+msgstr "示例"
+
+msgid "All Time (Default)"
+msgstr "所有时间（默认）"
+
+msgid "Between changes 80 and 90"
+msgstr "介于更改项 80 和 90 之间"
+
+msgid "Up to change 80"
+msgstr "早于更改项 80"
+
+msgid "Just change 80"
+msgstr "仅更改项 80 "
+
+msgid "Newer than change 80"
+msgstr "晚于更改项 80"
+
+msgid "Change 80 to Now"
+msgstr "更改项 80 至今"
+
+msgid "Part of label 'label-name'"
+msgstr "所属标签 'label-name'"
+
+msgid "Up to Nov 30, 2014"
+msgstr "早于 2014 年 11 月 30 日"
+
+msgid "Nov 30, 2014 to Now"
+msgstr "2014 年 11 月 30 日至今"
+
+msgid "Show Deleted Files"
+msgstr "显示已删除的文件"
+
+msgid "Name"
+msgstr "名称"
+
+msgid "Modified"
+msgstr "修改日期"
+
+msgid "Size"
+msgstr "大小"
+
+#: Jobs/view/jobs/index/jobs.phtml
+msgid "Select Columns"
+msgstr "选择列"
+
+#: Jobs/view/jobs/index/job.phtml
+msgid "created this job"
+msgstr "创建了该作业"
+
+msgid "modified by"
+msgstr "修改人"
+
+msgid "last modified"
+msgstr "上次修改时间："
+
+msgid "modified this job"
+msgstr "修改了该作业"
+
+msgid "Details"
+msgstr "详细信息"
+
+#: Projects/src/Projects/View/Helper/ProjectsSidebar.php
+msgid "Projects"
+msgstr "项目"
+
+msgid "Projects to Display"
+msgstr "要显示的项目"
+
+msgid "All Projects"
+msgstr "所有项目"
+
+msgid "My Projects"
+msgstr "我的项目"
+
+msgid "Add Project"
+msgstr "添加项目"
+
+#: Projects/view/projects/index/edit.phtml
+msgid "Project"
+msgstr "项目"
+
+msgid "Owners"
+msgstr "所有者"
+
+msgid "Only Owners and Administrators can edit the project"
+msgstr "仅所有者和管理员可以编辑项目"
+
+msgid "Add an Owner"
+msgstr "添加所有者"
+
+msgid "Members"
+msgstr "成员"
+
+msgid "Add a Member"
+msgstr "添加成员"
+
+msgid "Only Moderators can approve or reject reviews"
+msgstr "仅仲裁员可以批准或拒绝审查"
+
+msgid "Moderator Name"
+msgstr "仲裁员姓名"
+
+msgid "Done"
+msgstr "完成"
+
+msgid "Remove"
+msgstr "删除"
+
+msgid "Add Branch"
+msgstr "添加分支"
+
+msgid "Job Filter"
+msgstr "作业筛选器"
+
+msgid "Email Notifications"
+msgstr "电子邮件通知"
+
+msgid "Email project members when a new review is requested"
+msgstr "在有人请求新审查时向项目成员发送电子邮件"
+
+msgid "Email project members and followers when a change is committed"
+msgstr "在有人提交更改时向项目成员和关注者发送电子邮件"
+
+msgid "Users may still receive emails if: the change/review impacts other projects, they authored the review, or a change review daemon is installed."
+msgstr "在下列情况下，用户仍会收到电子邮件：该更改/审查会影响其他项目；这些人编写了该审查；安装了更改审查守护程序。"
+
+msgid "See help for more details."
+msgstr "请参阅帮助了解详细信息。"
+
+msgid "Automated Tests"
+msgstr "自动测试"
+
+msgid "Enable"
+msgstr "启用"
+
+msgid "A URL that will trigger automated tests to run when reviews are created or updated."
+msgstr "该 URL用于创建或更新审查时触发自动测试运行。"
+
+msgid "Some special"
+msgstr "部分特殊"
+
+msgid "Change Number"
+msgstr "更改内容编号"
+
+msgid "Change Status"
+msgstr "更改状态"
+
+msgid "Review Identifier"
+msgstr "审查标识符"
+
+msgid "Project Identifier"
+msgstr "项目标识符"
+
+msgid "Project Name"
+msgstr "项目名称"
+
+msgid "Branch Identifier(s) (comma-separated)"
+msgstr "分支标识符（用逗号隔开）"
+
+msgid "Branch Name(s) (comma-separated)"
+msgstr "分支名称（用逗号隔开）"
+
+msgid "Pass Callback URL"
+msgstr "通过回拨 URL"
+
+msgid "Success Callback URL"
+msgstr "成功回拨 URL"
+
+msgid "Failure Callback URL"
+msgstr "失败回拨 URL"
+
+msgid "arguments%s are supported."
+msgstr "参数 %s 可以使用。"
+
+msgid "POST Parameters"
+msgstr "POST 参数"
+
+msgid "List of parameters that will be sent as POST parameters to the above URL. The special arguments supported for URLs can also be used here."
+msgstr "该参数列表将作为 POST 参数发送至上述 URL。某些支持 URL 的特殊参数也可在此使用。"
+
+msgid "Automated Deployment"
+msgstr "自动部署"
+
+msgid "A URL that will trigger a deployment when reviews are created or updated."
+msgstr "用于创建或更新审查时触发部署的 URL。"
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Delete"
+msgstr "删除"
+
+#: Projects/view/projects/index/project.phtml
+msgid "Unfollow"
+msgstr "取消关注"
+
+msgid "Follow"
+msgstr "关注"
+
+msgid "Edit"
+msgstr "编辑"
+
+msgid "Followers"
+msgstr "关注者"
+
+#: \Reviews/view/reviews/index/review.phtml
+msgid "Review"
+msgstr "审查"
+
+msgid "%1$s authored this <span class=\"timeago\" title=\"%2$s\"></span> for "
+msgstr "%1$s 编写了该部分，时间：<span class=\"timeago\" title=\"%2$s\"></span>，所属项目： "
+
+msgid "authored this"
+msgstr "编写了该部分，时间："
+
+msgid "for"
+msgstr "，所属项目："
+
+msgid "Diff Two Versions"
+msgstr "比较两个版本差异"
+
+msgid "commited"
+msgstr "已经提交，时间："
+
+msgid "committed"
+msgstr "已经提交"
+
+msgid "by"
+msgstr "创建人"
+
+msgid "in"
+msgstr "操作对象："
+
+msgid "to"
+msgstr "以"
+
+msgid "last updated"
+msgstr "上次更新时间："
+
+msgid "shelved"
+msgstr "已经搁置"
+
+msgid "Shelved"
+msgstr "已搁置"
+
+msgid "Changes between"
+msgstr "更改内容介于"
+
+msgid "commit"
+msgstr "提交"
+
+msgid "shelf"
+msgstr "搁置"
+
+msgid "and"
+msgstr "和"
+
+msgid "into"
+msgstr "，目标位置："
+
+msgid "Mark as"
+msgstr "标记为"
+
+msgid "Unread"
+msgstr "未读"
+
+msgid "Read"
+msgstr "已读"
+
+msgid "No"
+msgstr "无"
+
+msgid "Files."
+msgstr "文件。"
+
+msgid "Upgrade"
+msgstr "升级"
+
+#: Reviews/view/reviews-pane.phtml
+msgid "All"
+msgstr "全部"
+
+msgid "My Reviews"
+msgstr "我的审查项"
+
+msgid "Has Reviewers"
+msgstr "有审查员"
+
+msgid "No Reviewers"
+msgstr "无审查员"
+
+msgid "Needs Review"
+msgstr "待审查"
+
+msgid "Needs Revision"
+msgstr "待修订"
+
+msgid "Approved"
+msgstr "已批准"
+
+msgid "Rejected"
+msgstr "已拒绝"
+
+msgid "Archived"
+msgstr "已存档"
+
+msgid "Tests Pass"
+msgstr "测试通过"
+
+msgid "Tests Fail"
+msgstr "测试失败"
+
+msgid "Author"
+msgstr "作者"
+
+msgid "Created"
+msgstr "创建时间"
+
+msgid "State"
+msgstr "批准状态"
+
+msgid "Test Status"
+msgstr "测试状态"
+
+msgid "Votes"
+msgstr "投票"
+
+#: Users/view/users/index/login.phtml
+msgid "Login"
+msgstr "登录"
+
+msgid "Log in to Swarm"
+msgstr "登录到 Swarm"
+
+msgid "Username or Email"
+msgstr "用户名或电子邮件"
+
+msgid "Password"
+msgstr "密码"
+
+msgid "Remember Me"
+msgstr "记住我"
+
+#: Users/view/users/index/user.phtml
+msgid "Following"
+msgstr "正在关注"
+
+msgid "Invalid username or password."
+msgstr "用户名或密码无效。"
+
+#: ../Application/view/error/index.phtml
+msgid "Not Logged In"
+msgstr "未登录"
+
+msgid "Not Allowed"
+msgstr "不允许"
+
+msgid "Page Not Found"
+msgstr "未找到页面"
+
+#: ../Projects/view/projects/index/project.phtml:3
+#: ../Users/view/users/index/user.phtml:3
+msgid "login-reload"
+msgstr "登录-重新加载"
+
+#: JS
+msgid "Model Viewer isn't supported in your browser."
+msgstr "您的浏览器不支持模式查看器。"
+
+msgid "WebGL was not available, so rendering may be slow."
+msgstr "WebGL 不可用，渲染可能会很慢。"
+
+msgid "Hmm... no queue workers? Ask your administrator to check the"
+msgstr "没有队列工作线程？请管理员检查一下"
+
+msgid "worker setup"
+msgstr "工作线程设置"
+
+msgid "Show In-Line"
+msgstr "内联显示"
+
+msgid "Show Side-by-Side"
+msgstr "并列显示"
+
+msgid "Ignore Whitespace"
+msgstr "忽略窗格"
+
+msgid "Show Full Context"
+msgstr "显示全部上下文"
+
+msgid "You don't have permission to view this file."
+msgstr "您无权查看该文件。"
+
+msgid "Remote depot (change details are not available)."
+msgstr "远程存储库（不提供更改详细信息）。"
+
+msgid "No matching changes."
+msgstr "无匹配更改。"
+
+msgid "Range Syntax Error"
+msgstr "范围语法错误"
+
+msgid "Select Change"
+msgstr "选择更改"
+
+msgid "Path"
+msgstr "路径"
+
+msgid "Select"
+msgstr "选择"
+
+msgid "Tasks"
+msgstr "任务"
+
+msgid "Open Task"
+msgstr "未完成任务"
+
+msgid "Open Tasks"
+msgstr "未完成任务"
+
+msgid "Addressed Task"
+msgstr "已解决的任务"
+
+msgid "Addressed Tasks"
+msgstr "已解决的任务"
+
+msgid "Verified Task"
+msgstr "已验证的任务"
+
+msgid "Verified Tasks"
+msgstr "已验证的任务"
+
+msgid "Verified"
+msgstr "已验证"
+
+msgid "Not a"
+msgstr "不是"
+
+msgid " Task"
+msgstr " 任务"
+
+msgid "Restore"
+msgstr "还原"
+
+msgid "Add a Comment"
+msgstr "添加备注"
+
+msgid "comment"
+msgid_plural "comments"
+msgstr[0] "条备注"
+
+msgid "Press CTRL-C"
+msgstr "按 CTRL-C"
+
+msgid "Long-press"
+msgstr "长按"
+
+msgid "Press &#8984;-C"
+msgstr "按 &#8984;-C"
+
+msgid "to copy"
+msgstr "复制"
+
+msgid "Your session has expired."
+msgstr "会话已过期。"
+
+msgid "There was an issue with the Network"
+msgstr "发生网络问题"
+
+msgid "No {{if query}}matching{{/if}} jobs."
+msgstr "无{{if query}}匹配{{/if}}作业。"
+
+msgid "Unlink"
+msgstr "取消链接"
+
+msgid "Unlink Job"
+msgstr "取消链接作业"
+
+msgid "Add Job"
+msgstr "添加作业"
+
+msgid "Unlink job from %s"
+msgstr "从 %s 中取消链接作业"
+
+msgid "Select Job"
+msgstr "选择作业"
+
+msgid "Review Updated"
+msgstr "审查已更新"
+
+msgid "Marked as"
+msgstr "标记为"
+
+msgid "Edit Description"
+msgstr "编辑描述"
+
+msgid "User Reviewer Menu"
+msgstr "用户审查员菜单"
+
+msgid "Vote Up"
+msgstr "投赞成票"
+
+msgid "Clear Vote"
+msgstr "清除投票"
+
+msgid "Vote Down"
+msgstr "投反对票"
+
+msgid "Join Review"
+msgstr "加入审查"
+
+msgid "Make my Vote Optional"
+msgstr "将我的投票设为可选"
+
+msgid "Make my Vote Required"
+msgstr "将我的投票设为必需"
+
+msgid "Leave Review"
+msgstr "离开审查"
+
+msgid "Reviewers"
+msgstr "审查员"
+
+msgid "Edit Reviewers"
+msgstr "编辑审查员"
+
+msgid "Up Votes"
+msgstr "赞成票"
+
+msgid "Down Votes"
+msgstr "反对票"
+
+msgid "Reviewer Name"
+msgstr "审查员姓名"
+
+msgid "Close"
+msgstr "关闭"
+
+msgid "Make Vote Optional"
+msgstr "将投票设为可选"
+
+msgid "Make Vote Required"
+msgstr "将投票设为必需"
+
+msgid "voted {{if vote.value > 0}}up{{else}}down{{/if}}"
+msgstr "投了{{if vote.value > 0}}赞成{{else}}反对{{/if}}票"
+
+msgid "latest"
+msgstr "最新"
+
+msgid "Vote Required"
+msgstr "必需投票"
+
+msgid "Vote Optional"
+msgstr "可选投票"
+
+msgid "Provide a description"
+msgstr "提供描述"
+
+msgid "Update"
+msgstr "更新"
+
+msgid "Commit"
+msgstr "提交"
+
+msgid "Commits"
+msgstr "历史"
+
+msgid "Warning!"
+msgstr "警告！"
+
+msgid "There {{if openCount === 1}}is an open task{{else}}are {{:openCount}} open tasks{{/if}} on this review."
+msgstr "该审查共有 {{if openCount === 1}}1 个未完成任务{{else}}{{:openCount}} 个未完成任务{{/if}}。"
+
+msgid "Optionally, provide a comment"
+msgstr "提供备注（可选）"
+
+msgid "Same"
+msgstr "相同"
+
+msgid "Job Status on Commit"
+msgstr "提交时的作业状态"
+
+msgid "Pass"
+msgstr "通过"
+
+msgid "Fail"
+msgstr "失败"
+
+msgid "Tests %s"
+msgstr "测试 %s"
+
+msgid "Try it out!"
+msgstr "试一下！"
+
+msgid "Deploy Failed"
+msgstr "部署失败"
+
+msgid "Already Committed"
+msgstr "已提交"
+
+msgid "Add a Commit"
+msgstr "添加提交"
+
+msgid "Error committing"
+msgstr "提交时出错"
+
+msgid "Error"
+msgstr "错误"
+
+msgid "Committing"
+msgstr "提交"
+
+msgid "Transition Review"
+msgstr "转换审查"
+
+msgid "Review Requested"
+msgstr "审查已请求"
+
+msgid "Delete this project?"
+msgstr "删除该项目？"
+
+msgid "Ok"
+msgstr "确定"
+
+msgid "My"
+msgstr "我的"
+
+msgid "No projects."
+msgstr "无项目。"
+
+msgid "No longer"
+msgstr "不再"
+
+msgid "Now"
+msgstr "目前"
+
+msgid "following"
+msgstr "正在关注"
+
+msgid "activity."
+msgstr "活动。"
+
+msgid "matching "
+msgstr "匹配 "
+
+msgid "Approve"
+msgstr "批准"
+
+msgid "Approve and Commit"
+msgstr "批准并提交"
+
+msgid "file moved"
+msgstr "文件已移动"
+
+msgid "Reject"
+msgstr "拒绝"
+
+msgid "User ids must be strings"
+msgstr "用户 ID 必须是字符串"
+
+msgid "Name is required and can't be empty."
+msgstr "名称为必填项且不得为空。"
+
+msgid "Name must contain at least one letter or number."
+msgstr "名称中必须至少包含一个字母或数字。"
+
+msgid "Unknown user id "
+msgid_plural "Unknown user ids "
+msgstr[0] "未知的用户 ID "
+
+msgid "archived comment"
+msgid_plural "archived comments"
+msgstr[0] "条已存档备注"
+
+msgid " Moderator"
+msgid_plural " Moderators"
+msgstr[0] " 仲裁员"
+
+msgid "current"
+msgstr "当前"
+
+msgid "add-reviewer"
+msgstr "添加审查员"
+
+msgid "Joined"
+msgstr "已加入"
+
+msgid "Left"
+msgstr "已离开"
+
+msgid "active"
+msgstr "活动的"
+
+msgid "This name is taken. Please pick a different name."
+msgstr "该名称已被采用。请另选一个名称。"
+
+msgid "Team must contain at least one member."
+msgstr "团队中必须至少拥有一个成员。"
+
+msgid "All branches require a name."
+msgstr "所有分支都需要命名。"
+
+msgid "Branch name must contain at least one letter or number."
+msgstr "分支名称中必须至少包含一个字母或数字。"
+
+msgid "Two branches cannot have the same id."
+msgstr "两个分支不得使用同一 ID。"
+
+msgid "'%s' is already in use."
+msgstr "'%s' 已被使用。"
+
+msgid "Error in '%s' branch: "
+msgstr "'%s' 分支出错： "
+
+msgid "Job filter only supports key=value conditions and the '*' wildcard."
+msgstr "作业筛选器仅支持 key=value 条件和 '*' 通配符。"
+
+msgid "POST parameters for tests can only be in GET or JSON format."
+msgstr "用于测试的 POST 参数格式仅限于 GET 或 JSON。"
+
+msgid "POST parameters expected to be in GET format, but were invalid."
+msgstr "POST 参数格式应为 GET，但现为无效。"
+
+msgid "POST parameters expected to be in JSON format, but were invalid."
+msgstr "POST 参数格式应为 JSON，但现为无效。"
+
+msgid "Invalid request method. HTTP POST required."
+msgstr "请求方式无效。需要 HTTP POST。"
+
+msgid "The specified change does not exist."
+msgstr "指定的更改不存在。"
+
+msgid "The specified review does not exist."
+msgstr "指定的审查不存在。"
+
+msgid "The review already contains change %d."
+msgstr "该审查已包含了更改 %d。"
+
+msgid "A Review for change %d already exists."
+msgstr "有关更改 %d 的审查已存在。"
+
+msgid "Invalid request method. PATCH or DELETE required."
+msgstr "请求方式无效。需要 PATCH 或 DELETE。"
+
+msgid "Description is required when committing"
+msgstr "提交时需要提供描述"
+
+msgid "You cannot transition this review to '%s'."
+msgstr "无法将该审查状态转换成 '%s'。"
+
+msgid "A commit is already in progress."
+msgstr "有个提交正在进行中。"
+
+msgid "A commit is in progress; can't clear commit status."
+msgstr "有个提交正在进行中，无法清除提交状态。"
+
+msgid "Commit status can only be cleared; not set."
+msgstr "提交状态只能清除，无法设置。"
+
+msgid "Test status must be 'pass' or 'fail'."
+msgstr "测试状态必须是“通过”或“失败”。"
+
+msgid "Url in test details must be a valid uri."
+msgstr "测试详细信息中的 Url 必须是有效的 Url."
+
+msgid "Deploy status must be 'success' or 'fail'."
+msgstr "部署状态必须是“成功”或“失败”。"
+
+msgid "Url in deploy details must be a valid uri."
+msgstr "部署详细信息中的 Url 必须是有效的 Url."
+
+msgid "You must specify at least one known property."
+msgstr "必须至少指定一个已知属性。"
+
+msgid "Invalid value specified for 'required', expecting true or false"
+msgstr "'required' 的指定值无效，应为 'true' 或 'false'。"
+
+msgid "Cannot join review, not logged in as %s."
+msgstr "无法加入审查，未使用 %s 身份登录。"
+
+msgid "Cannot leave review, not logged in as %s."
+msgstr "无法离开审查，未使用 %s 身份登录。"
+
+msgid "You do not have permission to edit reviewers."
+msgstr "您无权编辑审查员。"
+
+msgid "You do not have permission to edit required reviewers."
+msgstr "您无权编辑复审员。"
+
+msgid "Invalid vote value"
+msgstr "投票值无效"
+
+msgid "Invalid vote version"
+msgstr "投票版本无效"
+
+msgid "Not logged in as %s"
+msgstr "未使用 %s 身份登录"
+
+msgid "Follow type ('%s') must be either 'user' or 'project'."
+msgstr "关注类型('%s')必须是“用户”或“项目”。"
+
+msgid "User ('%s') does not exist."
+msgstr "用户 ('%s') 不存在。"
+
+msgid "Project ('%s') does not exist."
+msgstr "项目 ('%s') 不存在。"
+
+msgid "Streams must be an array."
+msgstr "流必须是阵列。"
+
+msgid "Only string values are permitted in the streams array."
+msgstr "在流阵列中仅允许字符串值。"
+
+msgid "Cannot apply line range to binary files"
+msgstr "无法将行范围应用于二进制文件"
+
+msgid "Invalid Range Specified: "
+msgstr "指定的范围无效： "
+
+msgid "JSON only supported when line range specified"
+msgstr "JSON 仅在指定了行范围后才受支持"
+
+msgid "flags must be set as strings"
+msgstr "标记必须设为字符串"
+
+msgid "No permission to list the associated file."
+msgstr "无权列出相关联的文件。"
+
+msgid "Supplied attachment(s) could not be located on the server"
+msgstr "在服务器上无法找到提供的附件"
+
+msgid "Invalid task state transition specified. "
+msgstr "指定的任务状态转换无效。 "
+
+msgid "Valid transitions are: "
+msgstr "有效的转换包括： "
+
+msgid "Invalid request method. HTTP POST or HTTP DELETE required."
+msgstr "请求方式无效。需要 HTTP POST 或 HTTP DELETE。"
+
+msgid "Cannot delete project: project not found."
+msgstr "无法删除项目：项目未找到。"
+
+msgid "Job"
+msgstr "作业"
+
+msgid "Show More Context"
+msgstr "显示更多上下文"
+
+msgid "cleared an issue on"
+msgstr "清除了一个问题，操作对象："
+
+msgid "reopened an issue on"
+msgstr "重新打开了一个问题，操作对象："
+
+msgid "verified an issue on"
+msgstr "验证了一个问题，操作对象："
+
+msgid "addressed an issue on"
+msgstr "解决了一个问题，操作对象："
+
+msgid "Add"
+msgstr "添加"
+
+msgid "reviews"
+msgstr "审查"
+
+msgid "rejected"
+msgstr "拒绝了"
+
+msgid "archived"
+msgstr "存档了"
+
+msgid "voted up"
+msgstr "投了赞成票，操作对象："
+
+msgid "opened an issue on"
+msgstr "打开了一个问题，操作对象："
+
+msgid "requested"
+msgstr "请求了"
+
+msgid "requested revisions to"
+msgstr "请求修订"
+
+msgid "commented on"
+msgstr "添加了备注，操作对象："
+
+msgid "condenced"
+msgstr "缩减版"
+
+msgid "on"
+msgstr "操作对象："
+
+msgid " match your filters."
+msgstr " 与您的筛选器匹配。"
+
+msgid "approved"
+msgstr "批准了"
+
+msgid "Status"
+msgstr "状态"
+
+msgid "Date"
+msgstr "日期"
+
+msgid "closed"
+msgstr "已关闭"
+
+msgid "open"
+msgstr "已打开"
+
+msgid "suspended"
+msgstr "已挂起"
+
+msgid "addressed"
+msgstr "已解决"
+
+msgid "Addressed"
+msgstr "已解决"
+
+msgid "Comment"
+msgstr "备注"
+
+msgid "Not Committed"
+msgstr "未提交"
+
+msgid "Review "
+msgstr "审查 "
+
+msgid "Flag as Task "
+msgstr "标记为任务 "
+
+msgid "Task Addressed"
+msgstr "任务已解决"
+
+msgid "Not a Task"
+msgstr "不是任务"
+
+msgid "Verify Task"
+msgstr "验证任务"
+
+msgid "Verify and Archive"
+msgstr "验证并存档"
+
+msgid "Reopen Task"
+msgstr "重新打开任务"
+
+msgid "submitted"
+msgstr "已经提交，时间："
+
+msgid "updated"
+msgstr "已更新"
+
+msgid "automated deploy"
+msgstr "自动部署"
+
+msgid "joined"
+msgstr "已加入"
+
+msgid "left"
+msgstr "已离开"
+
+msgid "made their vote required on"
+msgstr "将自己的投票设成了必需，操作对象："
+
+msgid "made their vote optional on"
+msgstr "将自己的投票设成了可选，操作对象："
+
+msgid "edited reviewers on"
+msgstr "编辑了审查员，操作对象："
+
+msgid "up"
+msgstr "赞成"
+
+msgid "down"
+msgstr "反对"
+
+msgid "voted "
+msgstr "已投票 "
+
+msgid "voted down"
+msgstr "投了反对票，操作对象："
+
+msgid "cleared their vote on"
+msgstr "清除了自己的投票，操作对象："
+
+msgid "requested further review of"
+msgstr "请求进一步审查"
+
+msgid "updated description of"
+msgstr "更新了描述，操作对象："
+
+msgid "reported"
+msgstr "报告了"
+
+msgid "failed tests for"
+msgstr "测试失败，所属项目："
+
+msgid "passed tests for"
+msgstr "测试通过，所属项目："
+
+msgid "updated files in"
+msgstr "更新了文件，操作对象："
+
+msgid "Added %s as an optional reviewer."
+msgid_plural "Added %s as optional reviewers."
+msgstr[0] "已添加 %s 为可选审查员。"
+
+msgid "Made %s a required reviewer."
+msgid_plural "Made %s required reviewers."
+msgstr[0] "将 %s 设成了复审员。"
+
+msgid "Added %s as a required reviewer."
+msgid_plural "Added %s as required reviewers."
+msgstr[0] "已添加 %s 为复审员。"
+
+msgid "Made %s an optional reviewer."
+msgid_plural "Made %s optional reviewers."
+msgstr[0] "将 %s 设成了可选审查员。"
+
+msgid "Removed %s from the review."
+msgstr "从审查中删除了 %s。"
+
+msgid "opened"
+msgstr "已打开"
+
+msgid "Suspended"
+msgstr "已挂起"
+
+msgid "Change Status (shelved/submitted)"
+msgstr "更改状态（已搁置/已提交）"
+
+msgid "Committed..."
+msgstr "已提交..."
+
+msgid "Unknown"
+msgstr "未知"
+
+msgid "Initializing..."
+msgstr "正在初始化..."
+
+msgid "Compressing..."
+msgstr "正在压缩..."
+
+msgid "Syncing..."
+msgstr "正在同步..."
+
+msgid "Downloading..."
+msgstr "正在下载..."
+
+msgid "Trigger Token"
+msgid_plural "Trigger Tokens"
+msgstr[0] "触发令牌"
+
+msgid "Follower"
+msgid_plural "Followers"
+msgstr[0] "关注者"
+
+msgid "Branch"
+msgid_plural "Branches"
+msgstr[0] "分支"
+
+msgid "Member"
+msgid_plural "Members"
+msgstr[0] "成员"
+
+msgid "File too large"
+msgstr "文件太大"
+
+msgid "Upload Failed"
+msgstr "上传失败"
+
+msgid "file"
+msgstr "文件"
+
+msgid "Invalid type given. Array required."
+msgstr "输入类型无效。需要阵列。"
+
+msgid "Invalid input given. JSON string required."
+msgstr "输入无效。需要 JSON 字符串。"
+
+msgid "The only permitted wildcard is trailing '...'."
+msgstr "唯一允许的通配符是结尾的 '...'。"
+
+msgid "The first path component must be a valid depot name."
+msgstr "路径第一部分必须是有效的存储库名称。"
+
+msgid "Depot name must be followed by a path or '/...'."
+msgstr "存储库名称必须后接一个路径或 '/...'。"
+
+msgid "The path cannot end with a '/'."
+msgstr "路径不得以 '/' 结尾。"
+
+msgid "No depot paths specified."
+msgstr "未指定存储库路径。"
+
+msgid "line"
+msgstr "行"
+
+msgid "File"
+msgstr "文件"
+
+msgid "Stack"
+msgstr "堆栈"
+
+msgid "Error Details"
+msgstr "错误详情"
+
+msgid "Mark as Unread"
+msgstr "标记为未读"
+
+msgid "Mark as Read"
+msgstr "标记为已读"
+
+msgid "No matching activity."
+msgstr "无匹配活动。"
+
+msgid "No activity."
+msgstr "无活动。"
+
+msgid "No Files."
+msgstr "无文件。"
+
+msgid "No modified Files."
+msgstr "无修改文件。"
+
+msgid "file moved to"
+msgstr "文件移动至"
+
+msgid "Edit Project"
+msgstr "编辑项目"
+
+msgid "//depot/path/to/branch/..."
+msgstr "//depot/path/to/branch/..."
+
+msgid "key=value"
+msgstr "key=value"
+
+msgid "Control Camera"
+msgstr "控制相机"
+
+msgid "Reset Camera"
+msgstr "重置相机"
+
+msgid "Show Material"
+msgstr "显示材料"
+
+msgid "Show Wireframe"
+msgstr "显示线框"
+
+msgid "No matching jobs."
+msgstr "无匹配作业。"
+
+msgid "No jobs."
+msgstr "无作业。"
+
+msgid "No %s reviews."
+msgstr "无 %s 审查。"
+
+msgid "No %s reviews match your filters."
+msgstr "%s 的审查中没有与此筛选匹配的项目。"
+
+msgid "There is an open task on this review"
+msgstr "该审查共有 1 个未完成任务"
+
+msgid "There are %s open tasks on this review"
+msgstr "该审查共有 %s 个未完成任务"
+
+msgid "No longer following %s"
+msgstr "不再关注 %s"
+
+msgid "Now following %s"
+msgstr "目前关注 %s"
+
+msgid "Shelved in %s"
+msgstr "搁置于编号 %s"
+
+msgid "Committed in %s"
+msgstr "已提交于 %s"
+
+msgid "No opened reviews match your filters."
+msgstr "已打开的审查中没有与此筛选匹配的项目。"
+
+msgid "No opened reviews."
+msgstr "没有已打开的审查。"
+
+msgid "No closed reviews match your filters."
+msgstr "已关闭的审查中没有与此筛选匹配的项目。"
+
+msgid "No closed reviews."
+msgstr "没有已关闭的审查。"
+
+msgid "Unlink job from review?"
+msgstr "从审查中取消链接作业？"
+
+msgid "Unlink job from change?"
+msgstr "从更改中取消链接作业？"
+
+msgid "review %s"
+msgstr "审查 %s"
+
+msgid "change %s"
+msgstr "更改 %s"
+
+msgid "review %s (%s, line %s)"
+msgstr "审查 %s（%s，行 %s）"
+
+msgid "change %s (%s, line %s)"
+msgstr "更改 %s（%s，行 %s）"
+
+msgid "Marked as Read"
+msgstr "标记为已读"
+
+msgid "Marked as Unread"
+msgstr "标记为未读"
+
+msgid "Pending"
+msgstr "挂起"
+
+msgid "Expression parse error at '%s'."
+msgstr "表达式解析错误：'%s'。"
+
+msgid "Unknown field name '%s'."
+msgstr "未知字段名称 '%s'。"
+
+msgid "Review doesn't contain any files to commit."
+msgstr "审查中没有要提交的文件。"
+
+msgid "Cannot update review; the shelved change we manage is unexpectedly committed."
+msgstr "无法更新审查；我们管理的搁置更改被意外提交了。"
+
+msgid "No shelved files in changelist to delete."
+msgstr "更改列表中没有要删除的搁置文件。"
+
+msgid "Cannot set versions. Each version must specify a change, user, time and pending."
+msgstr "无法设置版本。每个版本必须指定更改、用户、时间或挂起。"
+
+msgid "Cannot get change of version %d. No such version."
+msgstr "无法获取版本 %d 的更改。无此版本。"
+
+msgid "Tokens must be a string or null"
+msgstr "令牌必须是字符串或为空"
+
+msgid "Cannot save. Upgrade level is too high."
+msgstr "无法保存。升级级别过高。"
+
+msgid "Cannot delete review; the shelved change we manage is unexpectedly committed."
+msgstr "无法删除审查；我们管理的搁置更改被意外提交了。"
+
+#: error status messages
+msgid "Continue"
+msgstr "继续"
+
+msgid "Switching Protocols"
+msgstr "切换协议"
+
+msgid "Processing"
+msgstr "处理"
+
+msgid "OK"
+msgstr "确定"
+
+msgid "Accepted"
+msgstr "已接受"
+
+msgid "Non-Authoritative Information"
+msgstr "非权威信息"
+
+msgid "No Content"
+msgstr "无内容"
+
+msgid "Reset Content"
+msgstr "重置内容"
+
+msgid "Partial Content"
+msgstr "部分内容"
+
+msgid "Multi-status"
+msgstr "多状态"
+
+msgid "Already Reported"
+msgstr "已报告"
+
+msgid "Multiple Choices"
+msgstr "多项选择"
+
+msgid "Moved Permanently"
+msgstr "已永久移动"
+
+msgid "Found"
+msgstr "已找到"
+
+msgid "See Other"
+msgstr "参阅其他"
+
+msgid "Not Modified"
+msgstr "未修改"
+
+msgid "Use Proxy"
+msgstr "使用代理"
+
+msgid "Switch Proxy"
+msgstr "切换代理"
+
+msgid "Temporary Redirect"
+msgstr "临时重定向"
+
+msgid "Bad Request"
+msgstr "请求错误"
+
+msgid "Unauthorized"
+msgstr "未授权"
+
+msgid "Payment Required"
+msgstr "需要付款"
+
+msgid "Forbidden"
+msgstr "已禁止"
+
+msgid "Not Found"
+msgstr "未找到"
+
+msgid "Method Not Allowed"
+msgstr "不允许的方法"
+
+msgid "Not Acceptable"
+msgstr "无法接受"
+
+msgid "Proxy Authentication Required"
+msgstr "需要代理身份验证"
+
+msgid "Request Time-out"
+msgstr "请求超时"
+
+msgid "Conflict"
+msgstr "冲突"
+
+msgid "Gone"
+msgstr "不存在"
+
+msgid "Length Required"
+msgstr "需要长度"
+
+msgid "Precondition Failed"
+msgstr "前提条件失败"
+
+msgid "Request Entity Too Large"
+msgstr "请求实体过大"
+
+msgid "Request-URI Too Large"
+msgstr "请求 URI 过大"
+
+msgid "Unsupported Media Type"
+msgstr "媒体类型不受支持"
+
+msgid "Requested range not satisfiable"
+msgstr "请求的范围无法满足"
+
+msgid "Expectation Failed"
+msgstr "预期失败"
+
+msgid "I'm a teapot"
+msgstr "我是一只咖啡壶"
+
+msgid "Unprocessable Entity"
+msgstr "实体无法处理"
+
+msgid "Locked"
+msgstr "已锁定"
+
+msgid "Failed Dependency"
+msgstr "依赖项失败"
+
+msgid "Unordered Collection"
+msgstr "未排序的集合"
+
+msgid "Upgrade Required"
+msgstr "需要更新"
+
+msgid "Precondition Required"
+msgstr "需要前提条件"
+
+msgid "Too Many Requests"
+msgstr "请求太多"
+
+msgid "Request Header Fields Too Large"
+msgstr "请求标题字段过大"
+
+msgid "Internal Server Error"
+msgstr "内部服务器错误"
+
+msgid "Not Implemented"
+msgstr "未实施"
+
+msgid "Bad Gateway"
+msgstr "网关错误"
+
+msgid "Service Unavailable"
+msgstr "无可用服务"
+
+msgid "Gateway Time-out"
+msgstr "网关超时"
+
+msgid "HTTP Version not supported"
+msgstr "不支持 HTTP 版本"
+
+msgid "Variant Also Negotiates"
+msgstr "变体内容也要协商"
+
+msgid "Insufficient Storage"
+msgstr "存储空间不足"
+
+msgid "Loop Detected"
+msgstr "检测到的循环"
+
+msgid "Network Authentication Required"
+msgstr "需要网络身份验证"
+
+msgid "A valid response status line was not found in the provided string"
+msgstr "在提供的字符串中未找到有效的响应状态行"
+
+msgid "Error parsing body - doesn't seem to be a chunked message"
+msgstr "解析消息正文时出错 - 似乎不是分块消息"
+
+msgid "zlib extension is required in order to decode 'gzip' encoding"
+msgstr "需要 zlib 扩展以对 'gzip' 编码进行解码"
+
+msgid "Error occurred during gzip inflation"
+msgstr "解压缩 gzip 时出错"
+
+msgid "zlib extension is required in order to decode 'deflate' encoding"
+msgstr "需要 zlib 扩展以对 'deflate' 编码进行解码"
+
+msgid "Move/delete"
+msgstr "移动/删除"
+
+msgid "Move/add"
+msgstr "移动/添加"
+
+msgid "Command failed: Out of date files must be resolved or reverted."
+msgstr "命令失败：过期文件必须解决或转换。"
+
+msgid "Command failed: Merges still pending -- use 'resolve' to merge files."
+msgstr "命令失败：合并仍未完成 - 请使用“解决”来合并文件"
+
+#: library/Zend/Validator :
+msgid "Invalid type given"
+msgstr "输入类型无效"

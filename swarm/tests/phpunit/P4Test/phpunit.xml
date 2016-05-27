@@ -1,0 +1,14 @@
+<phpunit bootstrap="./TestBootstrap.php">
+ <testsuites>
+  <testsuite name="P4 Library Test Suite">
+   <directory>.</directory>
+   <exclude>./assets/</exclude>
+  </testsuite>
+ </testsuites>
+ <filter>
+  <blacklist>
+   <directory>.</directory>
+   <directory>../../../library/Zend</directory>
+  </blacklist>
+ </filter>
+</phpunit>

@@ -1,0 +1,6 @@
+helix-swarm (PKG_VERSION) precise; urgency=low
+
+  * See http://www.perforce.com/perforce/doc.current/user/swarm_relnotes.txt
+    for changes
+
+ -- Perforce Software, Inc. <support+packaging@perforce.com>  PKG_DATE

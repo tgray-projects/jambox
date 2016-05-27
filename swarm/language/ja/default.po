@@ -1,0 +1,1779 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Swarm\n"
+"POT-Creation-Date: 2015-03-23 17:08+0200\n"
+"PO-Revision-Date: 2015-04-30 12:13+0300\n"
+"Last-Translator: \n"
+"Language-Team: Alpha CRC\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: ja\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#. common strings
+msgid "Search"
+msgstr "検索"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "modified"
+msgstr "変更済み"
+
+msgid "this change"
+msgstr "この変更"
+
+msgid "Overview"
+msgstr "概要"
+
+msgid "Opened"
+msgstr "オープン済み"
+
+msgid "Closed"
+msgstr "終了済み"
+
+msgid "Branch Name"
+msgstr "ブランチ名"
+
+msgid "Branches"
+msgstr "ブランチ"
+
+msgid "Paths"
+msgstr "パス"
+
+#: ../Application/view/layout/layout.phtml:15
+msgid "Swarm"
+msgstr "Swarm"
+
+#: ../Application/view/layout/toolbar.phtml
+msgid "User Menu"
+msgstr "ユーザーメニュー"
+
+msgid "Profile"
+msgstr "プロファイル"
+
+msgid "About Swarm"
+msgstr "Swarm のバージョン情報"
+
+msgid "Log out"
+msgstr "ログアウト"
+
+msgid "Log in"
+msgstr "ログイン"
+
+msgid "Home"
+msgstr "ホーム"
+
+msgid "Reviews"
+msgstr "レビュー"
+
+msgid "Files"
+msgstr "ファイル"
+
+msgid "History"
+msgstr "履歴"
+
+msgid "Jobs"
+msgstr "ジョブ"
+
+msgid "Help"
+msgstr "ヘルプ"
+
+#: Application\view\application\index\about.phtml modal window
+msgid "About"
+msgstr "バージョン情報"
+
+msgid "Perforce Swarm"
+msgstr "Perforce Swarm"
+
+msgid "Copyright"
+msgstr "Copyright"
+
+msgid "Perforce Software"
+msgstr "Perforce Software"
+
+msgid "System Information"
+msgstr "システム情報"
+
+#: Application/view/application/index/info.phtml
+msgid "Perforce"
+msgstr "Perforce"
+
+msgid "Log"
+msgstr "ログ"
+
+msgid "PHP Info"
+msgstr "PHP 情報"
+
+msgid "Refresh Log"
+msgstr "ログをリフレッシュ"
+
+msgid "Download Log"
+msgstr "ログをダウンロード"
+
+msgid "Time"
+msgstr "時間"
+
+msgid "Severity"
+msgstr "重大度"
+
+msgid "Message"
+msgstr "メッセージ"
+
+#: Activity\View\Helper\Activity.php
+msgid "Swarm Activity"
+msgstr "Swarm アクティビティ"
+
+msgid "Changes"
+msgstr "変更"
+
+msgid "Comments"
+msgstr "コメント"
+
+msgid "Activity"
+msgstr "アクティビティ"
+
+msgid "Activity to Display"
+msgstr "表示するアクティビティ"
+
+msgid "All Activity"
+msgstr "すべてのアクティビティ"
+
+msgid "Followed Activity"
+msgstr "フォロー中のアクティビティ"
+
+#: Changes/view/changes/index/changes.phtml
+msgid "Change"
+msgstr "変更"
+
+msgid "change"
+msgstr "変更"
+
+msgid "User"
+msgstr "ユーザー"
+
+msgid "Description"
+msgstr "説明"
+
+msgid "Committed"
+msgstr "コミット済み"
+
+#: Changes/view/changes/index/change.phtml
+msgid "View Review"
+msgstr "レビューを表示"
+
+msgid "Request Review"
+msgstr "レビューを依頼"
+
+msgid "No description"
+msgstr "説明なし"
+
+msgid "Files Edited"
+msgstr "編集済みファイル"
+
+msgid "edited"
+msgstr "編集済み"
+
+msgid "Files Added"
+msgstr "追加されたファイル"
+
+msgid "added"
+msgstr "追加済み"
+
+msgid "Files Deleted"
+msgstr "削除済みファイル"
+
+msgid "deleted"
+msgstr "削除済み"
+
+msgid "Show Comments"
+msgstr "コメントを表示"
+
+msgid "Show Diffs In-Line"
+msgstr "差分をインライン表示"
+
+msgid "Show Diffs Side-by-Side"
+msgstr "差分を左右に表示"
+
+msgid "Collapse All"
+msgstr "すべて折りたたむ"
+
+msgid "Expand All"
+msgstr "すべて展開"
+
+msgid "Open File"
+msgstr "ファイルを開く"
+
+msgid "Loading..."
+msgstr "読み込み中…"
+
+msgid "Tip: Use %sn%s and %sp%s to cycle through the changes."
+msgstr "ヒント: %sn%s と %sp%s を使用すると前後の変更に移動できます。"
+
+#: Changes/view/mail/commit-html.phtml
+msgid "JOBS"
+msgstr "ジョブ"
+
+msgid "FILES"
+msgstr "ファイル"
+
+msgid "on behalf of"
+msgstr "代理"
+
+msgid "under"
+msgstr "中"
+
+msgid "review"
+msgstr "レビュー"
+
+msgid "under review"
+msgstr "レビュー中"
+
+msgid "Jobs:"
+msgstr "ジョブ:"
+
+msgid "Files:"
+msgstr "ファイル："
+
+msgid "files"
+msgstr "ファイル"
+
+msgid "Snip"
+msgstr "切り取り"
+
+#: Comments/view/comments.phtml
+msgid "Archive"
+msgstr "アーカイブ"
+
+msgid "Add a comment"
+msgstr "コメントを追加"
+
+msgid "Drop files here to attach them"
+msgstr "ファイルをここにドロップして添付"
+
+msgid "Emoji codes are supported"
+msgstr "絵文字コードがサポートされます"
+
+msgid "Post"
+msgstr "投稿"
+
+msgid "Flag as Task"
+msgstr "タスクにする"
+
+msgid "Log in to comment"
+msgstr "ログインしてコメントする"
+
+#: Comments/view/mail/comment-html.phtml & comment-text.phtml
+msgid "ATTACHMENTS"
+msgstr "添付ファイル"
+
+msgid "Attachments"
+msgstr "添付ファイル"
+
+#: Files/view/files/index/diff.phtml
+msgid "Show More"
+msgstr "続きを表示"
+
+msgid "content purged."
+msgstr "コンテンツをパージしました。"
+
+msgid "content unchanged."
+msgstr "コンテンツは変更されませんでした。"
+
+msgid "previous version"
+msgstr "前のバージョン"
+
+#: Files/view/files/index/file.phtml
+msgid "View"
+msgstr "表示"
+
+msgid "Shorten URL"
+msgstr "URL を短くする"
+
+msgid "Show Annotations"
+msgstr "注釈を表示"
+
+msgid "Blame"
+msgstr "変更者"
+
+msgid "Open"
+msgstr "開く"
+
+msgid "Download .zip"
+msgstr "Zip ファイルをダウンロード"
+
+msgid "Download"
+msgstr "ダウンロード"
+
+#: Files/view/files/index/filelog.phtml
+msgid "Remote depot (change details are not available)"
+msgstr "リモートデポ (変更詳細は使用できません)"
+
+msgid "Deleted"
+msgstr "削除済み"
+
+#: Files/view/files/index/list.phtml
+msgid "Browse"
+msgstr "参照"
+
+msgid "Range"
+msgstr "範囲"
+
+msgid "Examples"
+msgstr "例"
+
+msgid "All Time (Default)"
+msgstr "常時 (デフォルト)"
+
+msgid "Between changes 80 and 90"
+msgstr "変更 80 から 90 まで"
+
+msgid "Up to change 80"
+msgstr "変更 80 まで"
+
+msgid "Just change 80"
+msgstr "変更 80 のみ"
+
+msgid "Newer than change 80"
+msgstr "変更 80 以降"
+
+msgid "Change 80 to Now"
+msgstr "変更 80 から現在まで"
+
+msgid "Part of label 'label-name'"
+msgstr "ラベル「label-name」の一部"
+
+msgid "Up to Nov 30, 2014"
+msgstr "2014 年 11 月 30 日まで"
+
+msgid "Nov 30, 2014 to Now"
+msgstr "2014 年 11 月 30 日から現在まで"
+
+msgid "Show Deleted Files"
+msgstr "削除済みファイルを表示"
+
+msgid "Name"
+msgstr "名前"
+
+msgid "Modified"
+msgstr "変更済み"
+
+msgid "Size"
+msgstr "サイズ"
+
+#: Jobs/view/jobs/index/jobs.phtml
+msgid "Select Columns"
+msgstr "列を選択"
+
+#: Jobs/view/jobs/index/job.phtml
+msgid "created this job"
+msgstr "このジョブを作成しました"
+
+msgid "modified by"
+msgstr "変更者"
+
+msgid "last modified"
+msgstr "最終変更日"
+
+msgid "modified this job"
+msgstr "このジョブを変更しました"
+
+msgid "Details"
+msgstr "詳細"
+
+#: Projects/src/Projects/View/Helper/ProjectsSidebar.php
+msgid "Projects"
+msgstr "プロジェクト"
+
+msgid "Projects to Display"
+msgstr "表示するプロジェクト"
+
+msgid "All Projects"
+msgstr "すべてのプロジェクト"
+
+msgid "My Projects"
+msgstr "マイプロジェクト"
+
+msgid "Add Project"
+msgstr "プロジェクトを追加"
+
+#: Projects/view/projects/index/edit.phtml
+msgid "Project"
+msgstr "プロジェクト"
+
+msgid "Owners"
+msgstr "所有者"
+
+msgid "Only Owners and Administrators can edit the project"
+msgstr "所有者と管理者のみがプロジェクトを編集できます。"
+
+msgid "Add an Owner"
+msgstr "所有者を追加"
+
+msgid "Members"
+msgstr "メンバー"
+
+msgid "Add a Member"
+msgstr "メンバーを追加"
+
+msgid "Only Moderators can approve or reject reviews"
+msgstr "モデレーターのみがレビューを承認または却下できます"
+
+msgid "Moderator Name"
+msgstr "モデレーター名"
+
+msgid "Done"
+msgstr "完了"
+
+msgid "Remove"
+msgstr "削除"
+
+msgid "Add Branch"
+msgstr "ブランチを追加"
+
+msgid "Job Filter"
+msgstr "ジョブフィルター"
+
+msgid "Email Notifications"
+msgstr "E メール通知"
+
+msgid "Email project members when a new review is requested"
+msgstr "新規レビュー依頼時にプロジェクトメンバーに E メールする"
+
+msgid "Email project members and followers when a change is committed"
+msgstr "変更のコミット時にプロジェクトメンバーとフォロワーに E メールする"
+
+msgid "Users may still receive emails if: the change/review impacts other projects, they authored the review, or a change review daemon is installed."
+msgstr "以下の場合にもユーザーは E メールを受信する可能性があります: 変更/レビューが他のプロジェクトに影響する場合、レビューを書いた場合、変更レビュー daemon がインストールされている場合。"
+
+msgid "See help for more details."
+msgstr "詳細は、ヘルプを参照してください。"
+
+msgid "Automated Tests"
+msgstr "自動テスト"
+
+msgid "Enable"
+msgstr "有効にする"
+
+msgid "A URL that will trigger automated tests to run when reviews are created or updated."
+msgstr "レビューの作成時または更新時に自動テストの実行をトリガする URL です。"
+
+msgid "Some special"
+msgstr "特殊"
+
+msgid "Change Number"
+msgstr "変更番号"
+
+msgid "Change Status"
+msgstr "変更ステータス"
+
+msgid "Review Identifier"
+msgstr "レビュー識別子"
+
+msgid "Project Identifier"
+msgstr "プロジェクト識別子"
+
+msgid "Project Name"
+msgstr "プロジェクト名"
+
+msgid "Branch Identifier(s) (comma-separated)"
+msgstr "ブランチ識別子 (複数ならコンマで区切る)"
+
+msgid "Branch Name(s) (comma-separated)"
+msgstr "ブランチ名 (複数ならコンマで区切る)"
+
+msgid "Pass Callback URL"
+msgstr "合格コールバック URL"
+
+msgid "Success Callback URL"
+msgstr "成功コールバックの URL"
+
+msgid "Failure Callback URL"
+msgstr "失敗コールバックの URL"
+
+msgid "arguments%s are supported."
+msgstr "引数%sはサポートされます。"
+
+msgid "POST Parameters"
+msgstr "POST パラメータ"
+
+msgid "List of parameters that will be sent as POST parameters to the above URL. The special arguments supported for URLs can also be used here."
+msgstr "POST パラメータとして上記 URL に送信するパラメータの一覧です。URL がサポートする特別な引数も使用できます。"
+
+msgid "Automated Deployment"
+msgstr "自動デプロイ"
+
+msgid "A URL that will trigger a deployment when reviews are created or updated."
+msgstr "レビューの作成時または更新時にデプロイをトリガする URL です。"
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "Delete"
+msgstr "削除"
+
+#: Projects/view/projects/index/project.phtml
+msgid "Unfollow"
+msgstr "フォロー解除"
+
+msgid "Follow"
+msgstr "フォロー"
+
+msgid "Edit"
+msgstr "編集"
+
+msgid "Followers"
+msgstr "フォロワー"
+
+#: \Reviews/view/reviews/index/review.phtml
+msgid "Review"
+msgstr "レビュー"
+
+msgid "%1$s authored this <span class=\"timeago\" title=\"%2$s\"></span> for "
+msgstr "%1$s はこの <span class=\"timeago\" title=\"%2$s\"></span> を次の目的で作成しました: "
+
+msgid "authored this"
+msgstr "これを作成しました"
+
+msgid "for"
+msgstr "を"
+
+msgid "Diff Two Versions"
+msgstr "2 つのバージョンを比較"
+
+msgid "commited"
+msgstr "コミットしました"
+
+msgid "committed"
+msgstr "コミット済み"
+
+msgid "by"
+msgstr "により"
+
+msgid "in"
+msgstr "で"
+
+msgid "to"
+msgstr "に"
+
+msgid "last updated"
+msgstr "最終更新"
+
+msgid "shelved"
+msgstr "シェルフ済み"
+
+msgid "Shelved"
+msgstr "シェルフ済み"
+
+msgid "Changes between"
+msgstr "間の変更"
+
+msgid "commit"
+msgstr "コミット"
+
+msgid "shelf"
+msgstr "シェルフ"
+
+msgid "and"
+msgstr "および"
+
+msgid "into"
+msgstr "に"
+
+msgid "Mark as"
+msgstr "としてマーク"
+
+msgid "Unread"
+msgstr "未読"
+
+msgid "Read"
+msgstr "既読"
+
+msgid "No"
+msgstr "いいえ"
+
+msgid "Files."
+msgstr "ファイル。"
+
+msgid "Upgrade"
+msgstr "アップグレード"
+
+#: Reviews/view/reviews-pane.phtml
+msgid "All"
+msgstr "すべて"
+
+msgid "My Reviews"
+msgstr "マイレビュー"
+
+msgid "Has Reviewers"
+msgstr "レビュー担当者あり"
+
+msgid "No Reviewers"
+msgstr "レビュー担当者なし"
+
+msgid "Needs Review"
+msgstr "レビューが必要"
+
+msgid "Needs Revision"
+msgstr "修正が必要"
+
+msgid "Approved"
+msgstr "承認済み"
+
+msgid "Rejected"
+msgstr "却下済み"
+
+msgid "Archived"
+msgstr "アーカイブ済み"
+
+msgid "Tests Pass"
+msgstr "テストに合格"
+
+msgid "Tests Fail"
+msgstr "テストに失敗"
+
+msgid "Author"
+msgstr "作成者"
+
+msgid "Created"
+msgstr "作成済み"
+
+msgid "State"
+msgstr "状態"
+
+msgid "Test Status"
+msgstr "テストステータス"
+
+msgid "Votes"
+msgstr "投票"
+
+#: Users/view/users/index/login.phtml
+msgid "Login"
+msgstr "ログイン"
+
+msgid "Log in to Swarm"
+msgstr "Swarm にログイン"
+
+msgid "Username or Email"
+msgstr "ユーザー名または Eメール"
+
+msgid "Password"
+msgstr "パスワード"
+
+msgid "Remember Me"
+msgstr "このアカウントを記憶する"
+
+#: Users/view/users/index/user.phtml
+msgid "Following"
+msgstr "フォロー中"
+
+msgid "Invalid username or password."
+msgstr "ユーザー名またはパスワードが無効です"
+
+#: ../Application/view/error/index.phtml
+msgid "Not Logged In"
+msgstr "ログインしていません"
+
+msgid "Not Allowed"
+msgstr "許可されていません"
+
+msgid "Page Not Found"
+msgstr "ページが見つかりません"
+
+#: ../Projects/view/projects/index/project.phtml:3
+#: ../Users/view/users/index/user.phtml:3
+msgid "login-reload"
+msgstr "ログインを再読み込み"
+
+#: JS
+msgid "Model Viewer isn't supported in your browser."
+msgstr "ご使用のブラウザでは Model Viewer はサポートされません。"
+
+msgid "WebGL was not available, so rendering may be slow."
+msgstr "WebGL は使用できませんでした。レンダリングの速度は低下します。"
+
+msgid "Hmm... no queue workers? Ask your administrator to check the"
+msgstr "キューワーカーはありませんか。管理者に問い合わせて確認してください"
+
+msgid "worker setup"
+msgstr "ワーカーの設定"
+
+msgid "Show In-Line"
+msgstr "インライン表示"
+
+msgid "Show Side-by-Side"
+msgstr "左右に表示"
+
+msgid "Ignore Whitespace"
+msgstr "空白を無視"
+
+msgid "Show Full Context"
+msgstr "フルコンテキストを表示"
+
+msgid "You don't have permission to view this file."
+msgstr "このファイルを表示する権限がありません。"
+
+msgid "Remote depot (change details are not available)."
+msgstr "リモートデポ (変更詳細は使用できません)。"
+
+msgid "No matching changes."
+msgstr "一致する変更はありません"
+
+msgid "Range Syntax Error"
+msgstr "範囲の構文エラー"
+
+msgid "Select Change"
+msgstr "変更を選択"
+
+msgid "Path"
+msgstr "パス"
+
+msgid "Select"
+msgstr "選択"
+
+msgid "Tasks"
+msgstr "タスク"
+
+msgid "Open Task"
+msgstr "未完了タスク"
+
+msgid "Open Tasks"
+msgstr "未完了タスク"
+
+msgid "Addressed Task"
+msgstr "解決済みタスク"
+
+msgid "Addressed Tasks"
+msgstr "解決済みタスク"
+
+msgid "Verified Task"
+msgstr "検証済みタスク"
+
+msgid "Verified Tasks"
+msgstr "検証済みタスク"
+
+msgid "Verified"
+msgstr "検証済み"
+
+msgid "Not a"
+msgstr "ちがいます"
+
+msgid " Task"
+msgstr " タスク"
+
+msgid "Restore"
+msgstr "復旧"
+
+msgid "Add a Comment"
+msgstr "コメントを追加"
+
+msgid "comment"
+msgid_plural "comments"
+msgstr[0] "コメント"
+
+msgid "Press CTRL-C"
+msgstr "CTRL-C を押す"
+
+msgid "Long-press"
+msgstr "長押し"
+
+msgid "Press &#8984;-C"
+msgstr "&#8984;-C を押す"
+
+msgid "to copy"
+msgstr "コピー先"
+
+msgid "Your session has expired."
+msgstr "セッションの期限が切れています。"
+
+msgid "There was an issue with the Network"
+msgstr "ネットワークに問題がありました"
+
+msgid "No {{if query}}matching{{/if}} jobs."
+msgstr "{{if query}}一致する{{/if}}ジョブがありません。"
+
+msgid "Unlink"
+msgstr "リンク解除"
+
+msgid "Unlink Job"
+msgstr "ジョブをリンク解除"
+
+msgid "Add Job"
+msgstr "ジョブを追加"
+
+msgid "Unlink job from %s"
+msgstr "%s からジョブをリンク解除"
+
+msgid "Select Job"
+msgstr "ジョブを選択"
+
+msgid "Review Updated"
+msgstr "更新済みのレビュー"
+
+msgid "Marked as"
+msgstr "としてマーク"
+
+msgid "Edit Description"
+msgstr "説明を編集"
+
+msgid "User Reviewer Menu"
+msgstr "ユーザーのレビュー担当者メニュー"
+
+msgid "Vote Up"
+msgstr "投票「賛成」"
+
+msgid "Clear Vote"
+msgstr "投票をクリア"
+
+msgid "Vote Down"
+msgstr "投票「反対」"
+
+msgid "Join Review"
+msgstr "レビューに参加"
+
+msgid "Make my Vote Optional"
+msgstr "自分の投票をオプションにする"
+
+msgid "Make my Vote Required"
+msgstr "自分の投票を必須にする"
+
+msgid "Leave Review"
+msgstr "レビューを退出"
+
+msgid "Reviewers"
+msgstr "レビュー担当者"
+
+msgid "Edit Reviewers"
+msgstr "レビュー担当者を編集"
+
+msgid "Up Votes"
+msgstr "賛成投票"
+
+msgid "Down Votes"
+msgstr "反対投票"
+
+msgid "Reviewer Name"
+msgstr "レビュー担当者名"
+
+msgid "Close"
+msgstr "閉じる"
+
+msgid "Make Vote Optional"
+msgstr "投票をオプションにする"
+
+msgid "Make Vote Required"
+msgstr "投票を必須にする"
+
+msgid "voted {{if vote.value > 0}}up{{else}}down{{/if}}"
+msgstr "投票済み{{if vote.value > 0}}賛成{{else}}反対{{/if}}"
+
+msgid "latest"
+msgstr "最新"
+
+msgid "Vote Required"
+msgstr "必須の投票"
+
+msgid "Vote Optional"
+msgstr "オプションの投票"
+
+msgid "Provide a description"
+msgstr "説明を入力"
+
+msgid "Update"
+msgstr "更新"
+
+msgid "Commit"
+msgstr "コミット"
+
+msgid "Commits"
+msgstr "履歴"
+
+msgid "Warning!"
+msgstr "警告"
+
+msgid "There {{if openCount === 1}}is an open task{{else}}are {{:openCount}} open tasks{{/if}} on this review."
+msgstr "{{if openCount === 1}}未完了のタスク{{else}}はこのレビューの{{:openCount}}未完了のタスク{{/if}}です。"
+
+msgid "Optionally, provide a comment"
+msgstr "オプションでコメントを入力"
+
+msgid "Same"
+msgstr "同一"
+
+msgid "Job Status on Commit"
+msgstr "コミット時のジョブステータス"
+
+msgid "Pass"
+msgstr "合格"
+
+msgid "Fail"
+msgstr "失敗"
+
+msgid "Tests %s"
+msgstr "%s をテスト"
+
+msgid "Try it out!"
+msgstr "お試しください。"
+
+msgid "Deploy Failed"
+msgstr "デプロイに失敗しました"
+
+msgid "Already Committed"
+msgstr "すでにコミット済み"
+
+msgid "Add a Commit"
+msgstr "コミットを追加"
+
+msgid "Error committing"
+msgstr "コミット中のエラー"
+
+msgid "Error"
+msgstr "エラー"
+
+msgid "Committing"
+msgstr "コミットしています"
+
+msgid "Transition Review"
+msgstr "移行レビュー"
+
+msgid "Review Requested"
+msgstr "リクエスト済みのレビュー"
+
+msgid "Delete this project?"
+msgstr "このプロジェクトを削除しますか。"
+
+msgid "Ok"
+msgstr "OK"
+
+msgid "My"
+msgstr "自分の"
+
+msgid "No projects."
+msgstr "プロジェクトがありません。"
+
+msgid "No longer"
+msgstr "もう違います"
+
+msgid "Now"
+msgstr "今すぐ"
+
+msgid "following"
+msgstr "フォロー中"
+
+msgid "activity."
+msgstr "アクティビティ。"
+
+msgid "matching "
+msgstr "一致する "
+
+msgid "Approve"
+msgstr "承認"
+
+msgid "Approve and Commit"
+msgstr "承認およびコミット"
+
+msgid "file moved"
+msgstr "ファイルを移動しました"
+
+msgid "Reject"
+msgstr "却下"
+
+msgid "User ids must be strings"
+msgstr "ユーザー ID は文字列でなければなりません"
+
+msgid "Name is required and can't be empty."
+msgstr "名前は必須です。空白にはできません。"
+
+msgid "Name must contain at least one letter or number."
+msgstr "名前には少なくとも 1 つの文字または数値を含める必要があります。"
+
+msgid "Unknown user id "
+msgid_plural "Unknown user ids "
+msgstr[0] "不明なユーザー ID "
+
+msgid "archived comment"
+msgid_plural "archived comments"
+msgstr[0] "アーカイブ済みコメント"
+
+msgid " Moderator"
+msgid_plural " Moderators"
+msgstr[0] " モデレーター"
+
+msgid "current"
+msgstr "現在"
+
+msgid "add-reviewer"
+msgstr "レビュー担当者を追加"
+
+msgid "Joined"
+msgstr "結合済み"
+
+msgid "Left"
+msgstr "退出しました"
+
+msgid "active"
+msgstr "有効"
+
+msgid "This name is taken. Please pick a different name."
+msgstr "この名前は取得されています。別の名前を選択してください。"
+
+msgid "Team must contain at least one member."
+msgstr "チームには少なくとも 1 人のメンバーを含める必要があります。"
+
+msgid "All branches require a name."
+msgstr "すべてのブランチには名前が必要です。"
+
+msgid "Branch name must contain at least one letter or number."
+msgstr "ブランチ名には少なくとも 1 つの文字または数値を含める必要があります。"
+
+msgid "Two branches cannot have the same id."
+msgstr "2 つのブランチに同じ ID を付けることはできません。"
+
+msgid "'%s' is already in use."
+msgstr "「%s」はすでに使用されています。"
+
+msgid "Error in '%s' branch: "
+msgstr "「%s」ブランチでエラーです: "
+
+msgid "Job filter only supports key=value conditions and the '*' wildcard."
+msgstr "ジョブフィルターは key=value 条件および「*」のワイルドカードのみサポートします。"
+
+msgid "POST parameters for tests can only be in GET or JSON format."
+msgstr "テスト用の POST パラメータは GET 形式または JSON 形式のみが有効です。"
+
+msgid "POST parameters expected to be in GET format, but were invalid."
+msgstr "POST パラメータは GET 形式にする必要がありますが、無効でした。"
+
+msgid "POST parameters expected to be in JSON format, but were invalid."
+msgstr "POST パラメータは JSON 形式にする必要がありますが、無効でした。"
+
+msgid "Invalid request method. HTTP POST required."
+msgstr "リクエスト方法が無効です。HTTP POST は必須です。"
+
+msgid "The specified change does not exist."
+msgstr "指定された変更は存在しません。"
+
+msgid "The specified review does not exist."
+msgstr "指定されたレビューは存在しません。"
+
+msgid "The review already contains change %d."
+msgstr "レビューにはすでに変更 %d が含まれています。"
+
+msgid "A Review for change %d already exists."
+msgstr "変更 %d のレビューはすでに存在します。"
+
+msgid "Invalid request method. PATCH or DELETE required."
+msgstr "リクエスト方法が無効です。PATCH または DELETE は必須です。"
+
+msgid "Description is required when committing"
+msgstr "コミット時には説明が必要です"
+
+msgid "You cannot transition this review to '%s'."
+msgstr "このレビューは「%s」に移行できません。"
+
+msgid "A commit is already in progress."
+msgstr "コミットはすでに進行中です。"
+
+msgid "A commit is in progress; can't clear commit status."
+msgstr "コミットは進行中なので、コミットのステータスはクリアできません。"
+
+msgid "Commit status can only be cleared; not set."
+msgstr "コメントステータスはクリアされるだけで、設定できません。"
+
+msgid "Test status must be 'pass' or 'fail'."
+msgstr "テストステータスは「合格」または「失敗」でなければなりません。"
+
+msgid "Url in test details must be a valid uri."
+msgstr "テスト詳細の URL は有効な URI でなければなりません。"
+
+msgid "Deploy status must be 'success' or 'fail'."
+msgstr "デプロイステータスは「成功」または「失敗」でなければなりません。"
+
+msgid "Url in deploy details must be a valid uri."
+msgstr "デプロイ詳細の URL は有効な URI でなければなりません。"
+
+msgid "You must specify at least one known property."
+msgstr "少なくとも 1 つの既知のプロパティを指定する必要があります。"
+
+msgid "Invalid value specified for 'required', expecting true or false"
+msgstr "「必須」に指定された値が無効です。TRUE または FALSE にする必要があります"
+
+msgid "Cannot join review, not logged in as %s."
+msgstr "レビューを結合できません。%s としてログインしていません。"
+
+msgid "Cannot leave review, not logged in as %s."
+msgstr "レビューから抜けることができません。%s としてログインしていません。"
+
+msgid "You do not have permission to edit reviewers."
+msgstr "レビュー担当者を編集する権限がありません。"
+
+msgid "You do not have permission to edit required reviewers."
+msgstr "必須レビュー担当者を編集する権限がありません。"
+
+msgid "Invalid vote value"
+msgstr "投票の値が無効です"
+
+msgid "Invalid vote version"
+msgstr "投票のバージョンが無効です"
+
+msgid "Not logged in as %s"
+msgstr "%s としてログインしていません"
+
+msgid "Follow type ('%s') must be either 'user' or 'project'."
+msgstr "フォロータイプ (「%s」) は「ユーザー」または「プロジェクト」でなければなりません。"
+
+msgid "User ('%s') does not exist."
+msgstr "ユーザー (「%s」) は存在しません。"
+
+msgid "Project ('%s') does not exist."
+msgstr "プロジェクト (「%s」) は存在しません。"
+
+msgid "Streams must be an array."
+msgstr "ストリームは配列でなければなりません。"
+
+msgid "Only string values are permitted in the streams array."
+msgstr "ストリームの配列では文字列の値のみが許可されます。"
+
+msgid "Cannot apply line range to binary files"
+msgstr "行範囲はバイナリファイルには適用できません"
+
+msgid "Invalid Range Specified: "
+msgstr "指定された範囲は無効です。 "
+
+msgid "JSON only supported when line range specified"
+msgstr "JSON は行範囲が指定されたときにのみサポートされます。"
+
+msgid "flags must be set as strings"
+msgstr "フラグは文字列として設定する必要があります"
+
+msgid "No permission to list the associated file."
+msgstr "関連するファイルをリストする権限がありません。"
+
+msgid "Supplied attachment(s) could not be located on the server"
+msgstr "指定された添付ファイルはサーバー上で見つかりませんでした"
+
+msgid "Invalid task state transition specified. "
+msgstr "指定されたタスクステータス移行が無効です。 "
+
+msgid "Valid transitions are: "
+msgstr "有効な移行: "
+
+msgid "Invalid request method. HTTP POST or HTTP DELETE required."
+msgstr "リクエスト方法が無効です。HTTP POST または HTTP DELETE は必須です。"
+
+msgid "Cannot delete project: project not found."
+msgstr "プロジェクトを削除できません。プロジェクトが見つかりません。"
+
+msgid "Job"
+msgstr "ジョブ"
+
+msgid "Show More Context"
+msgstr "その他のコンテキストを表示"
+
+msgid "cleared an issue on"
+msgstr "の問題はクリア済み"
+
+msgid "reopened an issue on"
+msgstr "の問題は再オープン済み"
+
+msgid "verified an issue on"
+msgstr "の問題は検証済み"
+
+msgid "addressed an issue on"
+msgstr "の問題は解決済み"
+
+msgid "Add"
+msgstr "追加"
+
+msgid "reviews"
+msgstr "レビュー"
+
+msgid "rejected"
+msgstr "却下済み"
+
+msgid "archived"
+msgstr "アーカイブ済み"
+
+msgid "voted up"
+msgstr "賛成に投票済み"
+
+msgid "opened an issue on"
+msgstr "の問題はオープン済み"
+
+msgid "requested"
+msgstr "リクエスト済み"
+
+msgid "requested revisions to"
+msgstr "リクエスト済み修正"
+
+msgid "commented on"
+msgstr "コメント追加済み"
+
+msgid "condenced"
+msgstr "文字間隔をつめた"
+
+msgid "on"
+msgstr "オン"
+
+msgid " match your filters."
+msgstr " フィルタに一致しています。"
+
+msgid "approved"
+msgstr "承認済み"
+
+msgid "Status"
+msgstr "ステータス"
+
+msgid "Date"
+msgstr "日付"
+
+msgid "closed"
+msgstr "終了済み"
+
+msgid "open"
+msgstr "開く"
+
+msgid "suspended"
+msgstr "一時停止されました"
+
+msgid "addressed"
+msgstr "解決済み"
+
+msgid "Addressed"
+msgstr "解決済み"
+
+msgid "Comment"
+msgstr "コメント"
+
+msgid "Not Committed"
+msgstr "コミットされていません"
+
+msgid "Review "
+msgstr "レビュー "
+
+msgid "Flag as Task "
+msgstr "タスクにする "
+
+msgid "Task Addressed"
+msgstr "問題が解決されたタスク"
+
+msgid "Not a Task"
+msgstr "タスクではありません"
+
+msgid "Verify Task"
+msgstr "タスクの確認"
+
+msgid "Verify and Archive"
+msgstr "確認とアーカイブ"
+
+msgid "Reopen Task"
+msgstr "タスクの再開"
+
+msgid "submitted"
+msgstr "送信済み"
+
+msgid "updated"
+msgstr "更新済み"
+
+msgid "automated deploy"
+msgstr "自動化されたデプロイ"
+
+msgid "joined"
+msgstr "結合済み"
+
+msgid "left"
+msgstr "左"
+
+msgid "made their vote required on"
+msgstr "投票を必須にする"
+
+msgid "made their vote optional on"
+msgstr "投票をオプションにする"
+
+msgid "edited reviewers on"
+msgstr "の編集済みレビュー担当者"
+
+msgid "up"
+msgstr "賛成"
+
+msgid "down"
+msgstr "反対"
+
+msgid "voted "
+msgstr "投票済み "
+
+msgid "voted down"
+msgstr "反対に投票済み"
+
+msgid "cleared their vote on"
+msgstr "の投票はクリア済み"
+
+msgid "requested further review of"
+msgstr "リクエスト済み追加のレビュー"
+
+msgid "updated description of"
+msgstr "更新済み説明"
+
+msgid "reported"
+msgstr "レポート済み"
+
+msgid "failed tests for"
+msgstr "のテストに失敗しました"
+
+msgid "passed tests for"
+msgstr "のテストに合格しました"
+
+msgid "updated files in"
+msgstr "で更新済みのファイル"
+
+msgid "Added %s as an optional reviewer."
+msgid_plural "Added %s as optional reviewers."
+msgstr[0] "オプションのレビュー担当者として %s が追加されました。"
+
+msgid "Made %s a required reviewer."
+msgid_plural "Made %s required reviewers."
+msgstr[0] "%s を必須のレビュー担当者にしました。"
+
+msgid "Added %s as a required reviewer."
+msgid_plural "Added %s as required reviewers."
+msgstr[0] "%s を必須のレビュー担当者として追加しました。"
+
+msgid "Made %s an optional reviewer."
+msgid_plural "Made %s optional reviewers."
+msgstr[0] "%s をオプションのレビュー担当者にしました。"
+
+msgid "Removed %s from the review."
+msgstr "%s はレビューから削除されました。"
+
+msgid "opened"
+msgstr "オープン済み"
+
+msgid "Suspended"
+msgstr "一時停止されました"
+
+msgid "Change Status (shelved/submitted)"
+msgstr "変更ステータス (シェルフ済み/送信済み)"
+
+msgid "Committed..."
+msgstr "コミットしました..."
+
+msgid "Unknown"
+msgstr "不明"
+
+msgid "Initializing..."
+msgstr "初期化しています..."
+
+msgid "Compressing..."
+msgstr "圧縮しています..."
+
+msgid "Syncing..."
+msgstr "同期しています..."
+
+msgid "Downloading..."
+msgstr "ダウンロードしています..."
+
+msgid "Trigger Token"
+msgid_plural "Trigger Tokens"
+msgstr[0] "トリガートークン"
+
+msgid "Follower"
+msgid_plural "Followers"
+msgstr[0] "フォロワー"
+
+msgid "Branch"
+msgid_plural "Branches"
+msgstr[0] "ブランチ"
+
+msgid "Member"
+msgid_plural "Members"
+msgstr[0] "メンバー"
+
+msgid "File too large"
+msgstr "ファイルが大きすぎます"
+
+msgid "Upload Failed"
+msgstr "アップロードに失敗しました"
+
+msgid "file"
+msgstr "ファイル"
+
+msgid "Invalid type given. Array required."
+msgstr "無効なタイプが指定されました。配列が必要です。"
+
+msgid "Invalid input given. JSON string required."
+msgstr "無効な入力が指定されました。JSON 文字列が必要です。"
+
+msgid "The only permitted wildcard is trailing '...'."
+msgstr "許可されるワイルドカードは末尾の「...」のみです。"
+
+msgid "The first path component must be a valid depot name."
+msgstr "最初のパスコンポーネントは有効な depot 名でなければなりません。"
+
+msgid "Depot name must be followed by a path or '/...'."
+msgstr "depot 名の後にパスまたは「/...」を続ける必要があります。"
+
+msgid "The path cannot end with a '/'."
+msgstr "パスは「/」で終わらせることはできません。"
+
+msgid "No depot paths specified."
+msgstr "depot パスが指定されていません。"
+
+msgid "line"
+msgstr "行"
+
+msgid "File"
+msgstr "ファイル"
+
+msgid "Stack"
+msgstr "スタック"
+
+msgid "Error Details"
+msgstr "エラーの詳細"
+
+msgid "Mark as Unread"
+msgstr "未読にする"
+
+msgid "Mark as Read"
+msgstr "既読にする"
+
+msgid "No matching activity."
+msgstr "一致するアクティビティがありません。"
+
+msgid "No activity."
+msgstr "アクティビティがありません。"
+
+msgid "No Files."
+msgstr "ファイルがありません。"
+
+msgid "No modified Files."
+msgstr "変更されたファイルはありません。"
+
+msgid "file moved to"
+msgstr "ファイルを次に移動しました"
+
+msgid "Edit Project"
+msgstr "プロジェクトを編集"
+
+msgid "//depot/path/to/branch/..."
+msgstr "//ブランチへの/depot/パス/..."
+
+msgid "key=value"
+msgstr "key=value"
+
+msgid "Control Camera"
+msgstr "カメラをコントロール"
+
+msgid "Reset Camera"
+msgstr "カメラをリセット"
+
+msgid "Show Material"
+msgstr "素材を表示"
+
+msgid "Show Wireframe"
+msgstr "ワイヤーフレームを表示"
+
+msgid "No matching jobs."
+msgstr "一致するジョブがありません。"
+
+msgid "No jobs."
+msgstr "ジョブがありません。"
+
+msgid "No %s reviews."
+msgstr "%s のレビューがありません。"
+
+msgid "No %s reviews match your filters."
+msgstr "フィルタに一致する %s のレビューがありません。"
+
+msgid "There is an open task on this review"
+msgstr "このレビューに未完了のタスクがあります"
+
+msgid "There are %s open tasks on this review"
+msgstr "このレビューに %s の未完了のタスクがあります。"
+
+msgid "No longer following %s"
+msgstr "%s をフォローしていません"
+
+msgid "Now following %s"
+msgstr "%s をフォローしています"
+
+msgid "Shelved in %s"
+msgstr "%s にシェルフ済み"
+
+msgid "Committed in %s"
+msgstr "%s にコミット済み"
+
+msgid "No opened reviews match your filters."
+msgstr "フィルタに一致するオープン済みのレビューはありません。"
+
+msgid "No opened reviews."
+msgstr "オープン済みのレビューはありません。"
+
+msgid "No closed reviews match your filters."
+msgstr "フィルタに一致する終了済みのレビューはありません。"
+
+msgid "No closed reviews."
+msgstr "終了済みのレビューはありません。"
+
+msgid "Unlink job from review?"
+msgstr "レビューからジョブをリンク解除しますか。"
+
+msgid "Unlink job from change?"
+msgstr "変更からジョブをリンク解除しますか。"
+
+msgid "review %s"
+msgstr "レビュー %s"
+
+msgid "change %s"
+msgstr "変更 %s"
+
+msgid "review %s (%s, line %s)"
+msgstr "レビュー %s (%s、行 %s)"
+
+msgid "change %s (%s, line %s)"
+msgstr "変更 %s (%s、行 %s)"
+
+msgid "Marked as Read"
+msgstr "既読に設定済み"
+
+msgid "Marked as Unread"
+msgstr "未読に設定済み"
+
+msgid "Pending"
+msgstr "保留中"
+
+msgid "Expression parse error at '%s'."
+msgstr "'%s' で式の解析エラーが発生しました。"
+
+msgid "Unknown field name '%s'."
+msgstr "不明なフィールド名 '%s' です。"
+
+msgid "Review doesn't contain any files to commit."
+msgstr "コミットするファイルがレビューに含まれていません。"
+
+msgid "Cannot update review; the shelved change we manage is unexpectedly committed."
+msgstr "レビューを更新できません。管理するシェルフ済みの変更が予期せずにコミットされます。"
+
+msgid "No shelved files in changelist to delete."
+msgstr "changelist に削除するシェルフ済みのファイルがありません。"
+
+msgid "Cannot set versions. Each version must specify a change, user, time and pending."
+msgstr "バージョンを設定できません。各バージョンで変更、ユーザー、時間、保留を指定する必要があります。"
+
+msgid "Cannot get change of version %d. No such version."
+msgstr "バージョン %d の変更を取得できません。そのようなバージョンはありません。"
+
+msgid "Tokens must be a string or null"
+msgstr "トークンは文字列または null でなければなりません"
+
+msgid "Cannot save. Upgrade level is too high."
+msgstr "保存できません。アップグレードのレベルが高すぎます。"
+
+msgid "Cannot delete review; the shelved change we manage is unexpectedly committed."
+msgstr "レビューを削除できません。管理するシェルフ済みの変更が予期せずにコミットされます。"
+
+#: error status messages
+msgid "Continue"
+msgstr "続行"
+
+msgid "Switching Protocols"
+msgstr "プロトコルの切り替え中"
+
+msgid "Processing"
+msgstr "処理中"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Accepted"
+msgstr "承諾済み"
+
+msgid "Non-Authoritative Information"
+msgstr "信頼できない情報"
+
+msgid "No Content"
+msgstr "コンテンツがありません"
+
+msgid "Reset Content"
+msgstr "コンテンツをリセット"
+
+msgid "Partial Content"
+msgstr "一部のコンテンツ"
+
+msgid "Multi-status"
+msgstr "複数ステータス"
+
+msgid "Already Reported"
+msgstr "すでにレポート済み"
+
+msgid "Multiple Choices"
+msgstr "複数の選択"
+
+msgid "Moved Permanently"
+msgstr "完全に削除しました"
+
+msgid "Found"
+msgstr "見つかりました"
+
+msgid "See Other"
+msgstr "その他を参照"
+
+msgid "Not Modified"
+msgstr "変更されていません"
+
+msgid "Use Proxy"
+msgstr "プロキシを使用"
+
+msgid "Switch Proxy"
+msgstr "プロキシを切り替え"
+
+msgid "Temporary Redirect"
+msgstr "一時リダイレクト"
+
+msgid "Bad Request"
+msgstr "不良リクエスト"
+
+msgid "Unauthorized"
+msgstr "未承認"
+
+msgid "Payment Required"
+msgstr "支払いが必要です"
+
+msgid "Forbidden"
+msgstr "禁止"
+
+msgid "Not Found"
+msgstr "見つかりません"
+
+msgid "Method Not Allowed"
+msgstr "許可されていない方法"
+
+msgid "Not Acceptable"
+msgstr "承諾不可"
+
+msgid "Proxy Authentication Required"
+msgstr "プロキシ認証が必要です"
+
+msgid "Request Time-out"
+msgstr "リクエストのタイムアウト"
+
+msgid "Conflict"
+msgstr "競合"
+
+msgid "Gone"
+msgstr "なくなりました"
+
+msgid "Length Required"
+msgstr "長さが必要です"
+
+msgid "Precondition Failed"
+msgstr "事前条件が失敗しました"
+
+msgid "Request Entity Too Large"
+msgstr "リクエストエンティティが大きすぎます"
+
+msgid "Request-URI Too Large"
+msgstr "リクエスト URI が大きすぎます"
+
+msgid "Unsupported Media Type"
+msgstr "サポート外のメディアタイプ"
+
+msgid "Requested range not satisfiable"
+msgstr "要求された範囲が満たされていません"
+
+msgid "Expectation Failed"
+msgstr "予測は失敗しました"
+
+msgid "I'm a teapot"
+msgstr "ティーポットです"
+
+msgid "Unprocessable Entity"
+msgstr "処理できないエンティティ"
+
+msgid "Locked"
+msgstr "ロック済み"
+
+msgid "Failed Dependency"
+msgstr "失敗した依存関係"
+
+msgid "Unordered Collection"
+msgstr "順序指定されていないコレクション"
+
+msgid "Upgrade Required"
+msgstr "アップグレードが必要です"
+
+msgid "Precondition Required"
+msgstr "事前条件が必要です"
+
+msgid "Too Many Requests"
+msgstr "リクエストが多すぎます"
+
+msgid "Request Header Fields Too Large"
+msgstr "リクエストヘッダーフィールドが大きすぎます"
+
+msgid "Internal Server Error"
+msgstr "内部サーバーのエラー"
+
+msgid "Not Implemented"
+msgstr "実装されていません"
+
+msgid "Bad Gateway"
+msgstr "不良ゲートウェイ"
+
+msgid "Service Unavailable"
+msgstr "サービスは利用できません"
+
+msgid "Gateway Time-out"
+msgstr "ゲートウェイのタイムアウト"
+
+msgid "HTTP Version not supported"
+msgstr "HTTP バージョンがサポートされていません"
+
+msgid "Variant Also Negotiates"
+msgstr "バリアントでもネゴシエート"
+
+msgid "Insufficient Storage"
+msgstr "記憶域の不足"
+
+msgid "Loop Detected"
+msgstr "ループを検出しました"
+
+msgid "Network Authentication Required"
+msgstr "ネットワーク認証が必要です"
+
+msgid "A valid response status line was not found in the provided string"
+msgstr "指定された文字列に有効な応答ステータスラインが見つかりません"
+
+msgid "Error parsing body - doesn't seem to be a chunked message"
+msgstr "本文を解析中にエラーが発生しました。チャンクメッセージではないようです"
+
+msgid "zlib extension is required in order to decode 'gzip' encoding"
+msgstr "「gzip」エンコーディングをデコードするには zlib 展開する必要があります"
+
+msgid "Error occurred during gzip inflation"
+msgstr "gzip を展開中にエラーが発生しました"
+
+msgid "zlib extension is required in order to decode 'deflate' encoding"
+msgstr "「deflate」エンコーディングをデコードするには、zlib 展開する必要があります"
+
+msgid "Move/delete"
+msgstr "移動/削除"
+
+msgid "Move/add"
+msgstr "移動/追加"
+
+msgid "Command failed: Out of date files must be resolved or reverted."
+msgstr "コマンドが失敗しました: 期限が切れたファイルを解決するか、復帰させる必要があります。"
+
+msgid "Command failed: Merges still pending -- use 'resolve' to merge files."
+msgstr "コマンドが失敗しました: マージが保留中です -- 「解決」を使用してファイルをマージしてください"
+
+#: library/Zend/Validator :
+msgid "Invalid type given"
+msgstr "無効なタイプが指定されました"

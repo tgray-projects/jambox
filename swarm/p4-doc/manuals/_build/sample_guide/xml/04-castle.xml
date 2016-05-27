@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- vim: set ts=2 sw=2 tw=80 ai si: -->
+<chapter
+  xml:id="chapter.castle"
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="5.0"
+>
+  <title>The Castle Aaarrrrggh</title>
+
+  <para>
+    Ethel the hip aarvark processes her results with Ruby.
+    Thanks to Kyle Rames for this example code:
+  </para>
+
+  <para>
+    <link xlink:href="http://gist.github.com/krames/874305">http://gist.github.com/krames/874305</link>
+  </para>
+
+<programlisting role="split" language="ruby">
+<xi:include href="../../assets/_common/code/python.rb" parse="text"/>
+</programlisting>
+</chapter>

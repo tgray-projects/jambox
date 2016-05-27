@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- vim: set ts=2 sw=2 tw=80 ai si: -->
+<chapter
+  xml:id="chapter.lumberjack"
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="5.0"
+>
+  <title>I&#8217;m a Lumberjack, and I&#8217;m okay!</title>
+
+  <para>
+    Ethel's surveying produced the following results:
+  </para>
+
+  <informaltable>
+    <tgroup cols="2">
+      <colspec colname="location" colwidth="*"/>
+      <colspec colname="observation" colwidth="2*"/>
+      <thead>
+        <row>
+          <entry>
+            <para>
+              Location
+            </para>
+          </entry>
+
+          <entry>
+            <para>
+              Observation
+            </para>
+          </entry>
+        </row>
+      </thead>
+
+      <tbody>
+        <row>
+          <entry>
+            <para>
+              Doune Castle
+            </para>
+          </entry>
+
+          <entry>
+            <para>
+              Your mother smells of elderberries
+            </para>
+          </entry>
+        </row>
+
+        <row>
+          <entry>
+            <para>
+             Loch Tay
+            </para>
+          </entry>
+
+          <entry>
+            <para>
+              And the count shall be three
+            </para>
+          </entry>
+        </row>
+
+        <row>
+          <entry>
+            <para>
+              Glen Coe
+            </para>
+          </entry>
+
+          <entry>
+            <para>
+              What is your favorite color?
+            </para>
+          </entry>
+        </row>
+
+        <row>
+          <entry>
+            <para>
+              Epping Forest
+            </para>
+          </entry>
+
+          <entry>
+            <para>
+              It's only a flesh wound!
+            </para>
+          </entry>
+        </row>
+      </tbody>
+    </tgroup>
+  </informaltable>
+</chapter>

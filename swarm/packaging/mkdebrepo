@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd ../../p4-bin/bin.linux26x86_64 || exit $?
+pwd
+dpkg-scanpackages . /dev/null | gzip -c9 > Packages.gz

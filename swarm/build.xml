@@ -1,0 +1,2086 @@
+<?xml version="1.0"?>
+<project name="swarm" default="help" basedir=".">
+    <description>
+This is the build script for Swarm.
+
+Intended users of this script are build automation as well as Swarm developers.
+
+This build.xml organized into these main sections:
+* global settings
+* [ENTRY] targets
+* [PRE]-test targets
+* [TEST] targets
+  * To pass extra phpunit arguments, pass -Dphpunit.args.extra=blah
+* [POST]-test targets
+
+The [ENTRY] targets intended are:
+* smoke-build (takes 1-2 minutes)
+
+For finer granularity, you may wish to call any [TEST] or [POST] target directly.
+
+Dependencies:
+* This build.xml uses tasks from the Ant Contrib library:
+      http://sourceforge.net/projects/ant-contrib/
+  It is present in the Swarm source under the 'collateral/build-utils' directory.
+  Alternatively, you can include the ant-contrib jar in your classpath or in your
+  Ant's lib directory.
+    </description>
+
+    <!-- ============================================================ -->
+    <!-- import external tasks -->
+    <!-- ============================================================ -->
+    <taskdef resource="net/sf/antcontrib/antlib.xml"
+        classpath="${basedir}/collateral/build-utils/ant-contrib.jar"/>
+
+    <!-- ============================================================ -->
+    <!-- global settings -->
+    <!-- ============================================================ -->
+    <property environment="env"/>
+
+    <!-- source local build properties to override -->
+    <property file="${basedir}/.build.properties"/>
+
+    <property name="data.dir"           location="${basedir}/tests/data"/>
+    <property name="log.dir"            location="${data.dir}/output"/>
+    <property name="test.dir"           location="${basedir}/tests/phpunit"/>
+
+    <property name="product.name"       value="swarm"/>
+    <property name="product.name.nice"  value="Helix Swarm"/>
+
+    <!-- definitions for the release strings per branch -->
+    <!-- Note: This mimics what the build team does for official builds -->
+    <property name="version.file.release.main"            value="2015 1 MAIN"/>
+    <property name="version.file.release.candidate_Swarm" value="2015 1"/>
+
+    <!-- library paths, broken down by source vs test for p4, record and all -->
+    <path id="lib.p4.sourcedirs.ref">
+        <pathelement path="library/P4"/>
+    </path>
+    <path id="lib.p4.testdirs.ref">
+        <pathelement path="tests/phpunit/P4Test"/>
+    </path>
+    <path id="lib.record.sourcedirs.ref">
+        <pathelement path="library/Record"/>
+    </path>
+    <path id="lib.record.testdirs.ref">
+        <pathelement path="tests/phpunit/RecordTest"/>
+    </path>
+    <path id="library.testdirs.ref">
+        <path refid="lib.p4.testdirs.ref"/>
+        <path refid="lib.record.testdirs.ref"/>
+    </path>
+    <path id="library.sourcedirs.ref">
+        <path refid="lib.p4.sourcedirs.ref"/>
+        <path refid="lib.record.sourcedirs.ref"/>
+    </path>
+
+    <!-- module paths, borken down by source vs test -->
+    <path id="module.sourcedirs.ref">
+        <pathelement path="module"/>
+        <pathelement path="public"/>
+    </path>
+    <path id="module.testdirs.ref">
+        <pathelement path="tests/phpunit/ModuleTest"/>
+    </path>
+
+    <!-- roll-up of library and module source & test paths -->
+    <path id="all.sourcedirs.ref">
+        <path refid="library.sourcedirs.ref"/>
+        <path refid="module.sourcedirs.ref"/>
+    </path>
+    <path id="all.testdirs.ref">
+        <path refid="library.testdirs.ref"/>
+        <path refid="module.testdirs.ref"/>
+    </path>
+
+    <!-- ============================================================ -->
+    <!-- Entry Targets -->
+    <!-- ============================================================ -->
+
+    <!-- ============================================================ -->
+    <!-- default target -->
+    <target name="help">
+        <exec executable="ant">
+            <arg value="-p"/>
+        </exec>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- what to do for a smoke test -->
+    <target name="smoke-test-module"
+        depends="info, set-module-vars, test-unit-module-report, php-codesniffer, phploc, jslint, test-unit-js-headless"
+        description="[ENTRY] Perform a smoke test of all Module code"
+    >
+        <echo level="info" message="Smoke test of Module complete"/>
+    </target>
+    <target name="set-module-vars" depends="get-p4-bin-dir">
+        <setpathsfortests prefix="module"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- what to do for a library test -->
+    <target name="smoke-test-library"
+        depends="info, set-library-vars, test-unit-library-report, php-codesniffer, phploc"
+        description="[ENTRY] Perform a smoke test of all Library code"
+    >
+        <echo level="info" message="Smoke test of Library complete"/>
+    </target>
+    <target name="set-library-vars">
+        <setpathsfortests prefix="library"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- helper macrodef to set paths for a given prefix -->
+    <macrodef name="setpathsfortests">
+        <attribute name="prefix"/>
+        <sequential>
+            <pathconvert property="sniff.dirs" pathsep=" ">
+                <path refid="@{prefix}.sourcedirs.ref"/>
+                <path refid="@{prefix}.testdirs.ref"/>
+            </pathconvert>
+            <pathconvert property="phploc.dirs" pathsep=" ">
+                <path refid="@{prefix}.sourcedirs.ref"/>
+            </pathconvert>
+            <echo level="info" message="set sniff.dirs and phploc.dirs to [@{prefix}] values"/>
+
+        </sequential>
+    </macrodef>
+
+    <!-- ============================================================ -->
+    <!-- produce a tarball like a customer would get -->
+    <target name="custbuild"
+        description="[ENTRY] Create a tarball artifact like a customer would get"
+        depends="info"
+    >
+        <property name="output.dir" location="${data.dir}"/>
+        <property name="work.dir"   location="${output.dir}/${product.name}.working"/>
+        <property name="prep.dir"   location="${work.dir}/prep"/>
+        <property name="tgt.dir"    location="${output.dir}"/>
+
+        <echo level="info" message="Creating customer build with these parameters:"/>
+        <echo level="info" message="output.dir = [${output.dir}]"/>
+        <echo level="info" message="work.dir   = [${work.dir}]"/>
+        <echo level="info" message="prep.dir   = [${prep.dir}]"/>
+        <echo level="info" message="tgt.dir    = [${tgt.dir}]"/>
+
+        <antcall target="custbuild-helper">
+            <param name="log.dir"                value="${work.dir}/log"/>
+            <param name="prep.src.dir"           value="${prep.dir}"/>
+            <param name="dist.tgt.dir"           location="${tgt.dir}"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- produce a tarball like a customer would get -->
+    <target name="packagebuild"
+            description="[ENTRY] Create a tarball artifact for packaging"
+    >
+        <antcall target="custbuild-helper">
+            <param name="dist.tgt.dir"           location="${basedir}/packaging"/>
+            <param name="dist.name"              value="swarm"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- helper to create a local tarball -->
+    <target name="custbuild-helper"
+        depends="get-version-file,prepare-source,build-web,doc,dist"
+    >
+        <echo level="info" message="Customer build produced here:${line.separator}${dist.file}"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- Pre-Test Targets -->
+    <!-- ============================================================ -->
+
+    <!-- ============================================================ -->
+    <!-- info -->
+    <target name="info" unless="info.tstamp">
+        <tstamp>
+            <format property="info.tstamp" pattern="yyyy/MM/dd HH:mm:ss z (Z)"/>
+        </tstamp>
+        <echo level="info">[${info.tstamp}]
+
+ Java Properties:
+==================
+ Java: [${java.version}] (vendor [${java.vendor}])
+  Ant: [${ant.version}] (using Java version [${ant.java.version}])
+   OS: name [${os.name}], arch [${os.arch}], version [${os.version}]
+ File: encoding [${file.encoding}], path separator [${path.separator}]
+ User: name [${user.name}], language [${user.language}], home [${user.home}]
+
+ Environment:
+=============
+ LANG: [${env.LANG}]
+ PATH: [${env.PATH}]
+  PWD: [${basedir}]
+SHELL: [${env.SHELL}]
+</echo>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- purge the logs directory -->
+    <target name="clean" unless="clean.done"
+        description="[PRE] clean up directory to where artifacts will be written">
+        <delete includeemptydirs="true" failonerror="false">
+            <fileset dir="${data.dir}"/>
+            <fileset file="${basedir}/Version"/>
+        </delete>
+        <mkdir dir="${data.dir}"/>
+        <property name="clean.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- check to ensure we have enough disk space -->
+    <target name="check-space" unless="check-space.done"
+        description="[PRE] Ensure there's enough disk space"
+    >
+        <!-- TODO: parameterize this, as this is not guaranteed to be the right partition -->
+        <property name="host.build.partition" value="/"/>
+        <property name="free.space.needed" value="500M"/>
+
+        <fail message="not enough free space (${free.space.needed} on ${host.build.partition})">
+            <condition>
+                <not>
+                    <hasfreespace partition="${host.build.partition}"
+                        needed="${free.space.needed}"/>
+                </not>
+            </condition>
+        </fail>
+        <echo level="info" message="Found enough free space [${free.space.needed}] on partition [${host.build.partition}]"/>
+
+        <property name="check-space.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- determine binary directory based on platform -->
+    <target name="get-p4-bin-dir" unless="p4.bin.dir"
+        description="[PRE] Figures out the p4 binary directory to use"
+    >
+        <!-- determine OS name -->
+        <condition property="platform.os" value="darwin">
+            <equals arg1="Mac OS X" arg2="${os.name}"/>
+        </condition>
+        <condition property="platform.os" value="linux">
+            <equals arg1="Linux" arg2="${os.name}"/>
+        </condition>
+        <property name="platform.os" value="${os.name}"/>
+        <echo level="info" message="platform.os=[${platform.os}]"/>
+
+        <!-- determine OS version -->
+        <condition property="platform.version" value="90">
+            <equals arg1="Mac OS X" arg2="${os.name}"/>
+        </condition>
+        <condition property="platform.version" value="26">
+            <and>
+                <equals arg1="Linux" arg2="${os.name}"/>
+                <or>
+                    <matches string="${os.version}" pattern="^2\.[6789]"/>
+                    <matches string="${os.version}" pattern="^3\.[0-9]"/>
+                </or>
+            </and>
+        </condition>
+        <propertyregex property="platform.version"
+            input="${os.version}"
+            regexp="^([0-9])+\.([0-9]+)"
+            select="\1\2"
+        />
+        <echo level="info" message="platform.version=[${platform.version}]"/>
+
+        <!-- determine architecture -->
+        <condition property="platform.arch" value="x86_64">
+            <equals arg1="Mac OS X" arg2="${os.name}"/>
+        </condition>
+        <condition property="platform.arch" value="x86">
+            <matches string="${os.arch}" pattern="i.86"/>
+        </condition>
+        <condition property="platform.arch" value="x86_64">
+            <equals arg1="amd64" arg2="${os.arch}"/>
+        </condition>
+        <property name="platform.arch" value="${os.arch}"/>
+        <echo level="info" message="platform.arch=[${platform.arch}]"/>
+
+        <!-- construct p4 binary directory name -->
+        <property name="p4.bin.dir.name" value="bin.${platform.os}${platform.version}${platform.arch}"/>
+        <property name="p4.bin.dir" location="${basedir}/p4-bin/${p4.bin.dir.name}"/>
+        <property name="test.p4.bin.dir" location="${basedir}/tests/p4-bin/${p4.bin.dir.name}"/>
+
+        <fail message="cannot find platform directory [${p4.bin.dir}]">
+            <condition><not><available file="${p4.bin.dir}" type="dir"/></not></condition>
+        </fail>
+        <fail message="cannot find test platform directory [${test.p4.bin.dir}]">
+            <condition><not><available file="${test.p4.bin.dir}" type="dir"/></not></condition>
+        </fail>
+
+        <echo level="info" message="p4.bin.dir=[${p4.bin.dir}]"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- check version of PHP -->
+    <target name="check-php" unless="php.version"
+        description="[PRE] Checks to make sure the right version of php is available"
+    >
+        <fail message="cannot find [php] in PATH [${env.PATH}]">
+            <condition><not><available file="php" filepath="${env.PATH}"/></not></condition>
+        </fail>
+
+        <exec executable="php" outputproperty="php.version.output">
+            <arg line="--version"/>
+        </exec>
+
+        <propertyregex property="php.version"
+            input="${php.version.output}"
+            regexp="(?m)^PHP ([0-9])\.([0-9])[^ ]* .*$"
+            select="\1\2"
+        />
+
+        <fail message="PHP version 5.3-5.6 is needed; you have [${php.version}]">
+            <condition>
+                <not>
+                    <or>
+                        <equals arg1="${php.version}" arg2="53"/>
+                        <equals arg1="${php.version}" arg2="54"/>
+                        <equals arg1="${php.version}" arg2="55"/>
+                        <equals arg1="${php.version}" arg2="56"/>
+                    </or>
+                </not>
+            </condition>
+        </fail>
+
+        <!-- check if required extensions are installed -->
+        <checkphpextension extension="iconv"/>
+        <checkphpextension extension="json"/>
+        <checkphpextension extension="session"/>
+
+        <echo level="info" message="=== PHP information ==="/>
+        <echo level="info" message="${php.version.output}"/>
+        <echo level="info" message="PHP major.minor version: [${php.version}]"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- check Xdebug exists -->
+    <target name="check-xdebug" unless="php.found.Xdebug"
+        description="[PRE] Checks to make sure the PHP XDebug extension is present"
+    >
+        <checkphpextension extension="Xdebug"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- helper target to check whether a PHP extension is present -->
+    <macrodef name="checkphpextension">
+        <attribute name="extension"/>
+        <sequential>
+            <!-- check local PHP modules to see if extension is detected -->
+            <exec executable="php" outputproperty="cpe.php.modules">
+                <arg line="-m"/>
+            </exec>
+            <fail message="PHP extension [@{extension}] not detected; please install/enable">
+                <condition>
+                    <not>
+                        <or>
+                            <matches string="${cpe.php.modules}" pattern="^@{extension}$" multiline="true"/>
+                            <istrue value="${php.found.@{extension}}"/>
+                        </or>
+                    </not>
+                </condition>
+            </fail>
+            <echo level="info" message="PHP extension [@{extension}] found"/>
+            <property name="php.found.@{extension}" value="true"/>
+        </sequential>
+    </macrodef>
+
+    <!-- ============================================================ -->
+    <!-- set up the PHP environment so we can toggle use of P4PHP -->
+    <target name="setup-php-env" unless="setup-php-env.done" depends="clean, get-p4-bin-dir, check-php"
+        description="[PRE] Does some checks and sets up PHP environment to be able to use P4CLI or P4PHP"
+    >
+        <property name="p4php.extension" location="${p4.bin.dir}/perforce-php${php.version}.so"/>
+        <fail message="cannot find p4php: [${p4php.extension}]">
+            <condition><not><available file="${p4php.extension}"/></not></condition>
+        </fail>
+
+        <!-- grab the php.ini file and any additional ones -->
+        <exec executable="php">
+            <arg line="--ini"/>
+            <redirector outputproperty="php.ini.files">
+                <outputfilterchain>
+                    <tokenfilter>
+                        <containsregex pattern="^[^/]*(/.*\.ini).*" replace="\1"/>
+                    </tokenfilter>
+                </outputfilterchain>
+            </redirector>
+        </exec>
+        <fail message="could not derive property [php.ini.files]" unless="php.ini.files"/>
+
+        <!-- define different flavours of php.ini -->
+        <property name="php.ini.xdebug.nop4php"   location="${data.dir}/php.ini.xdebug.nop4php"/>
+        <property name="php.ini.xdebug.p4php"     location="${data.dir}/php.ini.xdebug.p4php"/>
+        <property name="php.ini.noxdebug.nop4php" location="${data.dir}/php.ini.noxdebug.nop4php"/>
+        <property name="php.ini.noxdebug.p4php"   location="${data.dir}/php.ini.noxdebug.p4php"/>
+
+        <!-- create initial flattened php.ini from all php.ini files, stripping P4PHP -->
+        <!-- note: assumes Xdebug is installed by default -->
+        <concat destfile="${php.ini.xdebug.nop4php}">
+            <filelist dir="/" files="${php.ini.files}"/>
+            <filterchain>
+                <linecontainsregexp negate="true">
+                    <regexp pattern="^extension[ ]*=.*perforce.*\.so"/>
+                </linecontainsregexp>
+            </filterchain>
+        </concat>
+
+        <!-- create php.ini with Xdebug and P4PHP -->
+        <!-- note: assumes Xdebug is declared -->
+        <copy file="${php.ini.xdebug.nop4php}" tofile="${php.ini.xdebug.p4php}"/>
+        <echo file="${php.ini.xdebug.p4php}" append="true" message="extension=${p4php.extension}${line.separator}"/>
+
+        <!-- create php.ini with no Xdebug nor P4PHP -->
+        <concat destfile="${php.ini.noxdebug.nop4php}">
+            <fileset file="${php.ini.xdebug.nop4php}"/>
+            <filterchain>
+                <linecontainsregexp negate="true">
+                    <regexp pattern="^zend_extension[ ]*=.*xdebug.so"/>
+                </linecontainsregexp>
+            </filterchain>
+        </concat>
+
+        <!-- create php.ini without Xdebug but with P4PHP -->
+        <copy file="${php.ini.noxdebug.nop4php}" tofile="${php.ini.noxdebug.p4php}"/>
+        <echo file="${php.ini.noxdebug.p4php}" append="true" message="extension=${p4php.extension}${line.separator}"/>
+
+        <echo level="info" message="php.ini.noxdebug.nop4php=[${php.ini.noxdebug.nop4php}]"/>
+        <echo level="info" message="php.ini.noxdebug.p4php=  [${php.ini.noxdebug.p4php}]"/>
+        <echo level="info" message="php.ini.xdebug.nop4php=  [${php.ini.xdebug.nop4php}]"/>
+        <echo level="info" message="php.ini.xdebug.p4php=    [${php.ini.xdebug.p4php}]"/>
+
+        <!-- display diagnostic information -->
+        <echo level="info" message="=== P4PHP extension information ==="/>
+        <echo level="info" message="[${p4php.extension}]"/>
+        <exec executable="php"
+            outputproperty="p4php.version.output"
+            failonerror="false"
+            resultproperty="p4php.version.output.result"
+        >
+            <env key="PHP_INI_SCAN_DIR" value=""/>
+            <env key="PHPRC" file="${php.ini.xdebug.p4php}"/>
+            <arg line="--ri perforce"/>
+        </exec>
+        <fail message="There is problem loading the P4PHP extension: ${p4php.version.output}">
+            <condition><not><equals arg1="${p4php.version.output.result}" arg2="0"/></not></condition>
+        </fail>
+        <echo level="info" message="${p4php.version.output}"/>
+
+        <property name="setup-php-env.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- check Perforce -->
+    <target name="check-perforce" depends="get-p4-bin-dir" unless="check-perforce.done"
+        description="[PRE] Checks Perforce client and server are in the path"
+    >
+        <property name="p4"  value="p4"/>
+        <fail message="cannot find p4 [${p4}]">
+            <condition>
+                <and>
+                    <not><available file="${p4}" filepath="${env.PATH}"/></not>
+                    <not><available file="${p4}"/></not>
+                </and>
+            </condition>
+        </fail>
+
+        <!-- allow user to specify p4dver for version to use -->
+        <condition property="p4d" value="${test.p4.bin.dir}/p4d_${p4dver}">
+            <isset property="p4dver"/>
+        </condition>
+        <fail message="p4d version [${p4dver}] not available in [${test.p4.bin.dir}]">
+            <condition>
+                <and>
+                    <isset property="p4dver"/>
+                    <not><available file="${p4d}"/></not>
+                </and>
+            </condition>
+        </fail>
+
+        <!-- default version to use if not explicitly set -->
+        <property name="p4d" location="${test.p4.bin.dir}/p4d_r15.1"/>
+        <fail message="cannot find p4d [${p4d}]">
+            <condition>
+                <and>
+                    <not><available file="${p4d}" filepath="${env.PATH}"/></not>
+                    <not><available file="${p4d}"/></not>
+                </and>
+            </condition>
+        </fail>
+
+        <echo level="info" message="=== P4 binary information ==="/>
+        <echo level="info" message="[${p4}]"/>
+        <exec executable="${p4}" outputproperty="p4cli.info">
+            <arg line="-V"/>
+        </exec>
+        <echo level="info" message="${p4cli.info}"/>
+
+        <echo level="info" message="${line.separator}=== P4D binary information ==="/>
+        <echo level="info" message="[${p4d}]"/>
+        <exec executable="${p4d}" outputproperty="p4d.info">
+            <arg line="-V"/>
+        </exec>
+        <echo level="info" message="${p4d.info}"/>
+
+        <property name="check-perforce.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- check version of PHPUnit -->
+    <target name="check-phpunit" unless="phpunit.version"
+        description="[PRE] Checks to make sure the right version of phpunit is available"
+    >
+        <fail message="cannot find [phpunit] in PATH [${env.PATH}]">
+            <condition><not><available file="phpunit" filepath="${env.PATH}"/></not></condition>
+        </fail>
+
+        <exec executable="phpunit" outputproperty="phpunit.version.output">
+            <arg line="--version"/>
+        </exec>
+
+        <propertyregex property="phpunit.version"
+            input="${phpunit.version.output}"
+            regexp="(?m)^PHPUnit ([0-9]+\.[0-9])\.[0-9]+ by.*"
+            select="\1"
+        />
+        <echo level="info" message="=== PHPUnit information ==="/>
+        <fail message="PHPUnit version 3.7 or 4.0 is needed; you have [${phpunit.version}]">
+            <condition>
+                <not>
+                    <or>
+                        <equals arg1="${phpunit.version}" arg2="3.7"/>
+                        <equals arg1="${phpunit.version}" arg2="4.0"/>
+                        <equals arg1="${phpunit.version}" arg2="4.8"/>
+                    </or>
+                </not>
+            </condition>
+        </fail>
+
+        <checkphpextension extension="ctype"/>
+        <checkphpextension extension="dom"/>
+        <checkphpextension extension="libxml"/>
+        <checkphpextension extension="tokenizer"/>
+        <checkphpextension extension="xml"/>
+
+        <echo level="info" message="${phpunit.version.output}"/>
+        <echo level="info" message="PHPUnit major.minor version: [${phpunit.version}]"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- ensure http host used by tests is available -->
+    <target name="check-http-host" unless="check-http-host.done"
+        description="[PRE] Check that an http host is supplied and that it's available"
+    >
+        <checkpropenv property="test.http.host" envvar="SWARM_HTTP_HOST" failonwarning="true"/>
+        <condition property="test.http.host" value="${env.SWARM_HTTP_HOST}" else="">
+            <isset property="env.SWARM_HTTP_HOST"/>
+        </condition>
+
+        <!-- check to see if the supplied site responds -->
+        <fail message="Bad URL [http://${test.http.host}]">
+            <condition>
+                <not><http url="http://${test.http.host}"/></not>
+            </condition>
+        </fail>
+        <echo level="info" message="HTTP host [${test.http.host}] resolves"/>
+
+        <!-- check to see if the supplied site points to our local install by fetching a trace file -->
+
+        <!-- set up trace file and result properties -->
+<!--
+        <tempfile property="check-http-host.trace.file"     destdir="${basedir}/docs" suffix=".txt"/>
+        <basename property="check-http-host.trace.filename" file="${check-http-host.trace.file}"/>
+        <property name="check-http-host.trace.filepath" value="docs/${check-http-host.trace.filename}"/>
+
+        <property name="check-http-host.trace.result"  location="${data.dir}/check-http-host.txt"/>
+        <delete quiet="true">
+            <fileset file="${check-http-host.trace.result}"/>
+        </delete>
+-->
+
+        <!-- write trace file -->
+<!--
+        <echo file="${check-http-host.trace.file}" message="${test.http.host}"/>
+-->
+
+        <!-- try to get trace file through supplied site -->
+<!--
+        <get src="http://${test.http.host}/${check-http-host.trace.filepath}"
+            dest="${check-http-host.trace.result}"
+            ignoreerrors="true"/>
+        <delete quiet="true">
+            <fileset file="${check-http-host.trace.file}"/>
+        </delete>
+-->
+
+        <!-- read contents of retrieved file and compare -->
+<!--
+        <loadfile srcfile="${check-http-host.trace.result}"
+            property="check-http-host.host"
+            failonerror="false"/>
+
+        <fail message="Although URL [http://${test.http.host}] resolves, it does not appear to point to this location [${basedir}]">
+            <condition>
+                <not><equals arg1="${test.http.host}" arg2="${check-http-host.host}"/></not>
+            </condition>
+        </fail>
+
+        <echo level="info" message="HTTP host to use for test: [${test.http.host}]"/>
+-->
+        <property name="check-http-host.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- helper target to check whether an environment variable or property is defined -->
+    <macrodef name="checkpropenv">
+        <attribute name="property"/>
+        <attribute name="envvar"/>
+        <attribute name="failonwarning" default="false"/>
+
+        <sequential>
+            <property name="checkpropenv.level.good" value="debug"/>
+            <property name="checkpropenv.level.bad" value="warning"/>
+
+            <condition property="checkpropenv.echo.level.@{property}"
+                value="${checkpropenv.level.good}"
+                else="${checkpropenv.level.bad}"
+            >
+                <or>
+                    <isset property="env.@{envvar}"/>
+                    <isset property="@{property}"/>
+                </or>
+            </condition>
+
+            <condition property="checkpropenv.echo.message.@{property}"
+                value="WARNING: either is not set: property [@{property}] or envvar [@{envvar}]"
+                else="INFO: property [@{property}] or envvar [@{envvar}] set"
+            >
+                <equals arg1="${checkpropenv.echo.level.@{property}}" arg2="${checkpropenv.level.bad}"/>
+            </condition>
+
+            <!-- fail out if requested (failonwarning=true) -->
+            <fail message="${checkpropenv.echo.message.@{property}}">
+                <condition>
+                    <and>
+                        <equals arg1="true" arg2="@{failonwarning}"/>
+                        <equals arg1="${checkpropenv.level.bad}" arg2="${checkpropenv.echo.level.@{property}}"/>
+                    </and>
+                </condition>
+            </fail>
+            <echo level="${checkpropenv.echo.level.@{property}}" message="${checkpropenv.echo.message.@{property}}"/>
+        </sequential>
+    </macrodef>
+
+    <!-- ============================================================ -->
+    <!-- pre-test checks -->
+    <target name="pre-test-checks"
+        depends="check-space,
+            setup-php-env,
+            check-perforce,
+            check-phpunit"
+        unless="pre-test-checks.done"
+        description="[PRE] Convenience target to check space, php, Perforce and phpunit"
+    >
+        <echo level="info" message="Pre-test checks complete"/>
+        <property name="pre-test-checks.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- check that node is available -->
+    <target name="check-node" unless="node.version"
+        description="[PRE] Checks to make sure node is available"
+    >
+        <fail message="cannot find [node] in PATH [${env.PATH}]">
+            <condition><not><available file="node" filepath="${env.PATH}"/></not></condition>
+        </fail>
+
+        <exec executable="node" outputproperty="node.version">
+            <arg line="--version"/>
+        </exec>
+
+        <echo level="info" message="=== Node information ==="/>
+        <echo level="info" message="${node.version}"/>
+    </target>
+
+
+    <!-- ============================================================ -->
+    <!-- check that grunt is available -->
+    <target name="check-grunt" unless="grunt.version"
+        depends="check-node"
+        description="[PRE] Checks to make sure grunt is available"
+    >
+        <fail message="cannot find [npm] in PATH [${env.PATH}]">
+            <condition><not><available file="npm" filepath="${env.PATH}"/></not></condition>
+        </fail>
+
+        <echo level="info" message="=== Running npm install ==="/>
+        <exec executable="npm" dir="${basedir}/collateral/node" failonerror="false">
+            <arg line="install"/>
+            <redirector logerror="true"/>
+        </exec>
+
+        <fail message="cannot find [grunt], ensure you have run [npm install] in ${basedir}/collateral/node">
+            <condition><not><available file="grunt" filepath="${basedir}/collateral/node/node_modules/.bin"/></not></condition>
+        </fail>
+
+        <antcall target="grunt" inheritrefs="true">
+            <param name="grunt.description" value="Checking Dependancies"/>
+            <param name="grunt.args" value="checkDependencies"/>
+            <param name="grunt.failMessage"
+                value="Grunt Dependancies are not up to date. Run npm install from the collateral/node directory."/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- Test Targets -->
+    <!-- ============================================================ -->
+
+    <!-- ============================================================ -->
+    <!-- run all the unit tests -->
+    <target name="test-unit-all" depends="test-unit-module, test-unit-library"/>
+
+    <!-- ============================================================ -->
+    <!-- run Module unit tests with each supported p4d version in unicode -->
+    <target name="test-unit-all-p4d-unicode" depends="get-p4-bin-dir"
+        description="[TEST] Run Library &amp; Module unit tests against each supported unicode p4d version"
+    >
+        <property name="env.SWARM_USE_UNICODE_P4D" value="true"/>
+
+        <foreach target="test-unit-library" param="p4d" inheritall="true">
+            <fileset dir="${test.p4.bin.dir}" includes="p4d_*"/>
+        </foreach>
+
+        <foreach target="test-unit-module" param="p4d" inheritall="true">
+            <fileset dir="${test.p4.bin.dir}" includes="p4d_*"/>
+        </foreach>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run Module unit tests with each supported p4d version -->
+    <target name="test-unit-module-all-p4d" depends="get-p4-bin-dir"
+        description="[TEST] Run Module unit tests against each supported p4d version"
+    >
+        <foreach target="test-unit-module" param="p4d">
+            <fileset dir="${test.p4.bin.dir}" includes="p4d_*"/>
+        </foreach>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run Library unit tests with each supported p4d version -->
+    <target name="test-unit-library-all-p4d" depends="get-p4-bin-dir"
+        description="[TEST] Run Library unit tests against each supported p4d version"
+    >
+        <foreach target="test-unit-library" param="p4d">
+            <fileset dir="${test.p4.bin.dir}" includes="p4d_*"/>
+        </foreach>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run Module unit tests -->
+    <target name="test-unit-module" depends="pre-test-checks"
+        description="[TEST] Run Module unit tests"
+    >
+        <antcall target="dotest" inheritrefs="true">
+            <param name="phpunit.description" value="Module Tests"/>
+            <param name="phpunit.php.ini" value="${php.ini.noxdebug.p4php}"/>
+            <param name="phpunit.log.dir" value="${data.dir}/phpunit-logs/module"/>
+            <param name="phpunit.args" value="--stderr --log-junit ${log.dir}/phpunit-module.xml"/>
+            <param name="phpunit.run.dir" value="${test.dir}/ModuleTest"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run Module unit tests, with coverage metrics and report -->
+    <target name="test-unit-module-report" depends="pre-test-checks, check-xdebug"
+        description="[TEST] Run Module unit tests, and generate coverage metrics + HTML report"
+    >
+        <antcall target="dotest" inheritrefs="true">
+            <param name="phpunit.description" value="Module Tests + Coverage Metrics &amp; Report"/>
+            <param name="phpunit.php.ini" value="${php.ini.xdebug.p4php}"/>
+            <param name="phpunit.log.dir" value="${data.dir}/phpunit-logs/module"/>
+            <param name="phpunit.run.dir" value="${test.dir}/ModuleTest"/>
+            <param name="phpunit.args" value="--stderr
+--log-junit ${log.dir}/phpunit-module.xml
+--coverage-clover ${log.dir}/phpunit-coverage.xml
+--coverage-html ${log.dir}/coverage"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run all library unit tests -->
+    <target name="test-unit-library" depends="pre-test-checks"
+        description="[TEST] Run Library unit tests"
+    >
+        <checkphpextension extension="filter"/>
+
+        <antcall target="dotest" inheritrefs="true">
+            <param name="phpunit.description" value="All Library Tests"/>
+            <param name="phpunit.php.ini" value="${php.ini.noxdebug.p4php}"/>
+            <param name="phpunit.log.dir" value="${data.dir}/phpunit-logs/library"/>
+            <param name="phpunit.args" value="--log-junit ${log.dir}/phpunit-library.xml"/>
+            <param name="phpunit.run.dir" value="${test.dir}/LibraryTest"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run all library unit tests, with coverage metrics and report -->
+    <target name="test-unit-library-report" depends="pre-test-checks, check-xdebug"
+        description="[TEST] Run Library unit tests, and generate coverage metrics + HTML report"
+    >
+        <antcall target="dotest" inheritrefs="true">
+            <param name="phpunit.description" value="Module Tests + Coverage Metrics &amp; Report"/>
+            <param name="phpunit.php.ini" value="${php.ini.xdebug.p4php}"/>
+            <param name="phpunit.log.dir" value="${data.dir}/phpunit-logs/library"/>
+            <param name="phpunit.run.dir" value="${test.dir}/LibraryTest"/>
+            <param name="phpunit.args" value="
+--log-junit ${log.dir}/phpunit-library.xml
+--coverage-clover ${log.dir}/phpunit-coverage.xml
+--coverage-html ${log.dir}/coverage"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run P4 library unit tests -->
+    <target name="test-unit-p4" depends="pre-test-checks"
+        description="[TEST] Run P4 library unit tests"
+    >
+        <antcall target="dotest" inheritrefs="true">
+            <param name="phpunit.description" value="P4 Library Tests"/>
+            <param name="phpunit.php.ini" value="${php.ini.noxdebug.p4php}"/>
+            <param name="phpunit.log.dir" value="${data.dir}/phpunit-logs/p4"/>
+            <param name="phpunit.args" value="--log-junit ${log.dir}/phpunit-p4.xml"/>
+            <param name="phpunit.run.dir" value="${test.dir}/P4Test"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run P4 library unit tests, with coverage metrics and report -->
+    <target name="test-unit-p4-report" depends="pre-test-checks, check-xdebug"
+        description="[TEST] Run P4 library unit tests, and generate coverage metrics + HTML report"
+    >
+        <antcall target="dotest" inheritrefs="true">
+            <param name="phpunit.description" value="P4 Library Tests + Coverage Metrics &amp; Report"/>
+            <param name="phpunit.php.ini" value="${php.ini.xdebug.p4php}"/>
+            <param name="phpunit.log.dir" value="${data.dir}/phpunit-logs/p4"/>
+            <param name="phpunit.run.dir" value="${test.dir}/P4Test"/>
+            <param name="phpunit.args" value="
+--log-junit ${log.dir}/phpunit-p4.xml
+--coverage-clover ${log.dir}/phpunit-coverage.xml
+--coverage-html ${log.dir}/coverage"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run the Record library unit tests -->
+    <target name="test-unit-record" depends="pre-test-checks"
+        description="[TEST] Run Record library unit tests"
+    >
+        <antcall target="dotest" inheritrefs="true">
+            <param name="phpunit.description" value="Record Library Tests"/>
+            <param name="phpunit.php.ini" value="${php.ini.noxdebug.p4php}"/>
+            <param name="phpunit.log.dir" value="${data.dir}/phpunit-logs/record"/>
+            <param name="phpunit.args" value="--log-junit ${log.dir}/phpunit-record.xml"/>
+            <param name="phpunit.run.dir" value="${test.dir}/RecordTest"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run Record library unit tests, with coverage metrics and report -->
+    <target name="test-unit-record-report" depends="pre-test-checks, check-xdebug"
+        description="[TEST] Run Record library unit tests, and generate coverage metrics + HTML report"
+    >
+        <antcall target="dotest" inheritrefs="true">
+            <param name="phpunit.description" value="Record Library Tests + Coverage Metrics &amp; Report"/>
+            <param name="phpunit.php.ini" value="${php.ini.xdebug.p4php}"/>
+            <param name="phpunit.log.dir" value="${data.dir}/phpunit-logs/record"/>
+            <param name="phpunit.run.dir" value="${test.dir}/RecordTest"/>
+            <param name="phpunit.args" value="
+--log-junit ${log.dir}/phpunit-record.xml
+--coverage-clover ${log.dir}/phpunit-coverage.xml
+--coverage-html ${log.dir}/coverage"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- helper target to perform the actual testing -->
+    <target name="dotest">
+        <fail unless="phpunit.description" message="call this target specifying [phpunit.description]"/>
+        <fail unless="phpunit.php.ini"     message="call this target specifying [phpunit.php.ini]"/>
+        <fail unless="phpunit.log.dir"     message="call this target specifying [phpunit.log.dir]"/>
+        <fail unless="phpunit.run.dir"     message="call this target specifying [phpunit.run.dir]"/>
+        <fail unless="phpunit.args"        message="call this target specifying [phpunit.args]"/>
+
+        <fail message="cannot find specified phpunit.php.ini [${phpunit.php.ini}]">
+            <condition><not><available file="${phpunit.php.ini}"/></not></condition>
+        </fail>
+
+        <!-- if we ever parallelize tests, these mkdirs need to be broken out and called once -->
+        <mkdir dir="${log.dir}"/>
+        <mkdir dir="${phpunit.log.dir}"/>
+
+        <!-- capture any user-supplied phpunit arguments -->
+        <condition property="phpunit.args.more" value=" ${phpunit.args.extra}" else="">
+            <isset property="phpunit.args.extra"/>
+        </condition>
+        <property name="phpunit.args.line"
+            value="--verbose ${phpunit.args}${phpunit.args.more}"
+        />
+
+        <!-- if env var is not set, set it to false -->
+        <condition property="env.SWARM_USE_UNICODE_P4D" value="false">
+            <not><isset property="env.SWARM_USE_UNICODE_P4D"/></not>
+        </condition>
+
+        <macrodef name="dotestphpunit">
+            <attribute name="run"/>
+            <sequential>
+                <!-- run phpunit, capturing result so we can fail with a more meaningful error -->
+                <echo level="info" message="Running phpunit for [${phpunit.description}]"/>
+                <echo level="info" message="  ...with arguments [${phpunit.args.line}]"/>
+                <echo level="info" message="        ...with p4d [${p4d}]"/>
+                <echo level="info" message="     ...in unicode? [${env.SWARM_USE_UNICODE_P4D}]"/>
+                <echo level="info" message="Using php.ini file  [${phpunit.php.ini}]"/>
+                <echo level="info" message="phpunit.log.dir     [${phpunit.log.dir}]"/>
+
+                <exec executable="phpunit"
+                    dir="${phpunit.run.dir}"
+                    failonerror="false"
+                    resultproperty="phpunit.result.@{run}"
+                >
+                    <env key="PATH"                  value="${p4.bin.dir}:${env.PATH}"/>
+                    <env key="PHP_INI_SCAN_DIR"      value=""/>
+                    <env key="PHPRC"                 value="${phpunit.php.ini}"/>
+                    <env key="SWARM_P4D_BINARY"      value="${p4d}"/>
+                    <env key="SWARM_USE_UNICODE_P4D" value="${env.SWARM_USE_UNICODE_P4D}"/>
+                    <arg line="${phpunit.args.line}"/>
+                    <redirector logerror="true"/>
+                </exec>
+            </sequential>
+        </macrodef>
+        <dotestphpunit run="1"/>
+        <if>
+            <equals arg1="139" arg2="${phpunit.result.1}"/>
+            <then>
+                <echo level="info" message="Detected a segfault (result 139) in prior test run; attempting to run once more..."/>
+                <dotestphpunit run="2"/>
+                <property name="phpunit.result" value="${phpunit.result.2}"/>
+            </then>
+            <else>
+                <property name="phpunit.result" value="${phpunit.result.1}"/>
+            </else>
+        </if>
+        <fail message="PHPUnit tests for [${phpunit.description}] failed">
+            <condition><not><equals arg1="${phpunit.result}" arg2="0"/></not></condition>
+        </fail>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run the js unit tests in a headless browser -->
+    <target name="test-unit-js-headless" depends="check-node,check-grunt"
+        description="[TEST] Run JS unit tests in a headless browser"
+    >
+        <antcall target="grunt" inheritrefs="true">
+            <param name="grunt.description" value="JS Unit Tests in PhantomJS"/>
+            <param name="grunt.args" value="test-headless"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run the js unit tests on saucelabs-->
+    <target name="test-unit-js-saucelab" depends="check-grunt"
+        description="[TEST] Run JS unit tests on SauceLabs"
+    >
+        <fail unless="env.SAUCE_USERNAME" message="Environment Variable SAUCE_USERNAME required"/>
+        <fail unless="env.SAUCE_ACCESS_KEY" message="Environment Variable SAUCE_ACCESS_KEY required"/>
+        <antcall target="grunt" inheritrefs="true">
+            <param name="grunt.description" value="JS Unit Tests on SauceLabs"/>
+            <param name="grunt.args" value="test"/>
+            <param name="grunt.setupEnv" value="true"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run the js unit tests -->
+    <target name="test-unit-js" depends="check-grunt,test-unit-js-headless,test-unit-js-saucelab"
+        description="[TEST] Run All JS unit tests, first run them locally, then on saucelabs"
+    />
+
+    <!-- ============================================================ -->
+    <!-- helper target to perform grunt tasks -->
+    <target name="grunt">
+        <fail unless="grunt.description" message="call this target specifying [grunt.description]"/>
+        <fail unless="grunt.args" message="call this target specifying [grunt.args]"/>
+
+        <condition property="grunt.failMessage" else="Grunt task for [${grunt.description}] failed.">
+            <isset property="grunt.failMessage"/>
+        </condition>
+
+        <!-- run grunt, capturing result so we can fail with a more meaningful error -->
+        <echo level="info" message="Running grunt task for [${grunt.description}]"/>
+        <echo level="info" message="  ...with arguments [${grunt.args}]"/>
+
+        <exec executable="${basedir}/collateral/node/node_modules/.bin/grunt"
+            dir="${basedir}/collateral/node"
+            failonerror="false"
+            resultproperty="grunt.result"
+        >
+            <arg line="--no-color"/>
+            <arg line="${grunt.args}"/>
+            <redirector logerror="true"/>
+        </exec>
+        <fail message="${grunt.failMessage}">
+            <condition><not><equals arg1="${grunt.result}" arg2="0"/></not></condition>
+        </fail>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- Post-Test Targets -->
+    <!-- ============================================================ -->
+
+    <!-- ============================================================ -->
+    <!-- check the PHPLOC environment -->
+    <target name="check-phploc" unless="check-phploc.done"
+    >
+        <fail message="Cannot find [phploc] in PATH [${env.PATH}]">
+            <condition><not><available file="phploc" filepath="${env.PATH}"/></not></condition>
+        </fail>
+
+        <pathconvert property="phploc.dirs" pathsep=" ">
+            <path refid="all.sourcedirs.ref"/>
+        </pathconvert>
+        <echo level="verbose" message="phploc.dirs=[${phploc.dirs}]"/>
+
+        <exec executable="phploc" outputproperty="phploc.version.output">
+            <arg line="--version"/>
+        </exec>
+
+        <!-- TODO: check minimum PHPLOC version?
+        <propertyregex property="phploc.version"
+            input="${phploc.version.output}"
+            regexp="(?m)^phploc ([0-9]+\.[0-9]+\.[0-9]+) .*$"
+            select="\1"
+        />
+        -->
+
+        <echo level="info" message="=== PHPLOC information ==="/>
+        <echo level="info" message="${phploc.version.output}"/>
+
+        <property name="check-phploc.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- meansure the project size -->
+    <target name="phploc" unless="phploc.done"
+        description="[POST] Measure project size"
+        depends="check-phploc"
+    >
+        <exec executable="phploc">
+            <arg line="--log-csv ${log.dir}/phploc.csv ${phploc.dirs}" />
+        </exec>
+
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- check codesniffer environment -->
+    <target name="check-codesniffer" unless="check-codesniffer.done">
+        <fail message="cannot find [phpcs] in PATH [${env.PATH}]">
+            <condition><not><available file="phpcs" filepath="${env.PATH}"/></not></condition>
+        </fail>
+
+        <pathconvert property="sniff.dirs" pathsep=" ">
+            <path refid="all.sourcedirs.ref"/>
+            <path refid="all.testdirs.ref"/>
+        </pathconvert>
+        <echo level="verbose" message="sniff.dirs=[${sniff.dirs}]"/>
+
+        <property name="phpcs.standard.tocheck" value="PSR2"/>
+        <exec executable="phpcs" outputproperty="phpcs.standards">
+            <arg line="-i"/>
+        </exec>
+        <fail message="PHP CodeSniffer does not appear to support the [${phpcs.standard.tocheck}] standard">
+            <condition>
+                <not><contains string="${phpcs.standards}" substring="${phpcs.standard.tocheck}"/></not>
+            </condition>
+        </fail>
+        <echo level="info" message="PHP CodeSniffer standard [${phpcs.standard.tocheck}] is supported"/>
+
+        <property name="phpcs.standard" location="${basedir}/tests/phpcs/ruleset.xml"/>
+        <fail message="PHP CodeSniffer ruleset not found [${phpcs.standard}]">
+            <condition>
+                <not><available file="${phpcs.standard}"/></not>
+            </condition>
+        </fail>
+
+        <exec executable="phpcs" outputproperty="phpcs.version.output">
+            <arg line="--version"/>
+        </exec>
+
+        <propertyregex property="phpcs.version"
+            input="${phpcs.version.output}"
+            regexp="(?m)^PHP_CodeSniffer version ([0-9]+\.[0-9]+\.[0-9]+) .*$"
+            select="\1"
+        />
+
+        <checkphpextension extension="SimpleXML"/>
+        <checkphpextension extension="xmlwriter"/>
+        <checkphpextension extension="xmlreader"/>
+
+        <echo level="info" message="=== PHP CodeSniffer information ==="/>
+        <echo level="info" message="${phpcs.version.output}"/>
+        <echo level="info" message="${phpcs.version}"/>
+
+        <property name="sniff.args.base" value="--standard=${phpcs.standard} --extensions=php"/>
+
+        <condition property="sniff.args.passed" value="${sniff.args}" else="">
+            <isset property="sniff.args"/>
+        </condition>
+
+        <property name="check-codesniffer.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run the code sniffer -->
+    <target name="php-codesniffer"
+        description="[POST] Check the style of the code"
+        depends="check-codesniffer"
+    >
+        <mkdir dir="${log.dir}"/>
+        <property name="phpcs.command.args"
+            value="--report=checkstyle ${sniff.args.base} ${sniff.args.passed} ${sniff.dirs}"/>
+        <echo level="info" message="PHP CodeSniffer command to run: [${phpcs.command.args}]"/>
+
+        <exec executable="phpcs"
+            dir="${basedir}"
+            output="${log.dir}/checkstyle.xml"
+            error="${log.dir}/checkstyle-error.log"
+            failonerror="false"
+            resultproperty="phpcs.result"
+        >
+            <arg line="${phpcs.command.args}"/>
+        </exec>
+
+        <fail message="PHP Code Sniffer violations detected (result: ${phpcs.result})">
+            <condition><not><equals arg1="${phpcs.result}" arg2="0"/></not></condition>
+        </fail>
+        <echo level="info" message="No PHP Code Sniffer violations detected"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- preset JSLint properties and material -->
+    <target name="check-jslint" unless="jslint.jar.file">
+        <property name="jslint.jar.dir" value="${basedir}/collateral/jslint/" />
+        <property name="jslint.jar.file" value="${jslint.jar.dir}jslint4java-2.0.5.jar"/>
+        <fail message="jslint Jar file not found [${jslint.jar.file}]" >
+            <condition><not><available file="${jslint.jar.file}" /></not></condition>
+        </fail>
+        <taskdef name="jslint" classname="com.googlecode.jslint4java.ant.JSLintTask" classpath="${jslint.jar.file}" />
+
+        <fileset id="jslint.fileset"
+            dir="${basedir}"
+            includes="public/swarm/js/*.js"
+            excludes=""
+        >
+            <filename name="**/*.js"/>
+        </fileset>
+        <pathconvert refid="jslint.fileset" property="jslint.fileset.text"/>
+        <property name="jslint.options"     value="browser,white,nomen,plusplus,sloppy,vars,todo,regexp,unparam,ass"/>
+        <property name="jslint.predef"      value="$,swarm"/>
+        <property name="jslint.report.dir"  value="${log.dir}"/>
+
+        <echo level="info" message="jslint.options    = [${jslint.options}]"/>
+        <echo level="info" message="jslint.predef     = [${jslint.predef}]"/>
+        <echo level="info" message="jslint.report.dir = [${jslint.report.dir}]"/>
+        <echo level="info" message="jslint.fileset    = [${jslint.fileset.text}]"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run JSLint against product js files -->
+    <target name="jslint" depends="check-jslint"
+        description="[DEV] Run a linter over the javascript files"
+    >
+        <mkdir dir="${jslint.report.dir}"/>
+
+        <jslint options="${jslint.options}"
+            haltOnFailure="false"
+            failureProperty="jslint.hasErrors"
+        >
+            <predef>${jslint.predef}</predef>
+            <formatter type="xml" destfile="${jslint.report.dir}/jslint.xml" />
+            <fileset refid="jslint.fileset"/>
+        </jslint>
+
+        <xslt in="${jslint.report.dir}/jslint.xml"
+            out="${jslint.report.dir}/jslint.html"
+            style="${jslint.jar.dir}/style/jslint.xsl"
+        />
+
+        <fail message="${jslint.hasErrors}">
+            <condition>
+                <isset property="jslint.hasErrors"/>
+            </condition>
+        </fail>
+        <echo level="info" message="JSLint reported no errors"/>
+
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run all developer-oriented sniffs (PHP, JS, etc.) -->
+    <target name="dev-sniff" depends="dev-sniff-php,dev-sniff-js"
+        description="[DEV] Sniff just PHP opened in your workspace and all JS files"
+    />
+
+    <!-- ============================================================ -->
+    <!-- run all developer-oriented sniffs (PHP, JS, etc.) -->
+    <target name="dev-sniff-all" depends="dev-sniff-php-all, dev-sniff-js"
+        description="[DEV] Sniff all appropriate PHP and JS files"
+    />
+
+    <!-- ============================================================ -->
+    <!-- run PHP codesniffer against all open PHP files -->
+    <target name="dev-sniff-php"
+        description="[DEV] Run PHP codesniffer against open .php files in the current workspace"
+        depends="check-codesniffer"
+    >
+        <exec executable="${env.SHELL}" dir="${basedir}" outputproperty="dev-sniff-php.files.open">
+           <arg line="-c 'p4 fstat -T clientFile -F \(action=edit\|action=add\) ....php | cut -c16- | xargs'"/>
+        </exec>
+
+        <condition property="dev-sniff-php.skip" value="true">
+            <equals arg1="${dev-sniff-php.files.open}" arg2=""/>
+        </condition>
+        <condition property="dev-sniff-php.message"
+            value="No opened .php files in your workspace detected"
+            else="Sniffing opened .php files in your workspace..."
+        >
+            <equals arg1="${dev-sniff-php.files.open}" arg2=""/>
+        </condition>
+        <echo message="${dev-sniff-php.message}"/>
+
+        <antcall target="do-dev-sniff-php">
+            <param name="dev-sniff-php.args" value="--standard=${phpcs.standard} -s -v ${sniff.args.passed} ${dev-sniff-php.files.open}"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run codesniffer against ALL files -->
+    <target name="dev-sniff-php-all"
+        description="[DEV] Sniff all appropriate PHP files"
+        depends="check-codesniffer"
+    >
+        <antcall target="do-dev-sniff-php">
+            <param name="dev-sniff-php.args" value="${sniff.args.base} -s ${sniff.dirs} ${sniff.args.passed}"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- helper to do the actual sniff -->
+    <target name="do-dev-sniff-php" unless="dev-sniff-php.skip">
+        <echo message="[phpcs ${dev-sniff-php.args}]..."/>
+        <exec executable="phpcs"
+            dir="${basedir}"
+            failonerror="false"
+            resultproperty="phpcs.result"
+        >
+            <arg line="${dev-sniff-php.args}"/>
+        </exec>
+        <condition property="do-dev-sniff-php.message"
+            value="No PHP Code Sniffer violations detected"
+            else="PHP Code Sniffer violations detected; please fix"
+        >
+            <equals arg1="${phpcs.result}" arg2="0"/>
+        </condition>
+        <echo message="${do-dev-sniff-php.message}"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- run JSLint against all open JavaScript files -->
+    <target name="dev-sniff-js"
+        description="[DEV] Run JSLint against all appropriate JS files"
+        depends="check-jslint"
+    >
+        <jslint options="${jslint.options}"
+            haltOnFailure="false"
+            failureProperty="dev-sniff-js.failure"
+        >
+            <predef>${jslint.predef}</predef>
+            <formatter type="plain" />
+            <fileset refid="jslint.fileset"/>
+        </jslint>
+
+        <condition property="dev-sniff-js.message"
+            value="No JSLint violations detected"
+            else="JSLint violations detected; please fix"
+        >
+            <not><isset property="dev-sniff-js.failure"/></not>
+        </condition>
+        <echo message="${dev-sniff-js.message}"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- Document generation -->
+    <!-- ============================================================ -->
+
+    <!-- ============================================================ -->
+    <!-- clean doc artifacts -->
+    <target name="doc-clean"
+        description="[POST] Clean any doc generated artifacts"
+    >
+        <echo level="info" message="Removing directory of generated docs..."/>
+        <delete dir="${basedir}/public/docs"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- check doc -->
+    <target name="doc-check">
+        <echo level="info" message="doc.src.dir = [${doc.src.dir}]"/>
+        <echo level="info" message="doc.antfile = [${doc.antfile}]"/>
+        <echo level="info" message="doc.bld.dir = [${doc.bld.dir}]"/>
+        <echo level="info" message="doc.gen.dir = [${doc.gen.dir}]"/>
+        <echo level="info" message="doc.tgt.dir = [${doc.tgt.dir}]"/>
+
+        <fail message="cannot find doc source directory [${doc.src.dir}]">
+            <condition><not><available file="${doc.src.dir}" type="dir"/></not></condition>
+        </fail>
+
+        <fail message="cannot find doc build directory [${doc.bld.dir}]; override via -Ddoc.bld.dir if necessary">
+            <condition><not><available file="${doc.bld.dir}" type="dir"/></not></condition>
+        </fail>
+
+        <fail message="expected to find antfile [${doc.antfile}]">
+            <condition><not><available file="${doc.antfile}"/></not></condition>
+        </fail>
+
+        <echo level="info" message="${doc.lang} doc checks complete."/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- call doc generation -->
+    <target name="doc-generate" depends="doc-check, doc-api">
+        <echo level="info" message="Calling ${doc.lang} DocBook generation..."/>
+
+        <ant dir="${doc.src.dir}" target="product">
+            <property name="doc.build.path" location="${doc.bld.dir}"/>
+        </ant>
+        <fail message="expected to find doc generated directory [${doc.gen.dir}]">
+            <condition><not><available file="${doc.gen.dir}" type="dir"/></not></condition>
+        </fail>
+
+        <move todir="${doc.tgt.dir}">
+            <fileset dir="${doc.gen.dir}"/>
+        </move>
+
+        <echo level="info" message="${doc.lang} documentation generated in [${doc.tgt.dir}]"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- generate doc documentation -->
+    <target name="doc" depends="doc-clean, doc-en, doc-ja, doc-ko, doc-zh"
+        description="[POST] Generate doc documentation in all languages"
+    >
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- generate English doc documentation -->
+    <target name="doc-en"
+        description="[POST] Generate English documentation"
+    >
+        <local name="doc.src.dir"/>
+        <property name="doc.src.dir" location="${basedir}/collateral/docbook"/>
+        <property name="doc.bld.dir" location="${basedir}/../p4-doc/manuals/_build"/>
+
+        <antcall target="doc-generate" inheritrefs="true">
+            <param name="doc.lang" value="English"/>
+            <param name="doc.src.dir" location="${doc.src.dir}"/>
+            <param name="doc.antfile" location="${doc.src.dir}/build.xml"/>
+            <param name="doc.bld.dir" value="${doc.bld.dir}"/>
+            <param name="doc.gen.dir" location="${doc.src.dir}/product-generated"/>
+            <param name="doc.tgt.dir" location="${basedir}/public/docs"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- generate Japanese doc documentation -->
+    <target name="doc-ja"
+        description="[POST] Generate Japanese documentation"
+    >
+        <local name="doc.src.dir"/>
+        <property name="doc.src.dir" location="${basedir}/collateral/docbook/translations/ja"/>
+        <property name="doc.bld.dir" location="${basedir}/../p4-doc/manuals/_build"/>
+
+        <antcall target="doc-generate" inheritrefs="true">
+            <param name="doc.lang" value="Japanese"/>
+            <param name="doc.src.dir" location="${doc.src.dir}"/>
+            <param name="doc.antfile" location="${doc.src.dir}/build.xml"/>
+            <param name="doc.bld.dir" value="${doc.bld.dir}"/>
+            <param name="doc.gen.dir" location="${doc.src.dir}/product-generated"/>
+            <param name="doc.tgt.dir" location="${basedir}/public/docs/ja"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- generate Korean doc documentation -->
+    <target name="doc-ko"
+        description="[POST] Generate Korean documentation"
+    >
+        <local name="doc.src.dir"/>
+        <property name="doc.src.dir" location="${basedir}/collateral/docbook/translations/ko"/>
+        <property name="doc.bld.dir" location="${basedir}/../p4-doc/manuals/_build"/>
+
+        <antcall target="doc-generate" inheritrefs="true">
+            <param name="doc.lang" value="Korean"/>
+            <param name="doc.src.dir" location="${doc.src.dir}"/>
+            <param name="doc.antfile" location="${doc.src.dir}/build.xml"/>
+            <param name="doc.bld.dir" value="${doc.bld.dir}"/>
+            <param name="doc.gen.dir" location="${doc.src.dir}/product-generated"/>
+            <param name="doc.tgt.dir" location="${basedir}/public/docs/ko"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- generate Chinese doc documentation -->
+    <target name="doc-zh"
+        description="[POST] Generate Chinese documentation"
+    >
+        <local name="doc.src.dir"/>
+        <property name="doc.src.dir" location="${basedir}/collateral/docbook/translations/zh"/>
+        <property name="doc.bld.dir" location="${basedir}/../p4-doc/manuals/_build"/>
+
+        <antcall target="doc-generate" inheritrefs="true">
+            <param name="doc.lang" value="Chinese"/>
+            <param name="doc.src.dir" location="${doc.src.dir}"/>
+            <param name="doc.antfile" location="${doc.src.dir}/build.xml"/>
+            <param name="doc.bld.dir" value="${doc.bld.dir}"/>
+            <param name="doc.gen.dir" location="${doc.src.dir}/product-generated"/>
+            <param name="doc.tgt.dir" location="${basedir}/public/docs/zh"/>
+        </antcall>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- API docs generation -->
+    <!-- ============================================================ -->
+
+    <!-- ============================================================ -->
+    <!-- create api swagger definitions -->
+    <target name="doc-api" description="[POST] Generate API documentation by writing Swagger JSON files">
+        <!-- ensure swagger.phar exists -->
+        <fail message="Cannot find swagger.phar [${basedir}/collateral/build-utils/swagger.phar]">
+            <condition>
+                <not><available file="${basedir}/collateral/build-utils/swagger.phar"/></not>
+            </condition>
+        </fail>
+
+        <!-- ensure /public/api/ exists and is writable -->
+        <mkdir dir="${basedir}/public/docs/api"/>
+        <fail message="${basedir}/public/docs/api is not writeable">
+            <condition>
+                <not>
+                    <isfileselected file="${basedir}/public/docs/api">
+                        <writable />
+                    </isfileselected>
+                </not>
+            </condition>
+        </fail>
+
+        <!-- invoke swagger command to generate JSON files -->
+        <exec executable="${basedir}/collateral/build-utils/swagger.phar">
+            <arg value="${basedir}/module"/>
+            <arg value="--output"/>
+            <arg value="${basedir}/public/docs/api/"/>
+        </exec>
+
+        <!-- write .htaccess to force directory index -->
+        <echo file="${basedir}/public/docs/api/.htaccess">DirectoryIndex api-docs.json</echo>
+
+        <!-- clean up the unwanted index.php file -->
+        <delete file="${basedir}/public/docs/api/index.php" quiet="true"/>
+    </target>
+
+    <!-- Version file stuff -->
+    <!-- ============================================================ -->
+
+    <!-- ============================================================ -->
+    <!-- get a Version file: if ../p4/Version exists, copy it, else generate it -->
+    <target name="get-version-file"
+        depends="get-version-file-init, copy-p4-version-file, make-version-file"
+        unless="get-version-file.done"
+        description="[POST] Obtain a Version file, whether generated or copied"
+    >
+        <echo level="info" message="Version file obtained via [${version.file.copy-or-make}]"/>
+        <property name="get-version-file.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- set up Version-related properties -->
+    <target name="get-version-file-init" unless="get-version-file-init.done">
+        <condition property="version.file.copy-or-make" value="copy" else="make">
+            <available file="${basedir}/../p4/Version"/>
+        </condition>
+        <echo level="info" message="version.file.copy-or-make=[${version.file.copy-or-make}]"/>
+
+        <condition property="copy-p4-version-file.done" value="true">
+            <equals arg1="make" arg2="${version.file.copy-or-make}"/>
+        </condition>
+        <condition property="make-version-file.done" value="true">
+            <equals arg1="copy" arg2="${version.file.copy-or-make}"/>
+        </condition>
+
+        <property name="get-version-file-init.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- copy the p4 Version file over -->
+    <target name="copy-p4-version-file" unless="copy-p4-version-file.done">
+        <property name="p4.version.file" location="${basedir}/../p4/Version"/>
+        <echo level="info" message="p4.version.file=[${p4.version.file}]"/>
+
+        <copy file="${basedir}/../p4/Version"
+            tofile="${basedir}/Version"
+            overwrite="true"
+            failonerror="false"
+        />
+
+        <property name="copy-p4-version-file.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- create a Version file -->
+    <target name="make-version-file" unless="make-version-file.done" depends="check-perforce">
+        <!-- grab the current date -->
+        <tstamp>
+            <format property="version.file.year" pattern="yyyy"/>
+        </tstamp>
+        <tstamp>
+            <format property="version.file.suppdate" pattern="yyyy MM dd"/>
+        </tstamp>
+        <echo level="info" message="version.file.year       = [${version.file.year}]"/>
+        <echo level="info" message="version.file.suppdate   = [${version.file.suppdate}]"/>
+
+        <!-- grab the patchlevel: most recent changelist synced to -->
+        <exec executable="${p4}" resultproperty="make-version-file.p4.result">
+            <arg line="changes -m1 ...#have"/>
+            <redirector outputproperty="version.file.have">
+                <outputfilterchain>
+                    <tokenfilter>
+                        <containsregex pattern="^Change ([0-9]*) .*" replace="\1"/>
+                    </tokenfilter>
+                </outputfilterchain>
+            </redirector>
+        </exec>
+        <fail message="Problem accessing Perforce: [${version.file.have}]; cannot continue">
+            <condition>
+                <not><equals arg1="0" arg2="${make-version-file.p4.result}"/></not>
+            </condition>
+        </fail>
+        <echo level="info" message="version.file.have       = [${version.file.have}]"/>
+
+        <!-- if we're called from CruiseControl, use the label, else the have version -->
+        <condition property="version.file.patchlevel" value="${label}" else="${version.file.have}">
+            <isset property="label"/>
+        </condition>
+        <echo level="info" message="version.file.patchlevel = [${version.file.patchlevel}]"/>
+
+        <!-- grab branch -->
+        <exec executable="${p4}" dir="${basedir}">
+            <arg line="files -m1 build.xml"/>
+            <redirector outputproperty="version.file.branch">
+                <outputfilterchain>
+                    <tokenfilter>
+                        <containsregex pattern="^//depot/(.*)/swarm/.*" replace="\1"/>
+                        <replaceregex pattern="/" replace="_" flags="g"/>
+                    </tokenfilter>
+                </outputfilterchain>
+            </redirector>
+        </exec>
+        <echo level="info" message="version.file.branch     = [${version.file.branch}]"/>
+
+        <!-- determine normal release string based on branch name -->
+        <propertycopy name="version.file.release.copy" from="version.file.release.${version.file.branch}" silent="true"/>
+        <condition property="version.file.release"
+            value="${version.file.release.copy}"
+            else="${version.file.year} ${version.file.branch}"
+        >
+            <isset property="version.file.release.${version.file.branch}"/>
+        </condition>
+        <echo level="info" message="version.file.release    = [${version.file.release}]"/>
+
+        <!-- set the suffix for anything special, only if specified -->
+        <condition property="version.file.special.suffix" value=" ${version.special}" else="">
+            <isset property="version.special"/>
+        </condition>
+        <echo level="info" message="version.file.special    = [${version.file.special.suffix}]"/>
+
+        <!-- display the p4 Version file... -->
+        <echo file="${basedir}/Version"># ${product.name.nice} build version info
+RELEASE = ${version.file.release}${version.file.special.suffix} ;
+PATCHLEVEL = ${version.file.patchlevel} ;
+SUPPDATE = ${version.file.suppdate} ;
+</echo>
+
+        <property name="make-version-file.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- obtain version string from Version file -->
+    <target name="get-version-properties" unless="version.release">
+        <fail message="Version file not present (${basedir}/Version); try 'get-version-file' target first">
+            <condition>
+                <not><available file="${basedir}/Version"/></not>
+            </condition>
+        </fail>
+
+        <!-- grab the current date -->
+        <tstamp>
+            <format property="version.year" pattern="yyyy"/>
+        </tstamp>
+        <echo level="info" message="version.year       = [${version.year}]"/>
+
+        <!-- grab the release and patchlevel from the version file (if it exists) -->
+        <loadfile srcfile="${basedir}/Version" property="version.release">
+            <filterchain>
+                <tokenfilter>
+                    <containsregex pattern="^RELEASE\s*=\s*(.*\S)\s*;.*" replace="\1"/>
+                    <replacestring from=" " to="."/>
+                </tokenfilter>
+                <striplinebreaks/>
+            </filterchain>
+        </loadfile>
+        <loadfile srcfile="${basedir}/Version" property="version.patchlevel">
+            <filterchain>
+                <tokenfilter>
+                    <containsregex pattern="^PATCHLEVEL\s*=\s*(.*\S)\s*;.*" replace="\1"/>
+                    <replacestring from=" " to="."/>
+                </tokenfilter>
+                <striplinebreaks/>
+            </filterchain>
+        </loadfile>
+        <loadfile srcfile="${basedir}/Version" property="version.suppdate">
+            <filterchain>
+                <tokenfilter>
+                    <containsregex pattern="^SUPPDATE\s*=\s*(.*\S)\s*;.*" replace="\1"/>
+                    <replacestring from=" " to="/"/>
+                </tokenfilter>
+                <striplinebreaks/>
+            </filterchain>
+        </loadfile>
+        <echo level="info" message="version.release    = [${version.release}]"/>
+        <echo level="info" message="version.patchlevel = [${version.patchlevel}]"/>
+        <echo level="info" message="version.suppdate   = [${version.suppdate}]"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- Optimize web artifacts -->
+    <!-- ============================================================ -->
+
+    <!-- ============================================================ -->
+    <!-- deploy Swarm for application purposes -->
+    <target name="deploy" depends="get-version-file, build-web, doc-clean, doc"
+        description="[POST] Prepare Swarm for deployment: build-web &amp; doc"
+    />
+
+    <!-- ============================================================ -->
+    <!-- set up web-building properties -->
+    <target name="init-build-web" unless="init-build-web.done">
+        <property name="build-web.src.base.dir" location="${basedir}/public"/>
+        <property name="build-web.tgt.dir.rel"  value="build"/>
+        <property name="build-web.tgt.dir"      location="${build-web.src.base.dir}/${build-web.tgt.dir.rel}"/>
+        <mkdir dir="${build-web.tgt.dir}"/>
+
+        <property name="build-web.gzip.suffix" value="gz"/>
+
+        <echo level="info" message="build-web.src.base.dir = [${build-web.src.base.dir}]"/>
+        <echo level="info" message="build-web.tgt.dir      = [${build-web.tgt.dir}]"/>
+        <echo level="info" message="build-web.gzip.suffix  = [${build-web.gzip.suffix}]"/>
+
+        <property name="init-build-web.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- clean all web build material -->
+    <target name="clean-build-web" depends="init-build-web">
+        <delete dir="${build-web.tgt.dir}"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- build web artifacts -->
+    <target name="build-web" unless="build-web.done"
+        description="[POST] Build the web artifacts"
+        depends="build-js, build-css"
+    >
+        <echo level="info" message="Building of web artifacts complete"/>
+        <property name="build-web.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- set up JavaScript building properties -->
+    <target name="init-build-js" unless="init-build-js.done" depends="init-build-web">
+        <property name="jscomp.jar.dir" value="${basedir}/collateral/closure/" />
+        <property name="jscomp.jar.file" value="${jscomp.jar.dir}compiler.jar"/>
+
+        <fail message="Google Closure Compiler jar file not found [${jscomp.jar.file}]" >
+            <condition><not><available file="${jscomp.jar.file}" /></not></condition>
+        </fail>
+        <taskdef name="closurejscomp" classname="com.google.javascript.jscomp.ant.CompileTask" classpath="${jscomp.jar.file}" />
+
+        <property name="build-js.output.file" location="${build-web.tgt.dir}/min.js"/>
+
+        <echo level="info" message="build-js.output.file = [${build-js.output.file}]"/>
+
+        <property name="init-build-js.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- perform any JavaScript minification, aggregation and compression -->
+    <target name="build-js" unless="build-js.done"
+        description="[POST] Build the JavaScript artifacts"
+        depends="init-build-js"
+    >
+        <delete>
+            <filelist>
+                <file name="${build-js.output.file}"/>
+            </filelist>
+        </delete>
+
+        <!-- helper to compile a single .js file -->
+        <macrodef name="jscomp">
+            <attribute name="source"/>
+            <attribute name="dest"/>
+            <sequential>
+                <echo level="info" message="Calling Google Closure on [@{source}]..."/>
+                <delete>
+                    <filelist>
+                        <file name="@{dest}"/>
+                    </filelist>
+                </delete>
+                <closurejscomp
+                    compilationlevel="simple"
+                    warning="default"
+                    debug="false"
+                    output="@{dest}"
+                >
+                    <sources dir="/">
+                        <file name="@{source}"/>
+                    </sources>
+                </closurejscomp>
+            </sequential>
+        </macrodef>
+
+        <property name="build-js.jquery-timeago"  location="${data.dir}/build-js.jquery-timeago.min.js"/>
+        <jscomp dest="${build-js.jquery-timeago}" source="${basedir}/public/vendor/jquery.timeago/jquery.timeago.js"/>
+        <property name="build-js.jobs"  location="${data.dir}/build-js.jobs.min.js"/>
+        <jscomp dest="${build-js.jobs}" source="${basedir}/public/swarm/js/jobs.js"/>
+        <property name="build-js.jsrender"  location="${data.dir}/build-js.jsrender.min.js"/>
+        <jscomp dest="${build-js.jsrender}" source="${basedir}/public/vendor/jsrender/jsrender.js"/>
+        <property name="build-js.jed" location="${data.dir}/build-js.jed.min.js"/>
+        <jscomp dest="${build-js.jed}" source="${basedir}/public/vendor/jed/jed.js"/>
+        <property name="build-js.bootstrap-extensions" location="${data.dir}/build-js.bootstrap-extensions.min.js"/>
+        <jscomp dest="${build-js.bootstrap-extensions}" source="${basedir}/public/swarm/js/bootstrap-extensions.js"/>
+        <property name="build-js.jquery-plugins" location="${data.dir}/build-js.jquery-plugins.min.js"/>
+        <jscomp dest="${build-js.jquery-plugins}" source="${basedir}/public/swarm/js/jquery-plugins.js"/>
+        <property name="build-js.application" location="${data.dir}/build-js.application.min.js"/>
+        <jscomp dest="${build-js.application}" source="${basedir}/public/swarm/js/application.js"/>
+        <property name="build-js.activity" location="${data.dir}/build-js.activity.min.js"/>
+        <jscomp dest="${build-js.activity}" source="${basedir}/public/swarm/js/activity.js"/>
+        <property name="build-js.users" location="${data.dir}/build-js.users.min.js"/>
+        <jscomp dest="${build-js.users}" source="${basedir}/public/swarm/js/users.js"/>
+        <property name="build-js.projects" location="${data.dir}/build-js.projects.min.js"/>
+        <jscomp dest="${build-js.projects}" source="${basedir}/public/swarm/js/projects.js"/>
+        <property name="build-js.files" location="${data.dir}/build-js.files.min.js"/>
+        <jscomp dest="${build-js.files}" source="${basedir}/public/swarm/js/files.js"/>
+        <property name="build-js.changes" location="${data.dir}/build-js.changes.min.js"/>
+        <jscomp dest="${build-js.changes}" source="${basedir}/public/swarm/js/changes.js"/>
+        <property name="build-js.comments" location="${data.dir}/build-js.comments.min.js"/>
+        <jscomp dest="${build-js.comments}" source="${basedir}/public/swarm/js/comments.js"/>
+        <property name="build-js.attachments" location="${data.dir}/build-js.attachments.min.js"/>
+        <jscomp dest="${build-js.attachments}" source="${basedir}/public/swarm/js/attachments.js"/>
+        <property name="build-js.reviews" location="${data.dir}/build-js.reviews.min.js"/>
+        <jscomp dest="${build-js.reviews}" source="${basedir}/public/swarm/js/reviews.js"/>
+        <property name="build-js.3dviewer" location="${data.dir}/build-js.3dviewer.min.js"/>
+        <jscomp dest="${build-js.3dviewer}" source="${basedir}/public/swarm/js/3dviewer.js"/>
+        <property name="build-js.i18n" location="${data.dir}/build-js.i18n.min.js"/>
+        <jscomp dest="${build-js.i18n}" source="${basedir}/public/swarm/js/i18n.js"/>
+        <property name="build-js.init" location="${data.dir}/build-js.init.min.js"/>
+        <jscomp dest="${build-js.init}" source="${basedir}/public/swarm/js/init.js"/>
+
+        <!-- compose output file based on order from module/Application/config/module.config.php -->
+        <concat destfile="${build-js.output.file}" append="true" fixlastline="true">
+            <filelist dir="${build-web.src.base.dir}">
+                <file name="vendor/jquery/jquery-1.11.1.min.js"/>
+                <file name="vendor/jquery-sortable/jquery-sortable-min.js"/>
+                <file name="vendor/bootstrap/js/bootstrap.min.js"/>
+            </filelist>
+            <!-- filter out the sourceMapUrl from jquery, as it no longer maps correctly when concatenated -->
+            <filterchain>
+                <linecontains negate="true">
+                    <contains value="//# sourceMappingURL="/>
+                </linecontains>
+            </filterchain>
+        </concat>
+        <!-- Bootstrap needs a trailing semicolon -->
+        <echo file="${build-js.output.file}" append="true" message=";"/>
+        <concat destfile="${build-js.output.file}" append="true" fixlastline="true">
+            <filelist dir="${build-web.src.base.dir}">
+                <file name="vendor/diff_match_patch/diff_match_patch.js"/>
+            </filelist>
+        </concat>
+        <!-- diff_match_patch needs a trailing semicolon -->
+        <echo file="${build-js.output.file}" append="true" message=";"/>
+        <concat destfile="${build-js.output.file}" append="true" fixlastline="true">
+            <filelist dir="${build-web.src.base.dir}">
+                <file name="vendor/jquery.expander/jquery.expander.min.js"/>
+                <file name="${build-js.jquery-timeago}"/>
+                <file name="${build-js.jsrender}"/>
+                <file name="vendor/prettify/prettify.js"/>
+            </filelist>
+        </concat>
+        <!-- prettify needs a trailing semicolon -->
+        <echo file="${build-js.output.file}" append="true" message=";"/>
+        <concat destfile="${build-js.output.file}" append="true" fixlastline="true">
+            <filelist dir="${build-web.src.base.dir}">
+                <file name="vendor/jed/jed.js"/>
+            </filelist>
+        </concat>
+        <concat destfile="${build-js.output.file}" append="true">
+            <filelist dir="${build-web.src.base.dir}">
+                <file name="${build-js.jquery-plugins}"/>
+                <file name="${build-js.bootstrap-extensions}"/>
+                <file name="${build-js.application}"/>
+                <file name="${build-js.activity}"/>
+                <file name="${build-js.users}"/>
+                <file name="${build-js.projects}"/>
+                <file name="${build-js.files}"/>
+                <file name="${build-js.changes}"/>
+                <file name="${build-js.comments}"/>
+                <file name="${build-js.attachments}"/>
+                <file name="${build-js.reviews}"/>
+                <file name="${build-js.jobs}"/>
+                <file name="${build-js.3dviewer}"/>
+                <file name="${build-js.i18n}"/>
+                <file name="${build-js.init}"/>
+            </filelist>
+        </concat>
+
+        <gzip src="${build-js.output.file}" destfile="${build-js.output.file}${build-web.gzip.suffix}"/>
+
+        <echo level="info" message="Building of JavaScript artifacts complete"/>
+        <property name="build-js.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- set up CSS-building properties -->
+    <target name="init-build-css" unless="init-build-css.done" depends="init-build-web, check-php">
+        <property name="csscomp.jar.dir" value="${basedir}/collateral/yuicompressor/" />
+        <property name="csscomp.jar.file" value="${csscomp.jar.dir}yuicompressor-2.4.7.jar"/>
+
+        <fail message="YUI Compressor jar file not found [${csscomp.jar.file}]" >
+            <condition><not><available file="${csscomp.jar.file}" /></not></condition>
+        </fail>
+
+        <property name="csscomp.fixer.script" location="${basedir}/collateral/build-utils/fixCssUrls.php"/>
+        <fail message="Cannot find [${csscomp.fixer.script}]">
+            <condition><not><available file="${csscomp.fixer.script}"/></not></condition>
+        </fail>
+
+        <property name="build-css.output.file" location="${build-web.tgt.dir}/min.css"/>
+
+        <echo level="info" message="build-css.output.file = [${build-css.output.file}]"/>
+
+        <property name="init-build-css.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- perform any CSS minification, aggregation and compression -->
+    <target name="build-css" unless="build-css.done"
+        description="[POST] Build the CSS artifacts"
+        depends="init-build-css"
+    >
+        <property name="css.fixed.file" location="${data.dir}/cssfixed.css"/>
+        <property name="yuic.dest"      location="${data.dir}/yuic.tmp"/>
+        <delete>
+            <filelist>
+                <file name="${build-css.output.file}"/>
+                <file name="${css.fixed.file}"/>
+                <file name="${yuic.dest}"/>
+            </filelist>
+        </delete>
+
+        <macrodef name="css-min-append">
+            <attribute name="source"/>
+            <attribute name="dest"/>
+            <sequential>
+                <echo level="info" message="Fixing CSS relative paths for [@{source}]..."/>
+                <exec executable="php" output="${css.fixed.file}" logerror="true" failonerror="true">
+                    <arg line="${csscomp.fixer.script} ${build-web.src.base.dir} @{source} @{dest}"/>
+                </exec>
+
+                <echo level="info" message="Calling YUI-Compressor on [@{source}]..."/>
+                <java jar="${csscomp.jar.file}" fork="true" failonerror="true"
+                >
+                    <arg line="-v -o ${yuic.dest} ${css.fixed.file}"/>
+                </java>
+                <concat destfile="@{dest}" append="true">
+                    <fileset file="${yuic.dest}"/>
+                </concat>
+                <delete>
+                    <filelist>
+                        <file name="${css.fixed.file}"/>
+                        <file name="${yuic.dest}"/>
+                    </filelist>
+                </delete>
+            </sequential>
+        </macrodef>
+
+        <css-min-append dest="${build-css.output.file}" source="${build-web.src.base.dir}/vendor/bootstrap/css/bootstrap.css"/>
+        <css-min-append dest="${build-css.output.file}" source="${build-web.src.base.dir}/vendor/prettify/prettify.css"/>
+        <css-min-append dest="${build-css.output.file}" source="${build-web.src.base.dir}/swarm/css/style.css"/>
+
+        <gzip src="${build-css.output.file}" destfile="${build-css.output.file}${build-web.gzip.suffix}"/>
+
+        <echo level="info" message="Building of CSS artifacts complete"/>
+        <property name="build-css.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- Distribution creation -->
+    <!-- ============================================================ -->
+
+    <!-- ============================================================ -->
+    <!-- prepare source for distribution -->
+    <target name="prepare-source"
+        depends="get-version-properties"
+        unless="prepare-source.done"
+        description="[POST] Prepare source for distribution"
+    >
+        <fail unless="version.year"/>
+        <fail unless="version.release"/>
+        <fail unless="version.patchlevel"/>
+
+        <property name="src.dir" value="${basedir}"/>
+        <property name="prep.src.dir" value="${data.dir}/prep-src"/>
+        <echo level="info" message="prep.src.dir=[${prep.src.dir}]"/>
+
+        <delete dir="${prep.src.dir}"/>
+        <mkdir dir="${prep.src.dir}"/>
+
+        <!-- copy files that we want to replace the copyright and version -->
+        <copy todir="${prep.src.dir}" encoding="UTF-8">
+            <fileset dir="${basedir}">
+                <include name="library/P4/**/*.php"/>
+                <include name="library/Record/**/*.php"/>
+                <include name="module/**/*.php"/>
+                <include name="p4-bin/scripts/*"/>
+                <include name="public/**/*.php"/>
+                <include name="public/swarm/js/*.js"/>
+                <exclude name="module/**/test/**"/>
+		<exclude name="language/**/*.mo"/>
+		<exclude name="language/**/*.po"/>
+		<exclude name="public/build/language/*"/>
+            </fileset>
+            <filterchain>
+                <tokenfilter>
+                    <replaceregex pattern="^(( *\*|#|\') LICENSE).*"
+                        replace="\1: Please see LICENSE.txt in top-level readme folder of this distribution."/>
+                    <replaceregex pattern="^( *[\*#\'] *@license *)[^ ].*"
+                        replace="\1Please see LICENSE.txt in top-level readme folder of this distribution."/>
+                    <replaceregex pattern="^( *[\*#\'] *@copyright *)[^ ].*"
+                        replace="\12013-${version.year} Perforce Software. All rights reserved."/>
+                    <replaceregex pattern="^( *[\*#\'] *@version *)[^ ].*"
+                        replace="\1${version.release}/${version.patchlevel}"/>
+                </tokenfilter>
+            </filterchain>
+        </copy>
+
+        <!-- copy the non-php material over to avoid filterchain corruption -->
+        <copy todir="${prep.src.dir}">
+            <fileset dir="${basedir}">
+                <include name="library/P4/**/*"/>
+                <include name="library/Record/**/*"/>
+                <include name="module/**/*"/>
+                <include name="public/**/*"/>
+                <!-- @TODO: employ fileset references for exclusions -->
+                <exclude name="module/**/test/**"/>
+                <exclude name="**/*.php"/>
+                <exclude name="public/swarm/js/*.js"/>
+		<exclude name="public/build/language/*.js*"/>
+	    </fileset>
+        </copy>
+
+        <property name="prepare-source.done" value="true"/>
+    </target>
+
+    <!-- ============================================================ -->
+    <!-- create a distributable -->
+    <target name="dist" depends="get-version-properties, prepare-source"
+        description="[POST] Generate a distributable"
+    >
+        <echo level="info" message="prep.src.dir=[${prep.src.dir}]"/>
+        <fail message="cannot find prep dir [${prep.src.dir}]">
+            <condition>
+                <not><available file="${prep.src.dir}"/></not>
+            </condition>
+        </fail>
+
+        <property name="dist.tgt.dir"        value="${data.dir}"/>
+        <property name="dist.include.bindir" value="p4-bin"/>
+
+        <!-- create the version property from release and patchlevel -->
+        <property name="dist.version"    value="${version.release}.${version.patchlevel}"/>
+        <property name="dist.tld.prefix" value="${product.name}-${dist.version}"/>
+        <property name="dist.name"       value="${product.name}-${dist.version}"/>
+        <property name="dist.file"       value="${dist.tgt.dir}/${dist.name}.tgz"/>
+
+        <!-- display variables -->
+        <echo level="info" message="dist.tgt.dir=[${dist.tgt.dir}]"/>
+        <echo level="info" message="dist.name=   [${dist.name}]"/>
+        <echo level="info" message="dist.file=   [${dist.file}]"/>
+        <echo level="info" message="basedir=     [${basedir}]"/>
+        
+        <!-- calculate set of files that aren't prepped -->
+        <fileset dir="${basedir}" id="src.files.id">
+            <include name="Version"/>
+            <include name="data/README.txt"/>
+            <include name="index.html"/>
+            <include name="library/Zend/**/*"/>
+            <include name="public/docs/**/*"/>
+            <include name="readme/*.txt"/>
+            <include name="readme/ja/*.txt" if="dist.lang.ja"/>
+	    <include name="readme/ko/*.txt" if="dist.lang.ko"/>
+	    <include name="readme/zh/*.txt" if="dist.lang.zh"/>
+            <include name="readme/**/*.txt" if="dist.lang.all"/>
+            <!-- We include public/build/*, but exlude the languages unless the
+                 property for that language is set -->
+            <include name="public/build/*"/>
+            <include name="public/build/language/ja.*"
+		     if="dist.lang.ja"/>
+	    <include name="public/build/language/ko.*"
+		     if="dist.lang.ko"/>
+	    <include name="public/build/language/zh.*"
+		     if="dist.lang.zh"/>
+            <include name="public/build/language/*" if="dist.lang.all"/>
+            <include name="language/ja/*" if="dist.lang.ja"/>
+	    <include name="language/ko/*" if="dist.lang.ko"/>
+	    <include name="language/zh/*" if="dist.lang.zh"/>
+            <include name="language/**/*" if="dist.lang.all"/>
+
+            <present present="srconly" targetdir="${prep.src.dir}"/>
+        </fileset>
+
+        <!-- create the tarfile -->
+        <tar destfile="${dist.file}"
+            longfile="gnu"
+            compression="gzip"
+        >
+            <tarfileset prefix="${dist.tld.prefix}" dir="${prep.src.dir}"
+                excludes="p4-bin/scripts/*"/>
+            <tarfileset prefix="${dist.tld.prefix}" dir="${prep.src.dir}"
+                includes="p4-bin/scripts/*/" filemode="755"/>
+            <tarfileset prefix="${dist.tld.prefix}" refid="src.files.id"/>
+            <tarfileset prefix="${dist.tld.prefix}" dir="${basedir}"
+                includes="${dist.include.bindir}/**/*"
+                excludes="p4-bin/scripts/*"/>
+        </tar>
+    </target>
+</project>

@@ -1,0 +1,13 @@
+<?php
+if ($messages !== array()):
+?>
+
+<div class="global-notification border-box">';
+    <?php foreach ($messages as $alert) : ?>
+    <div class="alert alert-block alert-<?php echo ($this->escapeHtml($alert['type'])) ?: 'info'; ?>">
+    <?php echo $this->escapeHtml($alert['text']); ?>
+    </div>
+    <?php endforeach; ?>
+</div>
+
+<?php endif; ?>

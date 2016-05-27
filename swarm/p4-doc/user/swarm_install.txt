@@ -1,0 +1,885 @@
+                       Installation Instructions for
+                              Perforce Swarm
+
+                              Version 2015.2
+
+Introduction
+
+    This document describes the installation and initial configuration
+    process for Perforce Swarm (hereafter referred to as "Swarm") release
+    2014.4. Varying OS distributions achieve the same results in different
+    ways so while we do our best to inform, you may need to consult your
+    specific distribution documentation.
+
+    * Note, installing and configuring Swarm is typically a System
+      Administrator function and often requires root access.
+
+Overview
+
+    To get the Swarm web application installed and configured, this
+    document will cover these main areas:
+
+    * Runtime dependencies
+    * Swarm installation
+    * Swarm configuration for your environment
+    * Establish a trigger token
+    * Perforce configuration for Swarm
+    * Set up a recurring task to spawn workers
+
+
+------------------------------------------------------------------------
+Runtime Dependencies
+------------------------------------------------------------------------
+
+Swarm requires the following runtime dependencies:
+
+    * A supported operating system platform
+
+    * Apache web server with mod_rewrite and mod_php5 modules
+
+    * PHP with the following extensions:
+        * iconv
+        * json
+        * session
+        * P4PHP
+        * APC (for optimal performance)
+        * imagick (optional, for viewing non-web safe images)
+        * Zip (optional, for downloading archives of files/folders)
+
+    * LibreOffice (optional, for viewing office-type documents)
+
+    * zip command-line tool (optional, for downloading archives of
+      files/folders, if the Zip extension is not installed)
+
+    * A supported Perforce service and the ability to connect to it.
+
+      Note: a "Perforce service" can refer to a Perforce server, proxy,
+            broker, replica, edge server, commit server, or cluster/node.
+            It does not refer to a "service" user; service users are
+            used to coordinate replication in a Perforce service.
+
+Supported Operating System Platforms
+
+    Because Swarm includes binary versions of P4PHP (the Perforce extension
+    for PHP), we support Swarm on the following operating systems:
+
+    * Linux 2.6+ Intel (x86, x86_64) with glibc 2.3.3+
+
+    * Mac OS X 10.6+ (x86_64)
+
+    You may be able to get Swarm running on another platform if you build
+    P4PHP yourself and satisfy the other runtime dependencies.
+    Instructions on how obtain and build P4PHP from source can be found
+    here:
+
+        http://www.perforce.com/perforce/doc.current/user/p4phpnotes.txt
+
+Apache Web Server
+
+    Swarm requires Apache HTTP Server 2.2 or newer:
+
+        http://httpd.apache.org/
+
+    Swarm also requires the following Apache modules:
+
+    * mod_php5 for interacting with PHP
+      This is usually installed with PHP
+
+    * mod_rewrite URL rewriting engine
+      http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html
+
+PHP
+
+    Swarm is supported on PHP 5.3.3+, 5.4.x or 5.5.x:
+
+        http://www.php.net
+
+    Swarm requires the following PHP extensions:
+
+    * iconv (character encoding converter)
+      http://php.net/iconv
+      This is typically enabled by default with most PHP distributions
+
+    * JSON (JavaScript Object Notation)
+      http://php.net/json
+      This is typically enabled by default with most PHP distribution,
+      although recent distributions are making this optional.
+
+    * Session (Session handling)
+      http://php.net/session
+      This is typically enabled by default with most PHP distributions
+
+    * P4PHP (the Perforce PHP Extension)
+      Included with the Swarm package, install directions below.
+
+    Swarm will greatly benefit from the following PHP extension:
+
+    * APC (the Alternative PHP Cache)
+      http://php.net/apc
+      Install instructions for APC below.
+
+    * Imagick (integrates ImageMagick into PHP)
+      http://php.net/imagick
+      Install instructions for Imagick below.
+
+Perforce Server Requirements
+
+    * Swarm works with Perforce Server versions at these patch levels or
+      higher:
+
+        * 2010.2/503309 
+        * 2011.1/506384
+        * 2012.1/512349
+        * 2012.2/525804
+        * 2013.1/610569
+        * 2013.2/708877
+        * 2013.3/740675
+        * 2014.1/807760
+
+    * Swarm performs best with Perforce 2013.1 or newer.
+      http://www.perforce.com
+
+    The Swarm triggers, which are installed on the Perforce service in a
+    later step, require:
+
+    * For a Perforce service installed on a Linux host, one of:
+
+        * curl
+          http://curl.haxx.se/download.html
+        * wget
+          http://ftp.gnu.org/gnu/wget/
+
+    * For a Perforce service installed on a Windows host:
+
+        * curl
+          http://curl.haxx.se/download.html
+
+Security-Enhanced Linux (SELinux)
+
+    * Swarm is currently *not supported with SELinux*. We hope to support
+      SELinux in a future release and provide guidance on the required
+      configuration.
+
+    * This version of Swarm does *not* work with SELinux with its default
+      configuration in 'enforcing mode'. If you are running a system with
+      SELinux, Swarm may work if you set it to 'permissive mode' with the
+      command:
+
+        $ sudo setenforce 0
+
+      Setting your system to 'permissive mode' might make Dan Walsh cry:
+      https://plus.google.com/112917221531140868607/posts/ZiqZVXAjrev
+
+------------------------------------------------------------------------
+Swarm Package Installation
+------------------------------------------------------------------------
+
+Swarm is available in two distribution formats: Debian (.deb) and RPM
+(.rpm).
+
+Using distribution packages greatly simplifies the installation, updates,
+and removal of software, as the tools that manage these packages are aware
+of the dependencies for each package.
+
+Note: The Swarm packages have been thoroughly tested on Ubuntu 12.04 LTS
+      and Ubuntu 14.04 LTS (for Debian packages) and CentOS 6.1+ (for RPM
+      packages). While the packages should work on other compatible
+      distributions, these have not been tested.
+
+1. Configure the Perforce package repository.
+
+   As root, run one of the following:
+
+   a. For Debian:
+
+      Create the file '/etc/apt/sources.list.d/perforce.list' with the
+      following content:
+
+        deb http://package.perforce.com/apt/ubuntu/ precise release
+
+      This works for Debian and Ubuntu systems.
+
+   b. For RPM:
+
+      Create the file '/etc/yum.repos.d/helix-swarm.repo' with the
+      following content:
+
+        [Perforce]
+        name=Perforce
+        baseurl=http://package.perforce.com/yum/rhel/6/x86_64/
+        enabled=1
+        gpgcheck=1
+
+      This works for both RedHat and CentOS.
+
+2. Import the Perforce package signing key.
+
+   Run one of the following:
+
+   a. For Debian:
+
+      $ wget -qO - http://package.perforce.com/perforce.pubkey | sudo apt-key add -
+      $ sudo apt-get update
+
+   b. For RPM (run this command as root):
+
+      # rpm --import http://package.perforce.com/perforce.pubkey
+
+   For information on how to verify the authenticity of the signing key, see:
+   
+      http://answers.perforce.com/articles/KB_Article/Public-Key-for-Installation-Packages
+
+3. Install the main Swarm package.
+
+   There are two package files to choose from:
+
+   Run one of the following:
+
+   i.  For Debian:
+
+       $ sudo apt-get install helix-swarm
+
+   ii. For RPM (run this command as root):
+
+       # yum install helix-swarm
+
+4. Install the Swarm triggers package.
+
+   Install this package on the server hosting your Perforce service, which
+   may be the same server that is hosting Swarm, or elsewhere on your
+   network.
+
+   Important: If the server hosting your Perforce service cannot use
+              packages, for example when it is running Windows, you need to
+              copy the appropriate Swarm trigger script from
+              '/opt/perforce/swarm/p4-bin/scripts' to the server hosting your
+              Perforce service. 'swarm-trigger.sh' is for Linux systems.
+              'swarm-trigger.vbs' is for Windows systems. Once copied, the
+              trigger script needs to be configured. See the section below
+              titled "Perforce Configuration for Swarm" for details.
+
+   Run one of the following:
+
+   i.  For Debian:
+
+       $ sudo apt-get install helix-swarm-triggers
+
+   ii. For RPM (run this command as root):
+
+       # yum install helix-swarm-triggers
+
+5. Install the Swarm optional package.
+
+   While not required, installing this package installs the dependencies
+   required to use the Imagick and LibreOffice Swarm modules. These modules
+   provide previews of a variety of image and office documents.
+
+   Run one of the following:
+
+   i.  For Debian:
+
+       $ sudo apt-get install helix-swarm-optional
+
+   ii. For RPM (run this command as root):
+
+       # yum install helix-swarm-optional
+
+       Important: This package depends on the package "php-pecl-imagick"
+                  which is available from the EPEL project. In order to
+                  install packages from EPEL, you will need to add the
+                  EPEL repository and accept its signing key. Instructions
+                  are available at: https://fedoraproject.org/wiki/EPEL
+
+6. Complete these post-installation steps.
+
+   Once the *helix-swarm* package has been installed, additional
+   configuration is required:
+
+   1. Use the Swarm configuration script to setup Swarm.
+
+      Note: The Swarm configuration script can be used in a few different
+            ways. The steps below outline the most straightforward
+            configuration using an interactive install, but you can review
+            the options by running, as root:
+
+            $ /opt/perforce/swarm/sbin/configure-swarm.sh -h
+
+      As root, run an interactive install:
+
+      $ /opt/perforce/swarm/sbin/configure-swarm.sh -i
+
+   2. Provide information to the configuration script.
+
+      a. Specify a value for P4PORT.
+
+         Specify the hostname and port for your Perforce service. If
+         defined, the value for P4PORT is used as the default. The
+         configuration script verifies that it can connect.
+
+      b. Specify the userid and password of a normal user with
+         admin-level privileges in the Perforce service.
+
+         The default userid is 'swarm'.
+
+         When prompted, enter the login ticket, or password, for the
+         userid.
+
+         Note: You can obtain a login ticket by running (in another shell):
+
+               $ p4 -p myp4host:1666 -u userid login -p
+
+               If the login ticket you provide would expire in less than a
+               year, you will receive a warning.
+
+      c. Specify the hostname for the Swarm UI.
+
+         The default is the current hostname. The configuration script does
+         not verify that the hostname actually works.
+
+      d. Specify a mail relay host.
+
+         Note: The configuration script does not verify that the mail relay
+               host you provide actually accepts SMTP connections.
+
+      Once this information has been provided, the configuration script:
+
+      - configures P4PHP
+      - creates a cron job to ensure that worker tasks are always running
+      - creates the Swarm 'data/config.php' configuration file
+      - creates an Apache virtual host for Swarm
+      - restarts Apache
+
+   3. Configure the Swarm triggers.
+
+      See the section below titled "Perforce Configuration for Swarm" for
+      details.
+
+All done!
+
+------------------------------------------------------------------------
+Swarm OVA Installation
+------------------------------------------------------------------------
+
+Swarm is available as an OVA, an open virtualization appliance that
+requires minimal configuration.
+
+Use the OVA if you want to:
+
+    * Simplify the installation and configuration steps
+    * Experiment with Swarm without using additional hardware
+    * Install Swarm without having a Linux-based server available
+
+To use the OVA, follow the instructions below and then skip to the
+"Establish Trigger Token" section.
+
+    1. Download the Swarm OVA.
+
+    2. Import the OVA into your virtualization environment.
+
+    3. Start the virtual machine; diagnostic and boot information appears.
+
+    4. Several configuration prompts appear in sequence:
+
+        a. password for the root user
+        b. password for the system *swarm* user
+        c. hostname for the virtual machine
+        d. mail relay host
+        e. Perforce service port
+        f. userid of a normal user in the Perforce service with
+           *admin* privileges
+        g. ticket, or password, of the *admin-level* Perforce user
+
+    Once the prompts have been answered successfully, the virtual machine
+    completes its configuration activities. When ready, a welcome screen is
+    displayed.
+
+    The welcome screen provides URLs to access Swarm, its documentation,
+    and the virtual machine management console.
+
+You can now access Swarm via the OVA.
+
+Note:
+
+    After the OVA is configured and running, you can adjust the
+    configuration by using SSH to connect to the virtual machine as the
+    system *swarm* user and editing the Swarm config.php file:
+
+        /opt/swarm/data/config.php
+
+    Swarm's installation folder is /opt/swarm.
+
+Please proceed to the "Establish Trigger Token" section further below.
+
+
+------------------------------------------------------------------------
+Swarm Installation
+------------------------------------------------------------------------
+
+At a high level, Swarm is installed by performing the following:
+
+    * Expand the Swarm tarball into a suitable directory
+
+    * Ensure that Swarm's 'data' folder is writable by Apache
+
+    * Install and enable the iconv, json, session, P4PHP, and APC
+      extensions for PHP.
+
+    * Create an Apache virtual host to point to Swarm's 'public' folder
+
+Step by Step Installation Instructions
+
+    1. Expand the Swarm package (a "compressed tarball").
+
+        * Many graphical file manager applications (Nautilus on Linux,
+          Finder on Mac, etc.) can automatically expand the Swarm tarball
+          package by simply double-clicking it.
+
+        * From the command line, expand it via the tar command:
+
+            $ tar -zxf swarm.tgz
+
+        * The contents of the Swarm package are expanded into a
+          top-level folder named "swarm-<version>", where <version>
+          corresponds to the version downloaded.
+
+    2. Move the contents of the Swarm package to the correct
+       location.
+
+        * Identify a location for the Swarm files; this should
+          correspond to a location associated to the virtual host
+          configured under Apache (see the Apache Configuration and Setup
+          section below).
+
+            $ mv /path/to/swarm-<version> /path/to/vhosts/swarm
+
+    3. Assign correct ownership and permission for the Swarm files.
+
+        * The 'data' top-level folder in the Swarm distribution needs to
+          be writeable by the web server. To achieve this effect, simply
+          change ownership of the data folder to the web user:
+
+            $ sudo chown -R www /path/to/vhosts/swarm/data
+
+        * The 'www' user above is an example of what the web server user
+          name might be. Depending on your distribution, this could be
+          '_www', 'web', 'nobody' or something else entirely.
+
+        * From a security perspective, we recommend that the minimum
+          file permissions should be granted to the user/group under which
+          the web server runs against the Swarm distribution.
+
+
+    Apache Configuration and Setup
+
+    * The configuration of the Apache HTTP Server (Apache) can vary
+      between OS distributions; see the documentation specific to your
+      installation of Apache.
+
+    * For example, on Mac OS X, you may have to enable Web Sharing
+      within the Sharing control panel in System Preferences.
+
+    4. Set up an Apache virtual host ("vhost") for your installation.
+
+        * See Apache's full documentation for complete details:
+
+            http://httpd.apache.org/docs/2.2/vhosts/
+            http://httpd.apache.org/docs/2.4/vhosts/
+
+        * Virtual host configuration example for Apache 2.2:
+
+            <VirtualHost *:80>
+                ServerName myswarm
+                ServerAlias myswarm.machine.domain.com
+                ErrorLog "/path/to/apache/logs/myswarm.error_log"
+                CustomLog "/path/to/apache/logs/myswarm.access_log" common
+                DocumentRoot "/path/to/vhosts/swarm/public"
+                <Directory "/path/to/vhosts/swarm/public">
+                    AllowOverride All
+                    Order allow,deny
+                    Allow from all
+                </Directory>
+            </VirtualHost>
+
+        * Virtual host configuration example for Apache 2.4:
+
+            <VirtualHost *:80>
+                ServerName myswarm
+                ServerAlias myswarm.machine.domain.com
+                ErrorLog "/path/to/apache/logs/myswarm.error_log"
+                CustomLog "/path/to/apache/logs/myswarm.access_log" common
+                DocumentRoot "/path/to/vhosts/swarm/public"
+                <Directory "/path/to/vhosts/swarm/public">
+                    AllowOverride All
+                    Require all granted
+                </Directory>
+            </VirtualHost>
+
+        * Ensure that the DocumentRoot and Directory values above
+          correspond to the "public" folder of the Swarm distribution you
+          located in step 2 above.
+
+    5. Verify that the correct Apache modules are enabled.
+
+        * To query whether the PHP and Rewrite modules are active, you
+          can use the 'apachectl' utility to list all of the active modules
+          (this may be named 'apache2ctl' on your system):
+
+            $ apachectl -t -D DUMP_MODULES
+
+            * Simply look for 'php5_module' and 'rewrite_module' in the
+              output. If you see them, skip ahead to step 6.
+
+        * If your distribution ships with the Apache utility, 'a2enmod',
+          use this to enable the PHP and Rewrite modules:
+
+            $ sudo a2enmod php5 rewrite
+
+        * Without the 'a2enmod' utility, edit the Apache configuration
+          file by hand. Locate your Apache configuration file for modules
+          and either uncomment or add the following lines:
+
+            LoadModule  php5_module     libexec/apache2/libphp5.so
+            LoadModule  rewrite_module  libexec/apache2/mod_rewrite.so
+
+        * Note that your Apache installation may have different paths for
+          the location of its modules (the .so files).
+
+    6. Restart your web server!
+
+        * To ensure that the Apache configuration changes you made become
+          active, restart the web server.
+
+            $ sudo apachectl restart
+
+        * Query Apache's active virtual hosts and modules to confirm
+          your changes are in effect:
+
+            $ apachectl -t -D DUMP_VHOSTS
+            $ apachectl -t -D DUMP_MODULES
+
+
+    PHP Configuration:
+
+    * PHP can vary between OS distributions; see the documentation
+      specific to your installation of PHP.
+
+    7. First determine which php.ini file is in use by the PHP Apache
+       module. Note that it may not necessarily be the same php.ini file
+       that is in use when calling PHP from the command line (running 'php
+       --ini' from the command line will report this).
+
+       If you're having trouble determining which php.ini the PHP Apache
+       module is using, create a PHP file that can be served through Apache
+       with the following contents:
+
+            <?php phpinfo();?>
+
+       Point your browser to this file and look for this table row in the
+       resulting table:
+
+            Loaded Configuration File
+
+    8. Ensure that date.timezone is set correctly for your system.
+
+       Some distributions do not make a default timezone available to PHP,
+       so the best practice is to set the timezone for PHP explicitly. See
+       the list of support timezones:
+
+           http://www.php.net/manual/en/timezones.php
+
+       An example date.timezone setting in php.ini:
+
+           date.timezone = America/Vancouver
+
+    9. Ensure that the iconv, json and session extensions are present.
+    
+        * They are usually enabled by default, although you may have to
+          install a package for them through your OS distribution. Verify
+          they are present by searching for their respective names in the
+          phpinfo output above.
+
+    10. Enable P4PHP, the Perforce extension for PHP:
+
+        * For Swarm to communicate with a Perforce service, it needs
+          the P4PHP extension.
+
+        * We supply a number of variants of the P4PHP binary: for Linux
+          platforms (32- and 64-bit) and Mac OS X (Darwin); for PHP 5.3,
+          5.4, and 5.5.
+
+            * For Linux, the default variants are compiled with glibc 2.11,
+              but we've also included PHP 5.3 variants compiled with glibc
+              2.3.3 to support those customers on older distributions, such
+              as Red Hat Enterprise Linux 5.9.
+
+        * To enable P4PHP, edit the web server's php.ini file and add
+          the following line:
+
+            extension=/path/to/swarm/p4-bin/bin.<platform>/perforce-<variant>.so
+
+          Example 1: for a 64-bit Linux system running PHP 5.4:
+
+            extension=/path/to/swarm/p4-bin/bin.linux26x86_64/perforce-php54.so
+
+          Example 2: for a 32-bit Linux system running PHP 5.3 with glibc
+          older than 2.11:
+
+            extension=/path/to/swarm/p4-bin/bin.linux26x86/perforce-php53-glibc2.3.3.so
+
+        * Alternatively, copy the extension file to the default location
+          for PHP extensions, and then just add this line instead:
+
+            extension=perforce-<variant>.so
+
+    11. Restart Apache for the changes to become active.
+
+    12. To verify that P4PHP is active, navigate to the phpinfo file you
+        created in step 7. You should then see a "perforce" section (search
+        for "Perforce Module"). It should report that the module is enabled
+        and display the version information.
+
+
+    Alternative PHP Cache (APC) extension for PHP:
+
+    * APC is a free, open, and robust framework for caching and
+      optimizing PHP intermediate code. Enabling APC will further improve
+      Swarm performance. More information about APC can be found here:
+
+        http://php.net/apc
+        http://pecl.php.net/package/APC
+
+    13. We recommend that you install APC from your OS distribution (via
+        apt-get, yum, etc.).
+    
+        * If your distribution does not offer the APC package for PHP, you
+          can install via PECL (although you may have to resolve system
+          dependencies):
+
+            $ sudo pecl install apc
+
+    14. Ensure that APC is enabled in your PHP Apache module's php.ini file
+        (as determined in the section above for P4PHP). You may need to add
+        the following line to php.ini:
+
+        extension=apc.so
+
+    15. Restart Apache for the changes to become active.
+
+    16. To verify that APC is active, navigate to the phpinfo file you
+        created in step 1 in the section above for P4PHP. You should then
+        see an "apc" section (you may have to search for "APC Support"). It
+        should report its version information and a table for its
+        directives.
+
+        We currently do not have any specific recommendations for which APC
+        directives to set.
+
+    ** See note about phpinfo file created above **
+
+    * Once you have completed installing and enabling P4PHP and APC,
+      we recommend you remove the phpinfo file you created to avoid
+      disclosing information about your installation.
+
+
+    ImageMagick (imagick) extension for PHP
+
+    * Imagick is a PHP extension that integrates the ImageMagick graphics
+      library's API for the creation and manipulation of images. Enabling
+      imagick improves Swarm's ability to preview graphics formats that web
+      browsers typically cannot display. More information about imagick can
+      be found here:
+
+        http://php.net/imagick
+        http://pecl.php.net/package/imagick
+
+    17. We recommend that you install Imagick from your OS distribution
+        (via apt-get, yum, etc.).
+    
+        * If your distribution does not offer the Imagick package for PHP,
+          you can install via PECL (although you may have to resolve system
+          dependencies):
+
+            $ sudo pecl install imagick
+
+    18. Verify that imagick is enabled in your PHP Apache module's php.ini
+        file (as determined in the section above for P4PHP).  You may need
+        to add the following line to php.ini:
+
+        extension=imagick.so
+
+    19. Restart Apache for the changes to become active.
+
+    20. To verify that imagick is active, navigate to the :file:`phpinfo`
+        file you created in step 1 in the section above for P4PHP. You
+        should then see an "imagick" section. It should report its version
+        information and a table for its directives, supported image file
+        formats, and more.
+
+    ** See note about phpinfo file created above **
+
+    * Once you have completed installing and enabling P4PHP and imagick,
+      we recommend that you remove the phpinfo file you created to avoid
+      disclosing information about your installation.
+
+
+    LibreOffice
+
+    * LibreOffice is a free power-packed open source personal productivity
+      suite. Swarm can utilize it in headless mode to generate previews of
+      office-type documents. More information about LibreOffice can be
+      found here:
+
+        https://www.libreoffice.org/
+
+    21. We recommend that you install LibreOffice from your OS distribution
+        (via apt-get, yum, etc.).
+
+        * Specifically, the minimal packages (and their transitive
+          dependencies required for Swarm are:
+
+            * libreoffice-calc
+            * libreoffice-draw
+            * libreoffice-impress
+            * libreoffice-writer
+            * libreoffice-headless (CentOS/RHEL only)
+
+
+------------------------------------------------------------------------
+Swarm Configuration
+------------------------------------------------------------------------
+
+Now that Swarm is ready for use, you'll need to configure it to work in
+your environment. The high-level items needed to do this are:
+
+    * Create a configuration file so Swarm can talk to your Perforce
+      server
+
+    * Set up a recurring task to spawn a worker process
+
+Swarm configuration file
+
+    * Create a file named 'config.php' under the 'data' directory with
+      the following contents:
+
+        <?php
+        return array(
+            'p4' => array(
+                'port'     => 'myp4server.domain.com:1666',
+                'user'     => 'admin_userid',
+                'password' => 'ticket-value',
+            )
+        );
+
+        * For the 'port' value, enter the P4PORT value used to connect
+          to your Perforce Server.
+
+        * For the 'user' value, enter a Perforce user name that has
+          'admin' level access to the Perforce service.
+
+        * For the 'password' value, while a plain-text password works,
+          we recommend that you use the ticket value instead. Obtain the
+          ticket value for the admin_userid during login with this command:
+
+            $ p4 -u <admin_userid> login -p
+
+          Note: for a Perforce service with the *security* configurable set
+          to 3, ticket-based authentication is required.
+
+          Important: When using ticket-based authentication, ensure that
+          the ticket has a very long expiration. An expired ticket causes
+          many Swarm operations to fail.
+
+          You can determine when the <admin_userid>'s ticket will expire
+          with:
+
+            $ p4 -u <admin_userid> -P <ticket_value> login -s
+
+          More information about tickets can be found here:
+
+            http://www.perforce.com/perforce/doc.current/manuals/p4sag/03_superuser.html
+
+
+------------------------------------------------------------------------
+Establish Trigger Token
+------------------------------------------------------------------------
+
+Trigger tokens prevent unauthorized events from influencing Swarm
+operations; trigger requests to Swarm without a valid trigger token are
+ignored.
+
+    * Log in to Swarm as a super user.
+
+    * Click your userid, found at the right of the main toolbar.
+
+    * Select About Swarm. The About Swarm dialog appears.
+
+      When the About Swarm dialog is displayed, Swarm generates an API
+      token if none exists.
+
+    * Note the trigger token value at the bottom of the dialog, for
+      use in the next section. Click the token to select it, which makes it
+      easy to copy.
+
+
+------------------------------------------------------------------------
+Perforce Configuration for Swarm
+------------------------------------------------------------------------
+
+Now that you have a configured instance of Swarm, the last piece is to
+configure Perforce to tell Swarm about interesting events. This is
+accomplished through the use of triggers. For more information about
+Perforce triggers, see the Perforce System Administrator Guide:
+
+    http://www.perforce.com/perforce/doc.current/manuals/p4sag/06_scripting.html
+
+Using Perforce triggers to push events to Swarm
+
+    * Use the following Swarm trigger script to push Perforce events
+      into Swarm. It is available in:
+
+        p4-bin/scripts/swarm-trigger.sh
+
+    * Copy the script above to your Perforce Server machine so that
+      it can be called from a Perforce trigger.
+
+    * Modify the script to set the SWARM_HOST variable appropriately.
+
+    * Modify the script to set the SWARM_TOKEN variable appropriately.
+      This is the API token established in the previous section.
+
+    * Ensure that the script has execute permissions:
+
+        $ chmod +x swarm-trigger.sh
+
+    * This trigger script has a handy flag to display what entries should
+      be added to the trigger table:
+
+        $ ./swarm-trigger.sh -o
+
+    * As a Perforce user with 'super' privilege, edit the Perforce
+      trigger table by running the 'p4 triggers' command and and adding the
+      lines from the output of the previous command.
+
+
+------------------------------------------------------------------------
+Set up a recurring task to spawn workers
+------------------------------------------------------------------------
+
+To ensure that incoming Perforce events are automatically processed
+for Swarm, it is important to set up a cron job to do this.
+
+    * Edit your crontab; this can reside on any host, although you may
+      want to place this on the Swarm host:
+
+        $ crontab -e
+
+    * Add an entry to spawn a worker every minute:
+
+        * * * * * curl -o /dev/null -m1 http://myswarm/queue/worker
+
+    * Ensure that you specify the appropriate host name for Swarm.
+
+
+You are now all set to start using Swarm. Enjoy!
+
+END

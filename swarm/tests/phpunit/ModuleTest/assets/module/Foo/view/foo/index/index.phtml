@@ -1,0 +1,16 @@
+<div class="foo-index">
+    <div class="get-data">
+        <?php
+        foreach ($get as $key => $value) {
+            echo "<div class='get get-$key'>" . $this->escapeHtml($value) . "</div>\n";
+        }
+        ?>
+    </div>
+    <div class="post-data">
+        <?php
+        foreach ($post as $key => $value) {
+            echo "<div class='post post-$key'>" . $this->escapeHtml($value) . "</div>\n";
+        }
+        ?>
+    </div>
+</div>

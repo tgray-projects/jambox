@@ -1,0 +1,23 @@
+= Ethel the Aardvark Goes Quantity Surveying
+:doctype: book
+:docinfo:
+:encoding: utf-8
+:lang: en
+:subtitle: An ode to Monty Python
+:common_adoc: ../../perforce/common_adoc
+:assettype: publicsite
+:assetext: .png
+
+ifeval::["{assettype}" == "pdf"]
+:assetext: .svg
+endif::[]
+
+include::01-different.adoc[]
+
+include::02-gday.adoc[]
+
+include::03-lumberjack.adoc[]
+
+include::04-castle.adoc[]
+
+include::aa-license.adoc[]

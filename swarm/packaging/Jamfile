@@ -1,0 +1,67 @@
+SubDir AllP4 swarm packaging ;
+SubDir SWARM packaging ;
+
+#read in the global packaging rules:
+SubRules AllP4 packaging : GRULES ;
+
+Echo "AllP4=$(AllP4) SWARM=$(SWARM) GRULES=$(GRULES) PWD=$(PWD)" ;
+
+# Find the platform-specific p4-bin directory, relative to this package
+P4BIN_TOKENS =
+    AllP4 p4-bin
+    bin.$(EXEC_SUB_TOKENS[1])
+    $(EXEC_SUB_TOKENS[2])
+    $(EXEC_SUB_TOKENS[3])
+    ;
+
+P4BIN = [ FSubDirPath $(P4BIN_TOKENS) ] ;
+
+# Find the multiarch p4-bin directory, relative to this package
+MA_TOKENS =
+    AllP4 p4-bin
+    bin.multiarch
+    $(EXEC_SUB_TOKENS[2])
+    $(EXEC_SUB_TOKENS[3])
+    ;
+
+MA_DIR = [ FSubDirPath $(MA_TOKENS) ] ;
+
+# Make sure our package builds go into the P4BIN directory
+EXEC = $(P4BIN) ;
+
+# Make sure we're fetching swarm.tgz from the multiarch directory
+SEARCH on swarm.tgz = $(MA_DIR) ;
+
+# Include our Version file
+SEARCH on Version = $(SWARM) ;
+include Version ;
+
+if $(OS) = LINUX 
+{
+    if $(DEB)
+    {
+        DebFile helix-swarm : swarm : 
+            Makefile 
+            configure-swarm.sh
+            perforce-swarm-site.conf
+            swarm.tgz ;
+
+        SubInclude SWARM packaging debian ;
+    }
+
+    if $(RPM)
+    {
+        RPMFile helix-swarm : configure-swarm.sh 
+            perforce-swarm-site.conf
+            perforce-swarm.cron
+            swarm.tgz : SOURCES ;
+
+        SubInclude SWARM packaging RPM ;
+    }
+
+    if ! $(DEB) && ! $(RPM) 
+    {
+        Exit "Use 'jam -sDEB=1' or 'jam -sRPM=1'" ;
+    }
+}
+

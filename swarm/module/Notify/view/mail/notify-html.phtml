@@ -1,0 +1,15 @@
+<?php
+$userLink   = $this->qualifiedUrl('user', array('user' => $user));
+?>
+<html>
+<body style="font-family: sans-serif; background-color: #eee; padding: 1em;">
+<div style="background-color: #fff; border: 1px solid #ccc; padding: 1em;">
+    <div style="font-size: 115%;">
+        You have received the following from <a href="<?php echo $userLink;?>"><?php echo $name;?></a>:
+        <br/>
+        <?php echo $this->escapeHtml($comment); ?>
+    </div>
+    <br/>
+</div>
+</body>
+</html>

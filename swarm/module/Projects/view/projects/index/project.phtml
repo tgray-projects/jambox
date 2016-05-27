@@ -1,0 +1,103 @@
+<?php
+$this->headTitle()->set($project->getName())->setTranslatorEnabled(false);
+$this->bodyClass()->append('login-reload');
+echo $this->projectToolbar($project);
+?>
+
+<div class="row-fluid">
+    <div class="span3 profile-sidebar project-sidebar">
+        <div class="profile-info">
+            <div class="title pad2 padw3">
+                <h4><?php echo $this->te('About')?></h4>
+            </div>
+            <div class="body">
+                <?php if ($project->getDescription()): ?>
+                <div class="description force-wrap pad3">
+                    <?php echo $this->preformat($project->getDescription()) ?>
+                </div>
+                <?php endif; ?>
+                <div class="privileged buttons pad1 padw2">
+                    <div class="row-fluid">
+                        <?php if (!$userIsMember): ?>
+                            <div class="<?php echo $canEdit ? 'span6' : 'span12' ?>">
+                                <button type="button" class="btn btn-primary btn-block <?php echo $userFollows ? 'following' : '' ?>"
+                                        onclick="swarm.user.follow('project', '<?php echo $this->escapeJs($project->getId()) ?>', this);">
+                                    <?php echo $this->te($userFollows ? 'Unfollow' : 'Follow') ?>
+                                </button>
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($canEdit): ?>
+                            <div class="<?php echo $userIsMember ? 'span12' : 'span6' ?>">
+                                <a class="btn btn-primary btn-block" href="<?php echo $this->url('edit-project', array('project' => $project->getId())) ?>">
+                                    <?php echo $this->te('Edit') ?>
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="metrics pad2">
+                    <ul class="force-wrap clearfix">
+                        <li class="members pull-left border-box pad2 padw0"><span class="count"><?php echo count($members) ?></span><br><?php echo $this->tpe('Member', 'Members', count($members))?></li>
+                        <li class="followers pull-left border-box pad2 padw0"><span class="count"><?php echo count($followers) ?></span><br><?php echo $this->tpe('Follower', 'Followers', count($followers))?></li>
+                        <li class="branches pull-left border-box pad2 padw0"><span class="count"><?php echo count($branches) ?></span><br><?php echo $this->tpe('Branch', 'Branches', count($branches))?></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <?php if ($members) : ?>
+        <div class="members profile-block">
+            <div class="title pad1 padw0"><?php echo $this->te('Members')?></div>
+            <?php echo $this->avatars($members, 5) ?>
+        </div>
+        <?php endif; ?>
+        <div class="followers profile-block <?php echo !$followers ? 'hidden' : '' ?>">
+            <div class="title pad1 padw0"><?php echo $this->te('Followers')?></div>
+            <?php echo $this->avatars($followers, 5) ?>
+        </div>
+        <?php if ($branches): ?>
+        <div class="branches profile-block">
+            <div class="title pad1 padw0"><?php echo $this->te('Branches')?></div>
+            <ul>
+            <?php
+                foreach ($branches as $branch) {
+                    $main      = in_array(strtolower($branch['name']), $mainlines);
+                    $branchUrl = $this->url(
+                        'project-browse',
+                        array('project' => $project->getId(), 'mode' => 'files', 'path' => $branch['id'])
+                    );
+                    echo '<li data-branch-id="' . $this->escapeHtml($branch['id']) . '" '
+                        . 'data-branch-name="' . $this->escapeHtml($branch['name']) . '"><a href="' . $branchUrl . '">'
+                        . ($main ? '<strong>' : '')
+                        . $this->escapeHtml($branch['name'])
+                        . ($main ? '</strong>' : '')
+                        . '</a><div class="btn-group pull-right"><button class="btn btn-small" '
+                        . 'title="" '
+                        . 'data-original-title="View branch \'' . $this->escapeHtml($branch['name']) .'\' details."'
+                        . 'data-toggle="collapse"'
+                        . 'data-target="#' . $this->escapeHtml($branch['id']) . '_details"'
+                        . '>'
+                        . '<i class="icon-cog"></i></button></div></li>';
+                    echo '<div id="' . $this->escapeHtml($branch['id']) . '_details" class="collapse">'
+                        . '<dl><dt>Path:</dt><dd>' . $this->escapeHtml($branch['paths'][0]) . '</dd></dl>';
+                    if (!empty($branch['moderators'])) {
+                        echo '<dl><dt>Moderators:</dt><dd>'
+                            . $this->avatars($branch['moderators'], 4) . '</dd></dl>';
+                    }
+                    echo '</div>';
+                }
+            ?>
+            </ul>
+        </div>
+        <?php endif; ?>
+    </div>
+    <div class="span9 profile-activity">
+        <?php echo $this->activity('project-' . $project->getId()) ?>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        // truncate the description
+        $('.profile-header .description').expander({slicePoint: 250});
+    });
+</script>
