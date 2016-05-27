@@ -2,7 +2,8 @@
 
 ###About
 JamBox is a community project that uses Perforce solutions to support collaboration for [Game Jams](https://en.wikipedia.org/wiki/Game_jam).    
-It is essentially a Perforce server and a customized version of Swarm.    
+It is essentially a Perforce server and a customized version of Swarm.
+This project resides primarily on the [Perforce Workshop](https://swarm.workshop.perforce.com/projects/thomas_gray-jambox/), which includes builds for Docker and Raspberry Pi.  This GitHub mirror of the main branch exists for convenience.
 
 ###Licensing
 There is a free 20 user license with the 2015.2 release of Perforce.    
@@ -16,7 +17,7 @@ Check the Perforce [licensing page](https://www.perforce.com/purchase/pricing-li
 Steph Turner    
 Norman Morse    
 Matthew Birky    
-Thomas Gray    
+Thomas Gray
 Liz Lam    
 
 ###Issues and Feature Requests
