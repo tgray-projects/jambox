@@ -19,13 +19,10 @@ Steph Turner
 Norman Morse    
 Matthew Birky    
 Thomas Gray
-Liz Lam    
+Liz Lam 
 
-###Issues and Feature Requests
-Feel free to log issues and feature requests [here](https://swarm.workshop.perforce.com/projects/thomas_gray-jambox/jobs/).    
-
-###Contact Us
-We're on Slack. Email p4slack@perforce.com with 'Add me' in the subject for an invite.    
+###Maintenance
+Thomas Gray  
 
 ###History
 Commit history [here](https://swarm.workshop.perforce.com/projects/thomas_gray-jambox/changes/).    
